@@ -1,7 +1,7 @@
 {
   "name": "IITMAA Sangam 2026",
   "short_name": "Sangam 2026",
-  "description": "The official app for IITMAA Sangam 2026 — India Unbound: The Decade of Atmanirbhartha. 26 September 2026, Taj MG Road, Bengaluru.",
+  "description": "The official app for IITMAA Sangam 2026 \u2014 India Unbound: The Decade of Atmanirbhartha. 26 September 2026, Taj MG Road, Bengaluru.",
   "start_url": "/home",
   "display": "standalone",
   "display_override": [
@@ -9,8 +9,8 @@
     "minimal-ui"
   ],
   "orientation": "portrait",
-  "background_color": "#EFF3FA",
-  "theme_color": "#1B1464",
+  "background_color": "#FFFFFF",
+  "theme_color": "#6B1721",
   "scope": "/",
   "id": "/",
   "lang": "en-IN",
