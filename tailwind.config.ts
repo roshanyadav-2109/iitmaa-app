@@ -196,8 +196,8 @@ const config: Config = {
   				'system-ui',
   				'sans-serif'
   			],
-  			telugu: [
-  				'var(--font-telugu)',
+  			tamil: [
+  				'var(--font-tamil)',
   				'var(--font-sans)',
   				'system-ui',
   				'sans-serif'

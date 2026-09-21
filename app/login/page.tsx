@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { rethrowIfRedirect } from "@/lib/redirect";
 import { SignInForm } from "./sign-in-form";
-import { GreetingRotator } from "./greeting-rotator";
+import { MottoRotator } from "./motto-rotator";
 import { VideoBackdrop } from "./video-backdrop";
 import {
   EVENT_ATTENDEE_COUNT,
@@ -29,10 +29,10 @@ export const dynamic = "force-dynamic";
  * video, so the screen is already right before a frame has loaded, and stays
  * right if the embed is blocked outright.
  *
- * The rotating multilingual welcome is the headline rather than a caption
- * over the button — it is the only thing here that could not belong to any
- * other event app. The structure around it is drawn in crest gold hairlines
- * rather than boxes, so the field stays a field.
+ * The headline is the institute's own motto, cycling through English,
+ * Sanskrit and Tamil, rather than a caption over the button. The structure
+ * around it is drawn in crest gold hairlines rather than boxes, so the field
+ * stays a field.
  *
  * The mark sits directly on the maroon now, using the knockout tone. It used
  * to be parked inside a white plate, because the supplied artwork is ink on
@@ -78,15 +78,19 @@ export default async function SignInPage() {
           <div className="mt-7 h-px w-12 bg-gold-400/45 lg:mt-9" aria-hidden />
 
           <div className="mt-6 lg:mt-8">
-            <GreetingRotator className="text-white" />
+            <MottoRotator className="text-white" />
           </div>
 
-          <p className="mt-4 max-w-[34ch] font-display text-[17px] font-semibold leading-snug text-gold-300 lg:text-[20px]">
-            {EVENT_TAGLINE}
+          {/* The romanisation, which doubles as the attribution: it says what
+              the rotating line above is without spending another headline on
+              saying so. */}
+          <p className="mt-1 text-[12.5px] font-medium tracking-wide text-gold-300/80">
+            Siddhirbhavati Karmaja &middot; the motto of IIT Madras
           </p>
-          <p className="mt-1.5 max-w-[42ch] text-[13.5px] leading-relaxed text-white/70 lg:text-[15px]">
-            {EVENT_SUBTAGLINE}. One day with the IIT Madras alumni community —
-            founders, investors and policy minds in one room.
+
+          <p className="mt-5 max-w-[42ch] text-[13.5px] leading-relaxed text-white/70 lg:text-[15px]">
+            <span className="font-semibold text-white">{EVENT_TAGLINE}</span> —{" "}
+            {EVENT_SUBTAGLINE}. One day with the IIT Madras alumni community.
           </p>
 
           {/* The particulars, set as a stub rather than three boxes. */}
