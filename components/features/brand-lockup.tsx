@@ -11,15 +11,20 @@ import { EVENT_NAME } from "@/lib/event-config";
  * still reads "2024" down its edge, and a stale year on every screen is worse
  * than no year at all.
  *
- * Two tones, because the supplied artwork is ink on solid white and vanishes
- * on the brand maroon:
+ * Two tones, cut from one transparent master:
  *
- * - `dark` (default) is that original, for `paper` surfaces — the top bar,
- *   the footer, anywhere light.
- * - `light` is a knockout derived from it: the white ground turned into
- *   transparency by ink coverage, the wordmark taken to white and the swoosh
- *   to the crest gold. It is what lets the mark sit directly on a dark field
- *   instead of inside a white plate floating on one.
+ * - `dark` (default) is the mark as drawn, for `paper` surfaces — the top
+ *   bar, the footer, anywhere light.
+ * - `light` takes only the navy wordmark to white, for dark fields. The
+ *   flame keeps its own orange and blue: it reads on the maroon as drawn,
+ *   and repainting a brand mark's artwork to solve a text-contrast problem
+ *   would be the wrong fix. The cut is by luminance — the wordmark's navy
+ *   sits at ~30 and the flame's blue at ~121, so the threshold lands in open
+ *   space between them rather than near either.
+ *
+ * The master this replaced was ink on solid white with no transparency,
+ * which put a white box around the mark on every warm `paper` ground in the
+ * app, and forced the sign-in screen to park it inside a plate.
  */
 export function BrandLockup({
   className,
@@ -31,10 +36,10 @@ export function BrandLockup({
   const light = tone === "light";
   return (
     <Image
-      src={light ? "/logo/iitmaa-light.webp" : "/logo/iitmaa.svg"}
+      src={light ? "/logo/iitmaa-light.webp" : "/logo/iitmaa.webp"}
       alt={EVENT_NAME}
-      width={light ? 728 : 216}
-      height={light ? 220 : 66}
+      width={1000}
+      height={301}
       priority
       className={cn("w-auto", className)}
     />
