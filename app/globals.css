@@ -203,6 +203,15 @@
   to { transform: translateX(-50%); }
 }
 
+/* The same belt running the other way. Begins at -50% and returns to 0, which
+   is the mirror of rtl rather than a reversed animation: `direction: reverse`
+   would ease-out where this eases not at all, and the two rows would drift
+   out of step. */
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
 @keyframes sponsor-road-rtl {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-33.333%, 0, 0); }
@@ -266,16 +275,22 @@
        lets you finish a sentence before it leaves. */
     animation: marquee-rtl var(--marquee-duration, 35s) linear infinite;
   }
+  .animate-marquee-ltr {
+    animation: marquee-ltr var(--marquee-duration, 35s) linear infinite;
+  }
   /* Stop under the pointer, and while anything inside has keyboard focus —
      a link that walks away mid-read is worse than no movement at all. */
   .marquee-hoverable:hover .animate-marquee-rtl,
-  .marquee-hoverable:focus-within .animate-marquee-rtl {
+  .marquee-hoverable:hover .animate-marquee-ltr,
+  .marquee-hoverable:focus-within .animate-marquee-rtl,
+  .marquee-hoverable:focus-within .animate-marquee-ltr {
     animation-play-state: paused;
   }
   /* Continuous drift is exactly what a motion-sensitivity setting is asking
      about, and nothing here depends on the movement to be readable. */
   @media (prefers-reduced-motion: reduce) {
     .animate-marquee-rtl,
+    .animate-marquee-ltr,
     .animate-sponsor-road-rtl,
     .animate-sponsor-road-lift {
       animation: none;

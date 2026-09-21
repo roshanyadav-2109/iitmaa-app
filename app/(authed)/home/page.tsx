@@ -367,7 +367,7 @@ export default async function HomePage() {
             <KeyParticipantsStrip people={keyPeople} />
           </div>
           <div className="mt-4">
-            <ViewAllSpeakers count={keyPeople.length} />
+            <ViewAllSpeakers />
           </div>
         </section>
       ) : null}
