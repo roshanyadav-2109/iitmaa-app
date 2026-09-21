@@ -350,9 +350,13 @@ export default async function HomePage() {
       {/* The four things you actually do in the app — badge, scanner,
           secretariat, programme — directly under the masthead. Someone
           opening this at the door wants a QR code, not a photograph. */}
-      {/* Reach, above the four tiles. It is the argument for the day rather
-          than a thing you do on it, so it sits over the actions and not
-          among them. */}
+      <section className="px-3 sm:px-5 lg:px-6">
+        <QuickActions role={role} />
+      </section>
+
+      {/* Reach, under the four tiles. Someone opening this at the door wants a
+          QR code first; the reach figures are the argument for being here,
+          which is a thing you read after you are in. */}
       {EVENT_DIGITAL_FOOTPRINT.length > 0 ? (
         <section className="px-3 sm:px-5 lg:px-6">
           <SectionHead title="Unmatched digital footprint" />
@@ -376,9 +380,6 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      <section className="px-3 sm:px-5 lg:px-6">
-        <QuickActions role={role} />
-      </section>
 
       {/* The pass, under the four tiles: it is what you open at the door,
           and the tiles are what you open before you get there. */}
@@ -618,8 +619,14 @@ export default async function HomePage() {
         width={1240}
         height={703}
         sizes="100vw"
-        // -mb-6 cancels the page wrapper's pb-6 so nothing sits under it.
-        className="-mb-6 block h-auto w-full select-none"
+        /* Pulled hard to the bottom of the scroll. Three paddings sit under
+           this image: the page wrapper's pb-6 (24px) and main's pb-32 (128px)
+           on a phone, or lg:pb-12 (48px) on a desktop. The phone also has an
+           88px bottom bar fixed over the last of that, so 24+128-88 = 64px of
+           empty page was showing under the picture; the desktop had 24+48 =
+           72px and no bar. The negative margins cancel exactly that much, so
+           the image ends where the bar begins and nothing shows past it. */
+        className="-mb-16 block h-auto w-full select-none lg:-mb-[72px]"
         aria-hidden
       />
     </div>

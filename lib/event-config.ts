@@ -777,6 +777,21 @@ const SCALE_ALL: EventScaleStat[] = [
     short: "Visitors",
     icon: "/audience/ceos.webp",
   },
+  // Both from the 2026 sponsors deck (p3): "We aim to bring together 100+
+  // investors and 50+ deep-tech startups". They fill the row and they are the
+  // two figures a delegate actually wants before deciding to come.
+  {
+    value: "100+",
+    label: "Investors expected",
+    short: "Investors",
+    icon: "/audience/investors.webp",
+  },
+  {
+    value: "50+",
+    label: "Deep-tech startups",
+    short: "Startups",
+    icon: "/audience/directors.webp",
+  },
 ];
 
 /**
