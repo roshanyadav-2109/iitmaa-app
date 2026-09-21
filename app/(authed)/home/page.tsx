@@ -610,11 +610,16 @@ export default async function HomePage() {
 
       {/* The campus, closing the page. Full bleed and hard to the bottom: no
           page gutter, no radius, nothing under it. The sky is cropped out of
-          the source and the top edge fades to transparent, so the buildings
-          rise out of the page instead of ending on a band of pale grey that
-          does not match the ground behind it. */}
+          the source and the top edge fades to transparent, so the building
+          rises out of the page instead of ending on a band of pale grey that
+          does not match the ground behind it.
+
+          Named for the building rather than for its slot, deliberately: the
+          service worker caches everything under /ui/, so swapping a picture
+          at an unchanged path leaves every returning visitor looking at the
+          old one. A new name is a new URL and cannot go stale. */}
       <Image
-        src="/ui/campus-footer.webp"
+        src="/ui/campus-himalaya.webp"
         alt=""
         width={1200}
         height={572}

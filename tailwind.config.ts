@@ -93,17 +93,28 @@ const config: Config = {
   				'900': '#15104e',
   				'950': '#0d0930'
   			},
+  			// The accent, taken from the IITMAA mark rather than inherited.
+  			// The ramp this replaced was PanIIT's red (#DD002B) and came across
+  			// with the fork; sampling public/logo/iitmaa.svg gives #E07030 for
+  			// the swoosh, and the event site uses #E06A3C for the same thing.
+  			//
+  			// 400 is that swoosh colour exactly, for decoration. 500 is a step
+  			// deeper on purpose: the classes using it are error text, required
+  			// marks, unread badges and the Featured bar, all of which need to
+  			// hold contrast. #E07030 manages only 3.22:1 on white where the old
+  			// red managed 5.11; #B85318 gets back to 4.90 and still reads as
+  			// the same orange.
   			iit: {
-  				'50': '#fff0f3',
-  				'100': '#ffd9e0',
-  				'200': '#ffb3c2',
-  				'300': '#ff7d96',
-  				'400': '#ff3c66',
-  				'500': '#DD002B',
-  				'600': '#b80024',
-  				'700': '#94001d',
-  				'800': '#700016',
-  				'900': '#4d000f'
+  				'50': '#FEF4ED',
+  				'100': '#FBE2D0',
+  				'200': '#F6C4A1',
+  				'300': '#EFA06E',
+  				'400': '#E07030',
+  				'500': '#B85318',
+  				'600': '#9C4514',
+  				'700': '#7D3710',
+  				'800': '#5E290C',
+  				'900': '#3F1B08'
   			},
   			track: {
   				ai: '#7C3AED',
