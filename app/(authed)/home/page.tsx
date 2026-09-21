@@ -620,12 +620,18 @@ export default async function HomePage() {
           rather than a photograph in it. Neutral grey looked dead against the
           cool paper ground, hence the tint rather than a plain greyscale.
 
+          Order matters in how this file is made. The tone is flattened while
+          the image is still opaque and the alpha fade is applied last and
+          never touched again: sharp's .linear() works on every channel it is
+          given, so running it after the fade lifted the transparent top to
+          about 10% opacity and drew a hard line across the page.
+
           Named for the building and its treatment, not for its slot: the
           service worker caches everything under /ui/, so swapping a picture
           at an unchanged path leaves every returning visitor looking at the
           old one. A new name is a new URL and cannot go stale. */}
       <Image
-        src="/ui/campus-himalaya-mono.webp"
+        src="/ui/campus-plate.webp"
         alt=""
         width={1200}
         height={572}
