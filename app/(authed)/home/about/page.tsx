@@ -94,158 +94,170 @@ export default function AboutSummitPage() {
 
       {/* Event in numbers — set large in the display face, on rules rather
           than in four boxes, so the figures carry the section themselves. */}
-      <section>
-        <Head title="The summit in numbers" />
-        <dl className="mt-1 grid grid-cols-2 gap-x-6">
-          {EVENT_NUMBERS.map((n) => (
-            <div
-              key={n.label}
-              className="py-3.5"
-            >
-              <dt className="sr-only">{n.label}</dt>
-              <dd>
-                <span className="block font-display text-[30px] font-semibold leading-none tabular-nums text-brand-800">
-                  {n.value}
-                </span>
-                <span className="mt-1.5 block text-[12.5px] leading-snug text-brand-900/60">
-                  {n.label}
-                </span>
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <section>
-        <Head title="Vision" />
-        <ol className="list-ruled mt-1">
-          {EVENT_VISION.map((v, i) => (
-            <li key={v} className="flex gap-4 py-3.5">
-              <span
-                aria-hidden
-                className="w-6 shrink-0 pt-[3px] font-display text-[13px] font-semibold tabular-nums text-brand-800/50"
+      {EVENT_NUMBERS.length > 0 ? (
+        <section>
+          <Head title="The summit in numbers" />
+          <dl className="mt-1 grid grid-cols-2 gap-x-6">
+            {EVENT_NUMBERS.map((n) => (
+              <div
+                key={n.label}
+                className="py-3.5"
               >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="text-[14px] leading-[1.7] text-brand-900/85">
-                {v}
-              </span>
-            </li>
-          ))}
-        </ol>
-      </section>
+                <dt className="sr-only">{n.label}</dt>
+                <dd>
+                  <span className="block font-display text-[30px] font-semibold leading-none tabular-nums text-brand-800">
+                    {n.value}
+                  </span>
+                  <span className="mt-1.5 block text-[12.5px] leading-snug text-brand-900/60">
+                    {n.label}
+                  </span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ) : null}
+
+      {EVENT_VISION.length > 0 ? (
+        <section>
+          <Head title="Vision" />
+          <ol className="list-ruled mt-1">
+            {EVENT_VISION.map((v, i) => (
+              <li key={v} className="flex gap-4 py-3.5">
+                <span
+                  aria-hidden
+                  className="w-6 shrink-0 pt-[3px] font-display text-[13px] font-semibold tabular-nums text-brand-800/50"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="text-[14px] leading-[1.7] text-brand-900/85">
+                  {v}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
 
       {/* The sectors in full — the home grid shows the tiles, this is where
           each one gets its line of explanation. */}
-      <section>
-        <Head title="Focussed Sectors" />
-        <ul className="list-ruled mt-1">
-          {EVENT_SECTORS.map((sector) => (
-            <li key={sector.slug} className="flex items-start gap-3.5 py-3.5">
-              <span className="relative size-12 shrink-0 overflow-hidden rounded-sm">
+      {EVENT_SECTORS.length > 0 ? (
+        <section>
+          <Head title="Focussed Sectors" />
+          <ul className="list-ruled mt-1">
+            {EVENT_SECTORS.map((sector) => (
+              <li key={sector.slug} className="flex items-start gap-3.5 py-3.5">
+                <span className="relative size-12 shrink-0 overflow-hidden rounded-sm">
+                  <Image
+                    src={sector.image}
+                    alt=""
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="font-display block text-[15px] font-semibold leading-snug text-brand-950">
+                    {sector.label}
+                  </span>
+                  <span className="mt-0.5 block text-[13px] leading-6 text-brand-900/65">
+                    {sector.blurb}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {EVENT_AUDIENCE.length > 0 ? (
+        <section>
+          <Head title="Who attends" />
+          <ul className="list-ruled mt-1">
+            {EVENT_AUDIENCE.map((a) => (
+              <li key={a.name} className="flex items-start gap-3.5 py-3.5">
                 <Image
-                  src={sector.image}
+                  src={a.icon}
                   alt=""
-                  fill
-                  sizes="48px"
-                  className="object-cover"
+                  width={34}
+                  height={34}
+                  className="mt-0.5 size-[34px] shrink-0 object-contain"
                 />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="font-display block text-[15px] font-semibold leading-snug text-brand-950">
-                  {sector.label}
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-[15px] font-semibold text-brand-950">
+                    {a.name}
+                  </span>
+                  <span className="mt-0.5 block text-[13px] leading-6 text-brand-900/65">
+                    {a.body}
+                  </span>
                 </span>
-                <span className="mt-0.5 block text-[13px] leading-6 text-brand-900/65">
-                  {sector.blurb}
-                </span>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
-      <section>
-        <Head title="Who attends" />
-        <ul className="list-ruled mt-1">
-          {EVENT_AUDIENCE.map((a) => (
-            <li key={a.name} className="flex items-start gap-3.5 py-3.5">
-              <Image
-                src={a.icon}
-                alt=""
-                width={34}
-                height={34}
-                className="mt-0.5 size-[34px] shrink-0 object-contain"
-              />
-              <span className="min-w-0 flex-1">
-                <span className="block font-display text-[15px] font-semibold text-brand-950">
-                  {a.name}
-                </span>
-                <span className="mt-0.5 block text-[13px] leading-6 text-brand-900/65">
-                  {a.body}
-                </span>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {EVENT_CONTACTS.length > 0 ? (
+        <section>
+          <Head title="Contact the secretariat" />
+          {/* Cards rather than a wrapping row. Six contacts in a flex row ran
+              together once the separators went, and the phone and email wrapped
+              under the name at unpredictable points. Each is now a bounded card
+              with the name above and the two ways to reach them below.
 
-      <section>
-        <Head title="Contact the secretariat" />
-        {/* Cards rather than a wrapping row. Six contacts in a flex row ran
-            together once the separators went, and the phone and email wrapped
-            under the name at unpredictable points. Each is now a bounded card
-            with the name above and the two ways to reach them below.
-
-            The links are sized as tap targets, not text: a phone number set at
-            13px in a paragraph is a 16px-high thing to hit with a thumb, and
-            these exist to be tapped on a phone at a venue. */}
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {EVENT_CONTACTS.map((c) => (
-            <li
-              key={c.phone}
-              className="rounded-lg border border-rule bg-white p-4"
-            >
-              <p className="font-display text-[15px] font-semibold leading-snug text-brand-950">
-                {c.name}
-              </p>
-              {c.role ? (
-                <p className="eyebrow mt-0.5 text-brand-900/50">{c.role}</p>
-              ) : null}
-              <div className="mt-3 flex flex-col gap-1">
-                <a
-                  href={`tel:${c.phone}`}
-                  className="-mx-2 inline-flex min-h-[40px] items-center gap-2.5 rounded-md px-2 text-[13.5px] tabular-nums text-brand-800 transition-colors hover:bg-paper-deep"
-                >
-                  <PhoneMark />
-                  {c.phone}
-                </a>
-                {c.email ? (
-                  <a
-                    href={`mailto:${c.email}`}
-                    className="-mx-2 inline-flex min-h-[40px] items-center gap-2.5 rounded-md px-2 text-[13.5px] text-brand-800 transition-colors hover:bg-paper-deep"
-                  >
-                    <GmailMark />
-                    <span className="truncate">{c.email}</span>
-                  </a>
+              The links are sized as tap targets, not text: a phone number set at
+              13px in a paragraph is a 16px-high thing to hit with a thumb, and
+              these exist to be tapped on a phone at a venue. */}
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            {EVENT_CONTACTS.map((c) => (
+              <li
+                key={c.phone}
+                className="rounded-lg border border-rule bg-white p-4"
+              >
+                <p className="font-display text-[15px] font-semibold leading-snug text-brand-950">
+                  {c.name}
+                </p>
+                {c.role ? (
+                  <p className="eyebrow mt-0.5 text-brand-900/50">{c.role}</p>
                 ) : null}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
+                <div className="mt-3 flex flex-col gap-1">
+                  <a
+                    href={`tel:${c.phone}`}
+                    className="-mx-2 inline-flex min-h-[40px] items-center gap-2.5 rounded-md px-2 text-[13.5px] tabular-nums text-brand-800 transition-colors hover:bg-paper-deep"
+                  >
+                    <PhoneMark />
+                    {c.phone}
+                  </a>
+                  {c.email ? (
+                    <a
+                      href={`mailto:${c.email}`}
+                      className="-mx-2 inline-flex min-h-[40px] items-center gap-2.5 rounded-md px-2 text-[13.5px] text-brand-800 transition-colors hover:bg-paper-deep"
+                    >
+                      <GmailMark />
+                      <span className="truncate">{c.email}</span>
+                    </a>
+                  ) : null}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
       {/* What happens on the day. Ordered as the day runs, which is what
           makes the tile numbering meaningful rather than ornamental. */}
-      <section>
-        <Head title="On the day" />
-        <div className="mt-4">
-          <TileGrid
-              duotone={false}
-              labelOutside
-              fit="contain"
-              items={EVENT_HIGHLIGHTS}
-            />
-        </div>
-      </section>
+      {EVENT_HIGHLIGHTS.length > 0 ? (
+        <section>
+          <Head title="On the day" />
+          <div className="mt-4">
+            <TileGrid
+                duotone={false}
+                labelOutside
+                fit="contain"
+                items={EVENT_HIGHLIGHTS}
+              />
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

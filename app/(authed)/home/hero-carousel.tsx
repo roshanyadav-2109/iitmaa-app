@@ -132,6 +132,13 @@ export function HeroCarousel() {
     });
   }
 
+  // Nothing to show. This is a real state, not a defensive nicety: the
+  // masthead carries no slides until this event has its own artwork, and the
+  // clone below would otherwise append `SLIDES[0]` — undefined — and crash on
+  // `s.src` the moment the list is empty. TypeScript does not catch it
+  // because indexed access is not checked.
+  if (N === 0) return null;
+
   // Render N + 1 slides — last one is a visual clone of slide 0.
   const rendered: Slide[] = [...SLIDES, SLIDES[0]];
   const dotActive = active >= N ? 0 : active;

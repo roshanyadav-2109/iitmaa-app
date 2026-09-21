@@ -27,6 +27,9 @@ import {
   EVENT_TAGLINE,
   EVENT_VIDEO_EMBED,
   EVENT_VENUE,
+  EVENT_SECTORS,
+  EVENT_LEGACY_SPEAKERS,
+  EVENT_PAST_SPONSORS,
 } from "@/lib/event-config";
 import { HeroCarousel } from "./hero-carousel";
 import { SponsorsBoard, type SponsorTier } from "./sponsors-marquee";
@@ -298,16 +301,21 @@ export default async function HomePage() {
             </dl>
 
             {/* Filled in the brand navy — solid, so it needs no hairline to be
-                a button. The Maps pin keeps its own colours against it. */}
-            <a
-              href={SUMMIT_MAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex h-10 items-center gap-2 rounded-md bg-brand-800 px-4 text-[13px] font-medium text-white transition-colors hover:bg-brand-900"
-            >
-              <GoogleMapsPin />
-              View directions
-            </a>
+                a button. The Maps pin keeps its own colours against it.
+
+                Hidden until there is a venue to point at: a button that looks
+                live and goes nowhere is worse than no button. */}
+            {SUMMIT_MAPS_URL ? (
+              <a
+                href={SUMMIT_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex h-10 items-center gap-2 rounded-md bg-brand-800 px-4 text-[13px] font-medium text-white transition-colors hover:bg-brand-900"
+              >
+                <GoogleMapsPin />
+                View directions
+              </a>
+            ) : null}
 
             {/* The event wordmark, under the button rather than over the
                 theme line: a crest above a headline reads as a letterhead,
@@ -360,14 +368,16 @@ export default async function HomePage() {
           own. The card's padding is the page gutter, so the marquee's own
           full-bleed lands exactly on the card's edges rather than
           overshooting them. */}
-      <section className="px-3 sm:px-5 lg:px-6">
-        <div className="rounded-lg bg-paper-raised px-3 py-4 sm:px-5 sm:py-5 lg:px-6">
-          <SectionHead title="Focussed Sectors" />
-          <div className="mt-4">
-            <SectorMarquee />
+      {EVENT_SECTORS.length > 0 ? (
+        <section className="px-3 sm:px-5 lg:px-6">
+          <div className="rounded-lg bg-paper-raised px-3 py-4 sm:px-5 sm:py-5 lg:px-6">
+            <SectionHead title="Focussed Sectors" />
+            <div className="mt-4">
+              <SectorMarquee />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* Below the sectors, where a guest has just seen what the summit is
           about and has a reason to want the rest. */}
@@ -479,23 +489,27 @@ export default async function HomePage() {
 
       {/* Previous editions. "Legacy" and "Past" are doing the work in the
           two titles — these are not this summit's line-up or its sponsors. */}
-      <section className="px-3 sm:px-5 lg:px-6">
-        <SectionHead title="Legacy of eminent speakers" />
-        <div className="mt-5">
-          <LegacySpeakers />
-        </div>
-      </section>
+      {EVENT_LEGACY_SPEAKERS.length > 0 ? (
+        <section className="px-3 sm:px-5 lg:px-6">
+          <SectionHead title="Legacy of eminent speakers" />
+          <div className="mt-5">
+            <LegacySpeakers />
+          </div>
+        </section>
+      ) : null}
 
-      <section className="px-3 sm:px-5 lg:px-6">
-        <SectionHead title="Past sponsors" />
-        {/* On a white panel, not on the ground: twelve of these seventeen
-            logos are published with an opaque white panel baked into the
-            artwork. That was invisible while the page was white and would
-            show as a grid of white rectangles on the tint. */}
-        <div className="mt-5 rounded-lg bg-paper-raised p-5 sm:p-6">
-          <PastSponsors />
-        </div>
-      </section>
+      {EVENT_PAST_SPONSORS.length > 0 ? (
+        <section className="px-3 sm:px-5 lg:px-6">
+          <SectionHead title="Past sponsors" />
+          {/* On a white panel, not on the ground: logo artwork is often
+              published with an opaque white panel baked in. That is invisible
+              on a white page and shows as a grid of white rectangles on the
+              tint. */}
+          <div className="mt-5 rounded-lg bg-paper-raised p-5 sm:p-6">
+            <PastSponsors />
+          </div>
+        </section>
+      ) : null}
 
       {/* Sponsors */}
       {sponsorTiers.length > 0 ? (
@@ -505,6 +519,7 @@ export default async function HomePage() {
       ) : null}
 
       {/* Connect */}
+      {EVENT_SOCIALS.length > 0 ? (
       <section className="px-3 sm:px-5 lg:px-6">
         <SectionHead title="Connect with us" />
         <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
@@ -523,6 +538,7 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+      ) : null}
     </div>
   );
 }
