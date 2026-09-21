@@ -1,5 +1,5 @@
 /*
- * PAN IIT 2026 service worker.
+ * IITMAA Sangam service worker.
  *
  * v1 cached every GET it saw — personalised pages, the React payloads the
  * client router fetches to move between screens, everything — and on any
@@ -104,9 +104,9 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data ? event.data.json() : {};
   } catch {
-    data = { title: "PAN IIT 2026", body: event.data ? event.data.text() : "" };
+    data = { title: "IITMAA Sangam", body: event.data ? event.data.text() : "" };
   }
-  const title = data.title || "PAN IIT 2026";
+  const title = data.title || "IITMAA Sangam";
   const options = {
     body: data.body || "",
     icon: "/icons/icon-192.png",

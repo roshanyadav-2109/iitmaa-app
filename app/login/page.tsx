@@ -70,7 +70,7 @@ export default async function SignInPage() {
             </h1>
             <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/75">
               One day. {EVENT_ATTENDEE_COUNT} attendees across 23 IITs. The
-              official PAN IIT {EVENT_SHORT_NAME} app, in your pocket.
+              official {EVENT_SHORT_NAME} app, in your pocket.
             </p>
             <dl className="mx-auto mt-9 grid max-w-md grid-cols-3 divide-x divide-white/10 text-center">
               <Stat

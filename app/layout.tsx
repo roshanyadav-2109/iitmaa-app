@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   other: { "mobile-web-app-capable": "yes" },
   // No `icons` block on purpose: an explicit one overrides Next's file
   // convention, and these previously pointed at the PWA tile. app/icon.png and
-  // app/apple-icon.png (the PAN IIT mark) are picked up automatically and are
+  // app/apple-icon.png (the event mark) are picked up automatically and are
   // what the browser tab should show. The summit hexagon stays the installed
   // app icon via manifest.json.
 };

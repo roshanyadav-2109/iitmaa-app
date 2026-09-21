@@ -148,7 +148,7 @@ app/
     me/edit/page.tsx           ← editable form
   api/auth/signout/route.ts
   layout.tsx                   ← Inter font, SW registration
-  globals.css                  ← PAN IIT design tokens
+  globals.css                  ← design tokens
 components/
   ui/                          ← shadcn primitives
   features/
