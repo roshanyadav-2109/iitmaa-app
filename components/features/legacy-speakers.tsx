@@ -1,29 +1,33 @@
 "use client";
 
-import Image from "next/image";
 import { useDriftScroll } from "@/hooks/use-drift-scroll";
+import { SpeakerCard } from "@/components/features/speaker-card";
 import { EVENT_LEGACY_SPEAKERS } from "@/lib/event-config";
 
 /**
  * Who previous editions have had on stage, drifting past.
  *
- * A moving row rather than a grid: ten portraits stacked in a grid on a
- * phone is five rows of faces, which reads as this summit's line-up however
- * it is labelled. A row that never stops moving reads as a back catalogue,
- * which is what it is.
+ * A moving row rather than a grid: fifty-odd portraits stacked on a phone is
+ * a wall of faces, which reads as this year's line-up however it is labelled.
+ * A row that never stops moving reads as a back catalogue, which is what it
+ * is.
+ *
+ * Same card as the current speakers — the framed photograph with its mirrored
+ * square corner, name and role set below on the page's own ground. The frame
+ * is the thing that ties the two rows together; what separates them is the
+ * heading and the fact that this one keeps moving.
  *
  * The row carries the list twice and wraps at half its own width, so at the
  * loop point the second copy sits exactly where the first began and there is
  * no seam. That only holds if every repeat is identical, which is why the
  * page inset lives on the middle div and the spacing is a margin on each
- * portrait: padding on the scrolled list would make half the width land
- * short of one full copy, and the row would jump by that difference every
- * time round.
+ * card: padding on the scrolled list would make half the width land short of
+ * one full copy, and the row would jump by that difference every time round.
  *
- * It is a scroll container, so it can be swiped as well as watched; the
- * drift stands aside while it is being touched, pauses under the pointer and
- * for keyboard focus, and prefers-reduced-motion stops the drift altogether
- * — nothing here needs the movement to be legible.
+ * It is a scroll container, so it can be swiped as well as watched; the drift
+ * stands aside while it is being touched, pauses under the pointer and for
+ * keyboard focus, and prefers-reduced-motion stops it altogether — nothing
+ * here needs the movement to be legible.
  */
 export function LegacySpeakers() {
   const ref = useDriftScroll<HTMLDivElement>(30);
@@ -40,39 +44,49 @@ export function LegacySpeakers() {
       aria-label="Speakers at previous editions"
     >
       <div className="pl-3 sm:pl-5 lg:pl-6">
-        <ul className="flex w-max">
+        <ul className="flex w-max items-stretch">
           {stream.map((person, i) => (
             <li
               key={`${person.slug}-${i}`}
-              className="mr-5 w-[104px] shrink-0 text-center sm:mr-6 sm:w-[120px]"
+              className="mr-4 w-[152px] shrink-0 sm:w-[176px]"
               // The second copy is scenery; a screen reader should hear each
               // name once.
               aria-hidden={i >= half}
             >
-              {/* A square frame, not a circle. These are press and stage
-                  photographs at whatever crop they were published in, and a
-                  circular mask cuts the sides off a head that is not centred
-                  in its own frame. */}
-              <div className="mx-auto size-[88px] overflow-hidden rounded-md bg-paper-deep sm:size-[104px]">
-                <Image
-                  src={person.image}
-                  alt={i < half ? person.name : ""}
-                  width={360}
-                  height={360}
-                  sizes="120px"
-                  className="size-full object-cover"
-                />
-              </div>
-              <p className="mt-2.5 font-display text-[12.5px] font-semibold leading-snug text-brand-950">
-                {person.name}
-              </p>
-              <p className="mt-0.5 text-[11px] leading-4 text-brand-900/55">
-                {person.role}
-              </p>
+              <SpeakerCard
+                person={splitRole(person)}
+                index={i % half}
+                variant="plain"
+                labelled={i < half}
+                sizes="176px"
+              />
             </li>
           ))}
         </ul>
       </div>
     </div>
   );
+}
+
+/**
+ * The config carries a single `role` string, occasionally two parts joined by
+ * a pipe because that is how the source site wrote it across two lines. Split
+ * it back so the card can set a job and a place on their own lines, the way
+ * it does for this year's speakers.
+ */
+function splitRole(person: (typeof EVENT_LEGACY_SPEAKERS)[number]) {
+  const parts = person.role
+    .split("|")
+    .map((s) => s.trim().replace(/,$/, ""))
+    .filter(Boolean);
+
+  return {
+    full_name: person.name,
+    designation: parts[0] ?? null,
+    company: parts.length > 1 ? parts.slice(1).join(", ") : null,
+    photo_url: person.image,
+    // Past editions did not publish batches on the site, so there is nothing
+    // honest to put here.
+    batch: null,
+  };
 }

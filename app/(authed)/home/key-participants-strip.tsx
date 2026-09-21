@@ -95,9 +95,13 @@ function MarqueeRow({
           // name once.
           aria-hidden={i >= half}
         >
+          {/* The frame sits on the photograph only here; the name and role
+              are set below it on the page's own ground, which reads more
+              quietly behind everything else on the home screen. */}
           <SpeakerCard
             person={person}
             index={colourOffset + (i % half)}
+            variant="plain"
             labelled={i < half}
             sizes="196px"
           />
