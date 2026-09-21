@@ -31,7 +31,6 @@ const STATIC_PREFIXES = [
   "/gallery/",
   "/panels/",
   "/hero/",
-  "/schedule/",
 ];
 
 self.addEventListener("install", (event) => {
