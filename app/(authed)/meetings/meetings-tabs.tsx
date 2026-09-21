@@ -305,6 +305,7 @@ export function MeetingsView({
               <SentRow
                 key={m.id}
                 m={m}
+                viewerId={userId}
                 pendingId={pendingId}
                 onCancel={cancelMeeting}
                 onReschedule={openReschedule}
@@ -326,6 +327,7 @@ export function MeetingsView({
               <InboxRow
                 key={m.id}
                 m={m}
+                viewerId={userId}
                 pendingId={pendingId}
                 myBookmarkWindows={myBookmarkWindows}
                 myAcceptedWindows={myAcceptedWindows}
@@ -524,6 +526,7 @@ function formatHourLabel(h: number): string {
 
 function InboxRow({
   m,
+  viewerId,
   pendingId,
   myBookmarkWindows,
   myAcceptedWindows,
@@ -533,6 +536,7 @@ function InboxRow({
   onReschedule,
 }: {
   m: MeetingRow;
+  viewerId: string | null;
   pendingId: string | null;
   myBookmarkWindows: { start: string; end: string }[];
   myAcceptedWindows: Slot[];
@@ -638,6 +642,7 @@ function InboxRow({
               {m.status === "accepted" ? (
                 <MeetingActions
                   m={m}
+                  viewerId={viewerId}
                   pendingId={pendingId}
                   onCancel={onCancel}
                   onReschedule={onReschedule}
@@ -653,11 +658,13 @@ function InboxRow({
 
 function SentRow({
   m,
+  viewerId,
   pendingId,
   onCancel,
   onReschedule,
 }: {
   m: MeetingRow;
+  viewerId: string | null;
   pendingId: string | null;
   onCancel: (id: string) => void;
   onReschedule: (m: MeetingRow) => void;
@@ -696,6 +703,7 @@ function SentRow({
       {m.status === "accepted" ? (
         <MeetingActions
           m={m}
+          viewerId={viewerId}
           pendingId={pendingId}
           onCancel={onCancel}
           onReschedule={onReschedule}
@@ -720,20 +728,27 @@ function OutsideAvailabilityNote({ side }: { side: "requester" | "invitee" }) {
 
 function MeetingActions({
   m,
+  viewerId,
   pendingId,
   onCancel,
   onReschedule,
 }: {
   m: MeetingRow;
+  viewerId: string | null;
   pendingId: string | null;
   onCancel: (id: string) => void;
   onReschedule: (m: MeetingRow) => void;
 }) {
   const pending = pendingId === m.id;
+  // Straight to the thread, not through /meetings/[id]. There is only one
+  // conversation between two people — both routes resolved the same ordered
+  // participant pair — and only one of them was ever given the transcript
+  // layout and the full-screen shell. This is that one.
+  const peerId = m.requester_id === viewerId ? m.invitee_id : m.requester_id;
   return (
     <div className="mt-3 flex flex-col gap-2">
       <Link
-        href={`/meetings/${m.id}`}
+        href={`/chat/${peerId}`}
         className="inline-flex h-9 w-full items-center justify-center rounded-md bg-brand-800 px-3 text-xs font-semibold text-white transition-colors hover:bg-brand-900"
       >
         Open chat
