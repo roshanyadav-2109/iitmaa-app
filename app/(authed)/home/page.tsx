@@ -625,8 +625,13 @@ export default async function HomePage() {
            88px bottom bar fixed over the last of that, so 24+128-88 = 64px of
            empty page was showing under the picture; the desktop had 24+48 =
            72px and no bar. The negative margins cancel exactly that much, so
-           the image ends where the bar begins and nothing shows past it. */
-        className="-mb-16 block h-auto w-full select-none lg:-mb-[72px]"
+           the image ends where the bar begins and nothing shows past it.
+
+           They are marked important because the wrapper's `space-y-14` emits
+           `.space-y-14 > :not([hidden]) ~ :not([hidden]) { margin-bottom: 0 }`,
+           which outranks a plain `-mb-*` on specificity and silently zeroed
+           it. */
+        className="!-mb-16 block h-auto w-full select-none lg:!-mb-[72px]"
         aria-hidden
       />
     </div>
