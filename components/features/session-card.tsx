@@ -3,11 +3,13 @@ import { MapPin } from "@/components/icons";
 import { BookmarkButton } from "./bookmark-button";
 import { TRACK_LABELS, TRACK_TO_INTERESTS } from "@/lib/constants";
 import { rangeIST } from "@/lib/date";
+import Image from "next/image";
 
 export interface SessionCardData {
   id: string;
   title: string;
   description: string | null;
+  image_url?: string | null;
   track: string | null;
   venue_id?: string | null;
   start_at: string;
@@ -146,6 +148,21 @@ export function SessionCard({
       href={`/agenda/${session.id}`}
       className="block overflow-hidden rounded-lg border border-rule bg-white transition-colors hover:bg-paper-deep/40"
     >
+      {/* The session's own artwork, full bleed to the card's edges. No fixed
+          aspect and no object-cover: the panel banners are about 2.11:1 and
+          anything tighter trims the top and bottom off them. A session
+          without artwork simply starts at its title. */}
+      {session.image_url ? (
+        <Image
+          src={session.image_url}
+          alt=""
+          width={1200}
+          height={568}
+          sizes="(max-width: 640px) 100vw, 640px"
+          className="block h-auto w-full bg-paper-deep"
+        />
+      ) : null}
+
       {/*
         Title, then what kind of session it is, then when and where — in that
         order, each on its own line. Everything here is set in the brand
@@ -162,16 +179,6 @@ export function SessionCard({
           {sector ? (
             <p className="mt-1 text-[13px] font-medium leading-snug text-brand-950">
               Sector: {sector}
-            </p>
-          ) : null}
-
-          {/* What the session is about, in the organisers' own words. Clamped
-              to four lines: these run to a paragraph each, and a card that is
-              mostly prose stops the day being scannable. The full text is on
-              the session's own page. */}
-          {session.description ? (
-            <p className="mt-1.5 line-clamp-4 text-[12.5px] leading-[1.6] text-brand-900/75">
-              {session.description}
             </p>
           ) : null}
 

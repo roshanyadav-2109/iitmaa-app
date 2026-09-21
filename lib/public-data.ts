@@ -37,7 +37,7 @@ export const getPublicSessions = unstable_cache(
   async (): Promise<PublicSession[]> => {
     const supabase = createPublicClient();
     const columns =
-      "id, title, description, track, venue_id, start_at, end_at, is_featured, capacity, current_checkins, venues(id, name, floor)";
+      "id, title, description, track, venue_id, start_at, end_at, is_featured, capacity, current_checkins, image_url, venues(id, name, floor)";
 
     // sessions.interests only exists once migration 0007 has run; the
     // fallback keeps an older database rendering rather than erroring.
