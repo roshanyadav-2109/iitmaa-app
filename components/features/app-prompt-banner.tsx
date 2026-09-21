@@ -81,7 +81,7 @@ export function AppPromptBanner({
       {/* Right-aligned against the artwork on the left. */}
       <div className="min-w-0 flex-1 text-right">
         <p className="font-display text-[16px] font-semibold leading-snug text-brand-950 sm:text-[17px]">
-          {isInstall ? "Install the summit app" : "Turn on notifications"}
+          {isInstall ? "Install the Sangam app" : "Turn on notifications"}
         </p>
         <button
           type="button"

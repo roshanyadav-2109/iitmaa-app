@@ -106,7 +106,7 @@ export default async function OnboardingPage({
             one side reads as a masthead, and this screen is a form. */}
         <header className="flex flex-col items-center gap-2 lg:hidden">
           <div className="flex items-center justify-center gap-4">
-            <BrandLockup className="text-xl" />
+            <BrandLockup className="h-10" />
           </div>
           <p className="eyebrow text-brand-800/75">
             {EVENT_SHORT_NAME} | Setup
@@ -116,7 +116,7 @@ export default async function OnboardingPage({
         <section className="rounded-lg border border-rule bg-white p-5 lg:p-10">
           <div className="hidden flex-col items-center gap-2 lg:flex">
             <div className="flex items-center justify-center gap-4">
-              <BrandLockup className="text-xl" />
+              <BrandLockup className="h-10" />
             </div>
             <p className="eyebrow text-brand-800/75">
               {EVENT_SHORT_NAME} | Setup

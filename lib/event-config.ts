@@ -9,15 +9,19 @@
 // `.length` and lays out without the section. Better blank than showing
 // somebody else's event.
 
-export const EVENT_CITY = "TBD";
-export const EVENT_STATE = "TBD";
-export const EVENT_NAME = "IITMAA Sangam";
-export const EVENT_SHORT_NAME = "Sangam";
-export const EVENT_APP_NAME = "IITMAA Sangam";
+export const EVENT_CITY = "Bengaluru";
+export const EVENT_STATE = "Karnataka";
+export const EVENT_NAME = "IITMAA Sangam 2026";
+export const EVENT_SHORT_NAME = "Sangam 2026";
+export const EVENT_APP_NAME = "Sangam 2026";
 
 /** Event theme. */
-export const EVENT_TAGLINE = "IITMAA Sangam";
-export const EVENT_SUBTAGLINE = "";
+// Both lines are the event's own, from iitmaasangam.com: "Atmanirbhar Bharat
+// — Building a Self-Reliant India" is the vision the site leads with, and
+// "India Unbound: The Decade of Atmanirbhartha" is its page title. The
+// headline carries the first; swap them here if the other should lead.
+export const EVENT_TAGLINE = "Atmanirbhar Bharat";
+export const EVENT_SUBTAGLINE = "Building a Self-Reliant India";
 
 /**
  * Event day, IST.
@@ -26,15 +30,17 @@ export const EVENT_SUBTAGLINE = "";
  * this date. Changing it moves every generated availability slot, so set the
  * real date before anyone books anything.
  */
-export const EVENT_DATE_ISO = "2026-12-01";
-export const EVENT_DATE_LABEL = "Date to be announced \u00b7 all times IST";
-export const EVENT_DATE_TEXT = "Date to be announced";
-export const EVENT_DATE_STAT = { value: "TBD", hint: "2026" };
+export const EVENT_DATE_ISO = "2026-09-26";
+export const EVENT_DATE_LABEL =
+  "Saturday 26 September 2026 · all times IST";
+export const EVENT_DATE_TEXT = "September 26, 2026";
+export const EVENT_DATE_STAT = { value: "26 Sep", hint: "2026" };
 
-export const EVENT_VENUE = "Venue to be announced";
-export const EVENT_VENUE_SHORT = "Venue TBD";
-export const EVENT_VENUE_STAT = { value: "TBD", hint: "Venue" };
-export const EVENT_MAPS_URL = "";
+export const EVENT_VENUE = "Taj MG Road, Bengaluru";
+export const EVENT_VENUE_SHORT = "Taj MG Road";
+export const EVENT_VENUE_STAT = { value: "Taj MG Road", hint: "Bengaluru" };
+export const EVENT_MAPS_URL =
+  "https://www.google.com/maps/dir/?api=1&destination=Taj+MG+Road+Bengaluru";
 
 /** Headline delegate count. */
 export const EVENT_ATTENDEE_COUNT = "TBD";
@@ -42,7 +48,10 @@ export const EVENT_ATTENDEE_COUNT = "TBD";
 /** Footfall across the day, which is not the delegate count. */
 export const EVENT_VISITOR_COUNT = "TBD";
 
-export const EVENT_FOCUS_AREAS = "";
+export const EVENT_FOCUS_AREAS =
+  "deep technology, manufacturing, research, entrepreneurship, sustainability, " +
+  "infrastructure, defence, healthcare, semiconductors, space and digital " +
+  "public systems";
 
 /**
  * The event row in public.events that every scoped query filters on.
@@ -75,7 +84,20 @@ export const EVENT_HERO_SLIDES: {
   /** Optional overlay caption. Set both to label a person on the banner. */
   name?: string;
   role?: string;
-}[] = [];
+}[] = [
+  {
+    src: "/hero/bg-sangam-atmanirbhar-bharat-banner-2026.webp",
+    alt: "SANGAM 2026: India Unbound: The Decade of Atmanirbhartha",
+  },
+  {
+    src: "/panels/img-distinguished-speakers-v2.webp",
+    alt: "Distinguished Voices at Sangam 2026",
+  },
+  {
+    src: "/panels/img-panel-ai-v2.webp",
+    alt: "Sovereign AI - now or never? A Roadmap to get there",
+  },
+];
 
 /**
  * Focussed sectors - the subject areas the event's sessions cover.
@@ -135,82 +157,6 @@ export const EVENT_HIGHLIGHTS: {
   image: string;
 }[] = [];
 
-/**
- * The 23 IITs, for the marquee under the About section on the home screen.
- *
- * `logo` points at public/iits/<slug>.webp. The marks were taken from each
- * institute's English Wikipedia article and trimmed to a common 200x120 box -
- * scaled to FIT that box, not to its width, so a tall crest and a wide
- * wordmark carry the same visual weight in the row. Sources are listed in
- * public/iits/SOURCES.md.
- *
- * These are trademarks, used here to identify the institutes taking part.
- *
- * Ordered by year of establishment, oldest first.
- */
-export const EVENT_IITS: { slug: string; name: string; logo: string }[] = [
-  { slug: "kharagpur", name: "IIT Kharagpur", logo: "/iits/kharagpur.webp" },
-  { slug: "bombay", name: "IIT Bombay", logo: "/iits/bombay.webp" },
-  { slug: "madras", name: "IIT Madras", logo: "/iits/madras.webp" },
-  { slug: "kanpur", name: "IIT Kanpur", logo: "/iits/kanpur.webp" },
-  { slug: "delhi", name: "IIT Delhi", logo: "/iits/delhi.webp" },
-  { slug: "guwahati", name: "IIT Guwahati", logo: "/iits/guwahati.webp" },
-  { slug: "roorkee", name: "IIT Roorkee", logo: "/iits/roorkee.webp" },
-  { slug: "ropar", name: "IIT Ropar", logo: "/iits/ropar.webp" },
-  {
-    slug: "bhubaneswar",
-    name: "IIT Bhubaneswar",
-    logo: "/iits/bhubaneswar.webp",
-  },
-  {
-    slug: "gandhinagar",
-    name: "IIT Gandhinagar",
-    logo: "/iits/gandhinagar.webp",
-  },
-  { slug: "hyderabad", name: "IIT Hyderabad", logo: "/iits/hyderabad.webp" },
-  { slug: "jodhpur", name: "IIT Jodhpur", logo: "/iits/jodhpur.webp" },
-  { slug: "patna", name: "IIT Patna", logo: "/iits/patna.webp" },
-  { slug: "indore", name: "IIT Indore", logo: "/iits/indore.webp" },
-  { slug: "mandi", name: "IIT Mandi", logo: "/iits/mandi.webp" },
-  {
-    slug: "varanasi-bhu",
-    name: "IIT (BHU) Varanasi",
-    logo: "/iits/varanasi-bhu.webp",
-  },
-  { slug: "palakkad", name: "IIT Palakkad", logo: "/iits/palakkad.webp" },
-  { slug: "tirupati", name: "IIT Tirupati", logo: "/iits/tirupati.webp" },
-  { slug: "dhanbad", name: "IIT (ISM) Dhanbad", logo: "/iits/dhanbad.webp" },
-  { slug: "bhilai", name: "IIT Bhilai", logo: "/iits/bhilai.webp" },
-  { slug: "goa", name: "IIT Goa", logo: "/iits/goa.webp" },
-  { slug: "jammu", name: "IIT Jammu", logo: "/iits/jammu.webp" },
-  { slug: "dharwad", name: "IIT Dharwad", logo: "/iits/dharwad.webp" },
-];
-
-export const EVENT_IIT_SLUGS = [
-  "kharagpur",
-  "bombay",
-  "madras",
-  "kanpur",
-  "delhi",
-  "guwahati",
-  "roorkee",
-  "ropar",
-  "bhubaneswar",
-  "gandhinagar",
-  "hyderabad",
-  "jodhpur",
-  "patna",
-  "indore",
-  "mandi",
-  "varanasi-bhu",
-  "palakkad",
-  "tirupati",
-  "dhanbad",
-  "bhilai",
-  "goa",
-  "jammu",
-  "dharwad",
-] as const;
 
 /**
  * Promotional video on the home and About screens.
@@ -223,7 +169,16 @@ export const EVENT_VIDEO_EMBED: {
   isLive: boolean;
   heading: string;
   caption: string;
-} | null = null;
+} | null = {
+  // iitmaasangam.com carries no 2026 film yet \u2014 the event has not happened.
+  // Both embeds on that site are last year's, so this is labelled as last
+  // year's rather than implying it shows this year's programme. Swap the id
+  // when there is a 2026 video.
+  id: "HV8nfNAnBHk",
+  isLive: false,
+  heading: "Watch",
+  caption: "Sangam 2025 \u2014 Building for Viksit Bharat",
+};
 
 export interface EventMediaItem {
   src: string;
@@ -231,7 +186,53 @@ export interface EventMediaItem {
   caption?: string;
 }
 
-export const EVENT_MEDIA: EventMediaItem[] = [];
+export const EVENT_MEDIA: EventMediaItem[] = [
+  { src: "/gallery/sangam25-1.webp", alt: "Sangam 2025, photograph 1" },
+  { src: "/gallery/sangam25-2.webp", alt: "Sangam 2025, photograph 2" },
+  { src: "/gallery/sangam25-3.webp", alt: "Sangam 2025, photograph 3" },
+  { src: "/gallery/sangam25-4.webp", alt: "Sangam 2025, photograph 4" },
+  { src: "/gallery/sangam25-5.webp", alt: "Sangam 2025, photograph 5" },
+  { src: "/gallery/sangam25-6.webp", alt: "Sangam 2025, photograph 6" },
+  { src: "/gallery/sangam25-7.webp", alt: "Sangam 2025, photograph 7" },
+  { src: "/gallery/sangam25-8.webp", alt: "Sangam 2025, photograph 8" },
+  { src: "/gallery/sangam25-9.webp", alt: "Sangam 2025, photograph 9" },
+  { src: "/gallery/sangam25-10.webp", alt: "Sangam 2025, photograph 10" },
+  { src: "/gallery/sangam25-11.webp", alt: "Sangam 2025, photograph 11" },
+  { src: "/gallery/sangam25-12.webp", alt: "Sangam 2025, photograph 12" },
+  { src: "/gallery/sangam25-13.webp", alt: "Sangam 2025, photograph 13" },
+  { src: "/gallery/sangam25-14.webp", alt: "Sangam 2025, photograph 14" },
+  { src: "/gallery/sangam25-15.webp", alt: "Sangam 2025, photograph 15" },
+  { src: "/gallery/sangam25-16.webp", alt: "Sangam 2025, photograph 16" },
+  { src: "/gallery/sangam25-17.webp", alt: "Sangam 2025, photograph 17" },
+  { src: "/gallery/sangam25-18.webp", alt: "Sangam 2025, photograph 18" },
+  { src: "/gallery/sangam25-19.webp", alt: "Sangam 2025, photograph 19" },
+  { src: "/gallery/sangam25-20.webp", alt: "Sangam 2025, photograph 20" },
+  { src: "/gallery/sangam25-21.webp", alt: "Sangam 2025, photograph 21" },
+  { src: "/gallery/sangam25-22.webp", alt: "Sangam 2025, photograph 22" },
+  { src: "/gallery/sangam25-23.webp", alt: "Sangam 2025, photograph 23" },
+  { src: "/gallery/sangam25-24.webp", alt: "Sangam 2025, photograph 24" },
+  { src: "/gallery/sangam25-25.webp", alt: "Sangam 2025, photograph 25" },
+  { src: "/gallery/sangam25-26.webp", alt: "Sangam 2025, photograph 26" },
+  { src: "/gallery/sangam25-27.webp", alt: "Sangam 2025, photograph 27" },
+  { src: "/gallery/sangam25-28.webp", alt: "Sangam 2025, photograph 28" },
+  { src: "/gallery/sangam25-29.webp", alt: "Sangam 2025, photograph 29" },
+  { src: "/gallery/sangam25-30.webp", alt: "Sangam 2025, photograph 30" },
+  { src: "/gallery/sangam25-31.webp", alt: "Sangam 2025, photograph 31" },
+  { src: "/gallery/sangam25-32.webp", alt: "Sangam 2025, photograph 32" },
+  { src: "/gallery/sangam25-33.webp", alt: "Sangam 2025, photograph 33" },
+  { src: "/gallery/sangam25-34.webp", alt: "Sangam 2025, photograph 34" },
+  { src: "/gallery/sangam25-35.webp", alt: "Sangam 2025, photograph 35" },
+  { src: "/gallery/sangam25-36.webp", alt: "Sangam 2025, photograph 36" },
+  { src: "/gallery/sangam25-37.webp", alt: "Sangam 2025, photograph 37" },
+  { src: "/gallery/sangam25-38.webp", alt: "Sangam 2025, photograph 38" },
+  { src: "/gallery/sangam25-39.webp", alt: "Sangam 2025, photograph 39" },
+  { src: "/gallery/sangam25-40.webp", alt: "Sangam 2025, photograph 40" },
+  { src: "/gallery/sangam25-41.webp", alt: "Sangam 2025, photograph 41" },
+  { src: "/gallery/sangam25-42.webp", alt: "Sangam 2025, photograph 42" },
+  { src: "/gallery/sangam25-43.webp", alt: "Sangam 2025, photograph 43" },
+  { src: "/gallery/sangam25-44.webp", alt: "Sangam 2025, photograph 44" },
+  { src: "/gallery/sangam25-45.webp", alt: "Sangam 2025, photograph 45" },
+];
 
 export interface EventPressItem {
   outlet: string;
@@ -273,7 +274,338 @@ export interface EventLegacySpeaker {
   image: string;
 }
 
-export const EVENT_LEGACY_SPEAKERS: EventLegacySpeaker[] = [];
+export const EVENT_LEGACY_SPEAKERS: EventLegacySpeaker[] = [
+  {
+    slug: "shri-piyush-goyal",
+    name: "Shri Piyush Goyal",
+    role: "Minister for Commerce and Industry, Govt. of India | MP (Lok Sabha) North Mumbai",
+    image: "/legacy/shri-piyush-goyal.webp",
+  },
+  {
+    slug: "t-t-jagannathan",
+    name: "T.T. Jagannathan",
+    role: "Chairman Emeritus, TTK Prestige",
+    image: "/legacy/t-t-jagannathan.webp",
+  },
+  {
+    slug: "dr-s-somanath",
+    name: "Dr. S. Somanath",
+    role: "Vikram Sarabhai Professor, ISRO",
+    image: "/legacy/dr-s-somanath.webp",
+  },
+  {
+    slug: "shri-tejasvi-surya",
+    name: "Shri Tejasvi Surya",
+    role: "Lok Sabha MP, Bengaluru South",
+    image: "/legacy/shri-tejasvi-surya.webp",
+  },
+  {
+    slug: "sivasri-skandaprasad",
+    name: "Sivasri Skandaprasad",
+    role: "Founder Director at Ahuti",
+    image: "/legacy/sivasri-skandaprasad.webp",
+  },
+  {
+    slug: "dr-srivatsa-krishna-ias",
+    name: "Dr. Srivatsa Krishna IAS",
+    role: "CEO & Secretary, Coffee Board of India, Govt. of India",
+    image: "/legacy/dr-srivatsa-krishna-ias.webp",
+  },
+  {
+    slug: "madhavi-latha",
+    name: "Madhavi Latha",
+    role: "Prof. IISc",
+    image: "/legacy/madhavi-latha.webp",
+  },
+  {
+    slug: "kris-gopalakrishnan",
+    name: "Kris Gopalakrishnan",
+    role: "Chairman, Axilor Ventures | Co-Founder, Infosys",
+    image: "/legacy/kris-gopalakrishnan.webp",
+  },
+  {
+    slug: "dr-unnikrishnan-nair-s",
+    name: "Dr. Unnikrishnan Nair S.",
+    role: "Director, Vikram Sarabhai Space Centre",
+    image: "/legacy/dr-unnikrishnan-nair-s.webp",
+  },
+  {
+    slug: "prof-ashok-jhunjhunwala",
+    name: "Prof. Ashok Jhunjhunwala",
+    role: "Institute Professor, IIT Madras",
+    image: "/legacy/prof-ashok-jhunjhunwala.webp",
+  },
+  {
+    slug: "prof-preeti-aghalayam",
+    name: "Prof. Preeti Aghalayam",
+    role: "Director-in-Charge, IIT Madras Zanzibar",
+    image: "/legacy/prof-preeti-aghalayam.webp",
+  },
+  {
+    slug: "dr-shivkumar-kalyanaraman",
+    name: "Dr. Shivkumar Kalyanaraman",
+    role: "CEO, Anusandhan National Research Foundation, Govt. of India",
+    image: "/legacy/dr-shivkumar-kalyanaraman.webp",
+  },
+  {
+    slug: "srinivas-narayanan",
+    name: "Srinivas Narayanan",
+    role: "VP of Engineering, OpenAI",
+    image: "/legacy/srinivas-narayanan.webp",
+  },
+  {
+    slug: "aparna-chennapragada",
+    name: "Aparna Chennapragada",
+    role: "Chief Product Officer - Experiences & Devices, Microsoft",
+    image: "/legacy/aparna-chennapragada.webp",
+  },
+  {
+    slug: "tarun-mehta",
+    name: "Tarun Mehta",
+    role: "Co-Founder & CEO, Ather Energy Ltd.",
+    image: "/legacy/tarun-mehta.webp",
+  },
+  {
+    slug: "shyamala-rajaram",
+    name: "Shyamala Rajaram",
+    role: "President, IITMAA | CEO, Unimity Solutions",
+    image: "/legacy/shyamala-rajaram.webp",
+  },
+  {
+    slug: "sridhar-boovaraghavan",
+    name: "Sridhar Boovaraghavan",
+    role: "Secretary, IITMAA",
+    image: "/legacy/sridhar-boovaraghavan.webp",
+  },
+  {
+    slug: "bhaskar-bhat",
+    name: "Bhaskar Bhat",
+    role: "MD at Titan Industries",
+    image: "/legacy/bhaskar-bhat.webp",
+  },
+  {
+    slug: "k-vijay",
+    name: "K. Vijay",
+    role: "Executive Chairman, Ajax Engineering Limited",
+    image: "/legacy/k-vijay.webp",
+  },
+  {
+    slug: "dr-balaji-sampath",
+    name: "Dr. Balaji Sampath",
+    role: "Founder, AID India and Aha Guru",
+    image: "/legacy/dr-balaji-sampath.webp",
+  },
+  {
+    slug: "ambi-parameswaran",
+    name: "Ambi Parameswaran",
+    role: "Founder, Brand-Building.com",
+    image: "/legacy/ambi-parameswaran.webp",
+  },
+  {
+    slug: "dr-sridhar-tirumala",
+    name: "Dr. Sridhar Tirumala",
+    role: "Co-Founder and Co-CEO, Sukshi",
+    image: "/legacy/dr-sridhar-tirumala.webp",
+  },
+  {
+    slug: "shivani-pulimamidi",
+    name: "Shivani Pulimamidi",
+    role: "Co-Founder and Co-CEO, Sukshi",
+    image: "/legacy/shivani-pulimamidi.webp",
+  },
+  {
+    slug: "t-m-vijay-bhaskar",
+    name: "T.M. Vijay Bhaskar",
+    role: "Board of Governors, AquaMAP | Former Chief Secretary, Govt of Karnataka",
+    image: "/legacy/t-m-vijay-bhaskar.webp",
+  },
+  {
+    slug: "aravind-krishnan",
+    name: "Aravind Krishnan",
+    role: "MD & Head of Private Equity South East Asia, Blackstone",
+    image: "/legacy/aravind-krishnan.webp",
+  },
+  {
+    slug: "krishnan-narayanan",
+    name: "Krishnan Narayanan",
+    role: "Co-Founder & President Itihasa Foundation and Research",
+    image: "/legacy/krishnan-narayanan.webp",
+  },
+  {
+    slug: "swadeep-pillarisetti",
+    name: "Swadeep Pillarisetti",
+    role: "Founding Partner & MD, Blue Ocean Venture Partners",
+    image: "/legacy/swadeep-pillarisetti.webp",
+  },
+  {
+    slug: "cp-madhusudan",
+    name: "CP Madhusudan",
+    role: "Director, Vyuhaa Med Data",
+    image: "/legacy/cp-madhusudan.webp",
+  },
+  {
+    slug: "prof-rajat-moona",
+    name: "Prof. Rajat Moona",
+    role: "Director, IIT Gandhinagar",
+    image: "/legacy/prof-rajat-moona.webp",
+  },
+  {
+    slug: "prof-k-n-satyanarayana",
+    name: "Prof. K.N. Satyanarayana",
+    role: "Director, IIT Tirupati",
+    image: "/legacy/prof-k-n-satyanarayana.webp",
+  },
+  {
+    slug: "prof-shreepad-karmalkar",
+    name: "Prof. Shreepad Karmalkar",
+    role: "Director, IIT Bhubaneswar",
+    image: "/legacy/prof-shreepad-karmalkar.webp",
+  },
+  {
+    slug: "prof-bs-murty",
+    name: "Prof. BS. Murty",
+    role: "Director, IIT Hyderabad",
+    image: "/legacy/prof-bs-murty.webp",
+  },
+  {
+    slug: "jayesh-ranjan",
+    name: "Jayesh Ranjan",
+    role: "Special Chief Secretary, ITE&C, Govt. of Telangana",
+    image: "/legacy/jayesh-ranjan.webp",
+  },
+  {
+    slug: "bvr-mohan-reddy",
+    name: "BVR Mohan Reddy",
+    role: "Chairman, Cyient",
+    image: "/legacy/bvr-mohan-reddy.webp",
+  },
+  {
+    slug: "ben-mathias",
+    name: "Ben Mathias",
+    role: "Vertex Ventures",
+    image: "/legacy/ben-mathias.webp",
+  },
+  {
+    slug: "anil-valluri",
+    name: "Anil Valluri",
+    role: "Vice President, Palo Alto Networks",
+    image: "/legacy/anil-valluri.webp",
+  },
+  {
+    slug: "prof-r-sarathi",
+    name: "Prof. R Sarathi",
+    role: "Dean, Planning, IIT Madras",
+    image: "/legacy/prof-r-sarathi.webp",
+  },
+  {
+    slug: "phani-kishan-adellapali",
+    name: "Phani Kishan Adellapali",
+    role: "Co-founder, Swiggy",
+    image: "/legacy/phani-kishan-adellapali.webp",
+  },
+  {
+    slug: "kasturi-shankar",
+    name: "Kasturi Shankar",
+    role: "Actor, Lawyer, Activist",
+    image: "/legacy/kasturi-shankar.webp",
+  },
+  {
+    slug: "dr-ravi-gundlapalli",
+    name: "Dr. Ravi Gundlapalli",
+    role: "Founder & CEO, MentorCloud",
+    image: "/legacy/dr-ravi-gundlapalli.webp",
+  },
+  {
+    slug: "prof-boby-george",
+    name: "Prof. Boby George",
+    role: "Head, Medical Sciences & Technology, IITM",
+    image: "/legacy/prof-boby-george.webp",
+  },
+  {
+    slug: "sateesh-andra",
+    name: "Sateesh Andra",
+    role: "Managing Director, Endiya Partners",
+    image: "/legacy/sateesh-andra.webp",
+  },
+  {
+    slug: "dr-sapna-poti",
+    name: "Dr. Sapna Poti",
+    role: "Director, Strategic Alliances, Office of the Principal Scientific Adviser to Govt. of India",
+    image: "/legacy/dr-sapna-poti.webp",
+  },
+  {
+    slug: "atul-shinghal",
+    name: "Atul Shinghal",
+    role: "Founder and CEO, Scripbox",
+    image: "/legacy/atul-shinghal.webp",
+  },
+  {
+    slug: "dr-srikanth-sundararajan",
+    name: "Dr. Srikanth Sundararajan",
+    role: "General Partner, VentureEast",
+    image: "/legacy/dr-srikanth-sundararajan.webp",
+  },
+  {
+    slug: "dr-kavitha-sairam",
+    name: "Dr. Kavitha Sairam",
+    role: "Founder & CEO, FIB-SOL Life Technologies Pvt. Ltd.",
+    image: "/legacy/dr-kavitha-sairam.webp",
+  },
+  {
+    slug: "dr-shivakumar-kalyanaraman",
+    name: "Dr. Shivakumar Kalyanaraman",
+    role: "CTO, Microsoft Energy & Mobility",
+    image: "/legacy/dr-shivakumar-kalyanaraman.webp",
+  },
+  {
+    slug: "prof-m-s-sivakumar",
+    name: "Prof. M.S. Sivakumar",
+    role: "Ex-Dean Students, Head of the Department, Applied Mechanics, IIT Madras",
+    image: "/legacy/prof-m-s-sivakumar.webp",
+  },
+  {
+    slug: "k-r-jyothilal",
+    name: "K.R. Jyothilal",
+    role: "Addl. Chief Secretary, Govt. of Kerala",
+    image: "/legacy/k-r-jyothilal.webp",
+  },
+  {
+    slug: "dr-sundar-swaminathan",
+    name: "Dr. Sundar Swaminathan",
+    role: "Chair, Nephrology, IISc Bangalore",
+    image: "/legacy/dr-sundar-swaminathan.webp",
+  },
+  {
+    slug: "dr-sathya-sriram",
+    name: "Dr. Sathya Sriram",
+    role: "CEO, Apollo Preventive Care",
+    image: "/legacy/dr-sathya-sriram.webp",
+  },
+  {
+    slug: "mili-majumdar",
+    name: "Mili Majumdar",
+    role: "Senior Vice President, US Green Building Council",
+    image: "/legacy/mili-majumdar.webp",
+  },
+  {
+    slug: "prof-indumathi-nambi",
+    name: "Prof. Indumathi Nambi",
+    role: "Professor, Civil Engineering, IIT-M",
+    image: "/legacy/prof-indumathi-nambi.webp",
+  },
+  {
+    slug: "prof-krishna-kumar",
+    name: "Prof. Krishna Kumar",
+    role: "Institute Prof., IIT Madras",
+    image: "/legacy/prof-krishna-kumar.webp",
+  },
+  {
+    slug: "prof-ligy-philip",
+    name: "Prof. Ligy Philip",
+    role: "Prof., IIT,Madras",
+    image: "/legacy/prof-ligy-philip.webp",
+  },
+];
 
 export interface EventPastSponsor {
   slug: string;
@@ -290,20 +622,25 @@ export interface EventScaleStat {
   icon: string;
 }
 
-export const EVENT_SCALE: EventScaleStat[] = [
+const SCALE_ALL: EventScaleStat[] = [
   {
     value: EVENT_VISITOR_COUNT,
     label: "Visitors expected",
     short: "Visitors",
     icon: "/audience/ceos.webp",
   },
-  {
-    value: String(EVENT_IITS.length),
-    label: "IITs represented",
-    short: "IITs",
-    icon: "/audience/directors.webp",
-  },
 ];
+
+/**
+ * Only the stats that have a number yet.
+ *
+ * A tile reading "TBD" in the display face is louder than no tile at all -- it
+ * draws the eye to the one thing nobody has decided. Fill the counts above and
+ * the tiles appear on their own.
+ */
+export const EVENT_SCALE: EventScaleStat[] = SCALE_ALL.filter(
+  (s) => s.value && s.value !== "TBD"
+);
 
 export const EVENT_SCALE_STANDIN: EventScaleStat = {
   value: EVENT_ATTENDEE_COUNT,

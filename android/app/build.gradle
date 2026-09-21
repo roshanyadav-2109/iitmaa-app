@@ -24,8 +24,8 @@ def twaManifest = [
     applicationId: 'org.iitmaa.sangam.twa',
     hostName: 'iitmaa-app.vercel.app', // The domain being opened in the TWA.
     launchUrl: '/home', // The start path for the TWA. Must be relative to the domain.
-    name: 'IITMAA Sangam', // The application name.
-    launcherName: 'Sangam', // The name shown on the Android Launcher.
+    name: 'IITMAA Sangam 2026', // The application name.
+    launcherName: 'Sangam 2026', // The name shown on the Android Launcher.
     themeColor: '#1B1464', // The color used for the status bar.
     themeColorDark: '#1B1464', // The color used for the dark status bar.
     navigationColor: '#1B1464', // The color used for the navigation bar.

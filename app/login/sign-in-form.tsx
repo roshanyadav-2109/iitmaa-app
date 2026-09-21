@@ -215,6 +215,22 @@ export function SignInForm() {
         </button>
       ) : null}
 
+      {/* Google is the only way in, so hiding it leaves a page with nothing on
+          it. Say why rather than showing an empty panel -- in production this
+          never renders, and when it does it is the fastest possible diagnosis. */}
+      {googleConfigured ? null : (
+        <p
+          role="status"
+          className="rounded-md border border-rule bg-paper-deep px-3 py-2 text-sm leading-5 text-brand-900/80"
+        >
+          Sign-in is not configured for this deployment. Set
+          {" "}
+          <code className="font-mono text-[12.5px]">GOOGLE_CLIENT_ID</code> and
+          {" "}
+          <code className="font-mono text-[12.5px]">NEXT_PUBLIC_GOOGLE_CLIENT_ID</code>.
+        </p>
+      )}
+
       {oauthError ? (
         <div
           role="alert"

@@ -199,7 +199,7 @@ export default async function MePage() {
       {/* The event wordmark, closing the screen. Centred and last: a
           footer, not a header — nothing here is tappable. */}
       <div className="mt-10 flex items-center justify-center">
-        <BrandLockup className="text-sm" />
+        <BrandLockup className="h-8" />
       </div>
     </div>
   );

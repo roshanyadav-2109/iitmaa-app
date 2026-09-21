@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { TileGrid } from "@/components/features/tile-grid";
+import { MediaCarousel } from "@/components/features/media-carousel";
 import {
+  EVENT_CITY,
   EVENT_AUDIENCE,
   EVENT_CONTACTS,
   EVENT_DATE_TEXT,
@@ -63,9 +65,9 @@ export default function AboutSummitPage() {
         </h1>
         <p className="eyebrow mt-1.5 text-brand-800/75">{EVENT_SUBTAGLINE}</p>
         <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.75] text-brand-900/85">
-          {EVENT_NAME} brings the community together for a single day of
-          focused work. Alumni, founders, investors and policy makers from
-          across the 23 IIT campuses converge on {EVENT_DATE_TEXT}.
+          {EVENT_NAME} brings the IIT Madras alumni community together for a
+          single day of focused work. Alumni, founders, investors and policy
+          makers converge on {EVENT_DATE_TEXT} in {EVENT_CITY}.
         </p>
 
         {/* Sits between the paragraph and the link rather than under the
@@ -73,21 +75,12 @@ export default function AboutSummitPage() {
             image straight after the first. Centred and capped in width — full
             bleed would make it a banner competing with the video above. */}
         {EVENT_MEDIA.length > 0 ? (
-          <figure className="mx-auto mt-7 max-w-[420px] text-center">
-            <Image
-              src={EVENT_MEDIA[0].src}
-              alt={EVENT_MEDIA[0].alt}
-              width={981}
-              height={1000}
-              sizes="(max-width: 640px) 90vw, 420px"
-              className="h-auto w-full rounded-lg"
-            />
-            {EVENT_MEDIA[0].caption ? (
-              <figcaption className="mt-2.5 text-[12.5px] leading-snug text-brand-900/65">
-                {EVENT_MEDIA[0].caption}
-              </figcaption>
-            ) : null}
-          </figure>
+          <div className="mt-7">
+            <Head title="Glimpses from last year" />
+            <div className="mt-4">
+              <MediaCarousel items={EVENT_MEDIA} />
+            </div>
+          </div>
         ) : null}
 
       </section>
@@ -96,7 +89,7 @@ export default function AboutSummitPage() {
           than in four boxes, so the figures carry the section themselves. */}
       {EVENT_NUMBERS.length > 0 ? (
         <section>
-          <Head title="The summit in numbers" />
+          <Head title="Sangam in numbers" />
           <dl className="mt-1 grid grid-cols-2 gap-x-6">
             {EVENT_NUMBERS.map((n) => (
               <div

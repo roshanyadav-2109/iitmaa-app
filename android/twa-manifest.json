@@ -1,8 +1,8 @@
 {
   "packageId": "org.iitmaa.sangam.twa",
   "host": "iitmaa-app.vercel.app",
-  "name": "IITMAA Sangam",
-  "launcherName": "Sangam",
+  "name": "IITMAA Sangam 2026",
+  "launcherName": "Sangam 2026",
   "display": "standalone",
   "themeColor": "#1B1464",
   "themeColorDark": "#1B1464",

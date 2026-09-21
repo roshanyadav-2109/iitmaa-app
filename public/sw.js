@@ -10,7 +10,7 @@
  *
  * v2 caches static files only, and never stands between the app and a page.
  */
-const CACHE_VERSION = "sangam-v1";
+const CACHE_VERSION = "sangam-v2";
 const CACHE_NAME = `${CACHE_VERSION}-static`;
 const PRECACHE_URLS = ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"];
 
@@ -23,15 +23,15 @@ const STATIC_PREFIXES = [
   "/icons/",
   "/ui/",
   "/empty/",
-  "/x/",
-  "/legacy/",
-  "/past-sponsors/",
   "/logo/",
-  "/iits/",
-  "/sectors/",
   "/audience/",
-  "/press/",
-  "/carousel/",
+  "/splash/",
+  "/speakers/",
+  "/legacy/",
+  "/gallery/",
+  "/panels/",
+  "/hero/",
+  "/schedule/",
 ];
 
 self.addEventListener("install", (event) => {

@@ -20,7 +20,7 @@
  */
 const config = {
   appId: "org.iitmaa.sangam",
-  appName: "IITMAA Sangam",
+  appName: "IITMAA Sangam 2026",
   webDir: "public",
   server: {
     url: "https://iitmaa-app.vercel.app",
@@ -36,7 +36,7 @@ const config = {
   plugins: {
     SplashScreen: {
       launchShowDuration: 600,
-      backgroundColor: "#1B1464",
+      backgroundColor: "#EFF3FA",
       showSpinner: false,
     },
   },

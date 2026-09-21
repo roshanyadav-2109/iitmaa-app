@@ -71,7 +71,7 @@ export async function TopBar() {
               aria-label={`${EVENT_NAME} home`}
               className="hidden shrink-0 items-center lg:flex"
             >
-              <BrandLockup className="text-lg" />
+              <BrandLockup className="h-9" />
             </Link>
 
             {/* Mobile: avatar greeting on the left */}

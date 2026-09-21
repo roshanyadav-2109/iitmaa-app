@@ -34,7 +34,6 @@ import {
 import { HeroCarousel } from "./hero-carousel";
 import { SponsorsBoard, type SponsorTier } from "./sponsors-marquee";
 import { QuickActions } from "./quick-actions";
-import { IitMarquee } from "./iit-marquee";
 import { EventScale } from "@/components/features/event-scale";
 import { GatePassBanner } from "./gate-pass-banner";
 import { AppPromptBanner } from "@/components/features/app-prompt-banner";
@@ -233,7 +232,9 @@ export default async function HomePage() {
         }
       : EVENT_SCALE_STANDIN,
     ...EVENT_SCALE,
-  ];
+    // A tile reading "TBD" is louder than no tile: it points at the one thing
+    // nobody has settled. Set the counts in event-config and they appear.
+  ].filter((s) => s.value && s.value !== "TBD");
 
 
   // Empty-state preview: DEV_EMPTY=1 blanks the page without
@@ -321,7 +322,7 @@ export default async function HomePage() {
                 theme line: a crest above a headline reads as a letterhead,
                 and the panel's job is the headline. */}
             <div className="mt-5 flex items-center justify-center border-t border-rule pt-4">
-              <BrandLockup className="text-base" />
+              <BrandLockup className="h-8" />
             </div>
           </div>
         </div>
@@ -430,10 +431,10 @@ export default async function HomePage() {
 
       {/* About */}
       <section className="px-3 sm:px-5 lg:px-6">
-        <SectionHead title="About the summit" />
+        <SectionHead title="About Sangam" />
         <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.75] text-brand-900/85">
-          {EVENT_NAME} brings together alumni, founders, investors and policy
-          makers from across the 23 IIT campuses.
+          {EVENT_NAME} brings the IIT Madras alumni community together with
+          founders, investors and policy makers for a single day.
         </p>
         <Link
           href="/home/about"
@@ -445,7 +446,6 @@ export default async function HomePage() {
             strokeWidth={1.6}
           />
         </Link>
-        <IitMarquee />
       </section>
 
       {/* Video — a live stream on the day, a recording before it. */}

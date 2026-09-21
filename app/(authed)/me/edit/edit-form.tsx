@@ -101,7 +101,7 @@ export function EditProfileForm({ initial }: { initial: InitialProfile }) {
       <ChipMultiSelect
         name="asks"
         label="Looking for"
-        helper="What you hope to find at the summit."
+        helper="What you hope to find at Sangam."
         options={ASKS}
         initial={initial.asks ?? []}
       />

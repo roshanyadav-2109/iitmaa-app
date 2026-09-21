@@ -47,7 +47,7 @@ export default async function SignInPage() {
           <div className="w-full rounded-lg bg-paper px-5 py-4 lg:px-7 lg:py-5">
             {/* The event wordmark, alone. */}
             <div className="flex items-center justify-center">
-              <BrandLockup className="text-2xl lg:text-3xl" />
+              <BrandLockup className="h-11 lg:h-12" />
             </div>
             <div className="mt-3 pt-2.5 text-center">
               <p className="eyebrow text-brand-800">
@@ -69,8 +69,8 @@ export default async function SignInPage() {
               <br className="hidden xl:block" /> builders, investors &amp; policy minds.
             </h1>
             <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/75">
-              One day. {EVENT_ATTENDEE_COUNT} attendees across 23 IITs. The
-              official {EVENT_SHORT_NAME} app, in your pocket.
+              One day with the IIT Madras alumni community. The official{" "}
+              {EVENT_SHORT_NAME} app, in your pocket.
             </p>
             <dl className="mx-auto mt-9 grid max-w-md grid-cols-3 divide-x divide-white/10 text-center">
               <Stat
@@ -86,7 +86,7 @@ export default async function SignInPage() {
               <Stat
                 label="Attendees"
                 value={EVENT_ATTENDEE_COUNT}
-                hint="across 23 IITs"
+                hint="IIT Madras alumni"
               />
             </dl>
           </div>

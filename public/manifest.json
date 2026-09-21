@@ -1,7 +1,7 @@
 {
-  "name": "IITMAA Sangam",
-  "short_name": "Sangam",
-  "description": "The official event app for IITMAA Sangam.",
+  "name": "IITMAA Sangam 2026",
+  "short_name": "Sangam 2026",
+  "description": "The official app for IITMAA Sangam 2026 — India Unbound: The Decade of Atmanirbhartha. 26 September 2026, Taj MG Road, Bengaluru.",
   "start_url": "/home",
   "display": "standalone",
   "display_override": [

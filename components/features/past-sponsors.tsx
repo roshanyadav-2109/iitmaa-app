@@ -5,7 +5,7 @@ import { EVENT_PAST_SPONSORS } from "@/lib/event-config";
  * Sponsors of previous editions.
  *
  * A quiet grid, not a marquee. There is already one marquee on this page
- * carrying the 23 IITs, and a second moving row underneath turns the foot of
+ * carrying the institute marks, and a second moving row underneath turns the foot of
  * the home screen into a slideshow. A grid also lets someone look for a
  * particular name instead of waiting for it to come round.
  *

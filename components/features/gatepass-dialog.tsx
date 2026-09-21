@@ -95,7 +95,7 @@ export function GatePassDialog({
             Your single-attendee venue entry pass.
           </DialogDescription>
           <div className="flex items-center justify-between gap-3 pr-7">
-            <BrandLockup className="text-base" />
+            <BrandLockup className="h-8" />
             <span className="shrink-0 eyebrow text-brand-950">
               Gate Pass
             </span>

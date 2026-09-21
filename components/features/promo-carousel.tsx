@@ -66,7 +66,7 @@ export function PromoCarousel() {
       onTouchStart={() => setPaused(true)}
       onTouchEnd={() => setPaused(false)}
       className="no-scrollbar -mx-3 flex snap-x gap-2.5 overflow-x-auto scroll-smooth scroll-pl-3 px-3 pb-1 sm:-mx-5 sm:scroll-pl-5 sm:px-5 lg:-mx-6 lg:scroll-pl-6 lg:px-6"
-      aria-label="Summit banners"
+      aria-label="Sangam banners"
     >
       {Array.from({ length: count }).map((_, i) => {
         const promo = promos[i];

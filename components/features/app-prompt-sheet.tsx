@@ -170,7 +170,7 @@ export function AppPromptSheet({
   const isInstall = kind === "install";
   const art = isInstall ? EVENT_INSTALL_ART : EVENT_NOTIFY_ART;
   const title = isInstall
-    ? "Install the summit app"
+    ? "Install the Sangam app"
     : "Turn on notifications";
   // With no prompt to fire — iOS always, and any browser that has not
   // decided to offer one — the sheet has to say how instead of showing a

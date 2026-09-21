@@ -5,7 +5,7 @@ import { useDriftScroll } from "@/hooks/use-drift-scroll";
 import { EVENT_POSTS } from "@/lib/event-config";
 
 /**
- * What the summit looks like on X — ANI, the Chief Minister, the state's
+ * What the event looks like on X — the accounts covering it, the
  * information department and the organisers, in their own words.
  *
  * Built as our own cards rather than with X's embed script. The script is a
@@ -39,7 +39,7 @@ export function PostStrip() {
     <div
       ref={ref}
       className="no-scrollbar -mx-3 overflow-x-auto overscroll-x-contain pb-1 [scroll-behavior:auto] sm:-mx-5 lg:-mx-6"
-      aria-label="Posts about the summit on X"
+      aria-label="Posts about Sangam on X"
     >
       {/* Inset on this div, not on the list: the loop wraps by half the
           track's width, and padding there would make half a width land short

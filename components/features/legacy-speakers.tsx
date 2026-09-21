@@ -49,14 +49,20 @@ export function LegacySpeakers() {
               // name once.
               aria-hidden={i >= half}
             >
-              <Image
-                src={person.image}
-                alt={i < half ? person.name : ""}
-                width={360}
-                height={360}
-                sizes="120px"
-                className="mx-auto size-[88px] rounded-full object-cover sm:size-[104px]"
-              />
+              {/* A square frame, not a circle. These are press and stage
+                  photographs at whatever crop they were published in, and a
+                  circular mask cuts the sides off a head that is not centred
+                  in its own frame. */}
+              <div className="mx-auto size-[88px] overflow-hidden rounded-md bg-paper-deep sm:size-[104px]">
+                <Image
+                  src={person.image}
+                  alt={i < half ? person.name : ""}
+                  width={360}
+                  height={360}
+                  sizes="120px"
+                  className="size-full object-cover"
+                />
+              </div>
               <p className="mt-2.5 font-display text-[12.5px] font-semibold leading-snug text-brand-950">
                 {person.name}
               </p>
