@@ -614,12 +614,18 @@ export default async function HomePage() {
           rises out of the page instead of ending on a band of pale grey that
           does not match the ground behind it.
 
-          Named for the building rather than for its slot, deliberately: the
+          Desaturated and cast very slightly toward the brand navy. At full
+          colour it pulled the eye to the bottom of the page and competed with
+          everything above it; drained, it reads as a plate under the content
+          rather than a photograph in it. Neutral grey looked dead against the
+          cool paper ground, hence the tint rather than a plain greyscale.
+
+          Named for the building and its treatment, not for its slot: the
           service worker caches everything under /ui/, so swapping a picture
           at an unchanged path leaves every returning visitor looking at the
           old one. A new name is a new URL and cannot go stale. */}
       <Image
-        src="/ui/campus-himalaya.webp"
+        src="/ui/campus-himalaya-mono.webp"
         alt=""
         width={1200}
         height={572}

@@ -10,7 +10,7 @@
  *
  * v2 caches static files only, and never stands between the app and a page.
  */
-const CACHE_VERSION = "sangam-v3";
+const CACHE_VERSION = "sangam-v4";
 const CACHE_NAME = `${CACHE_VERSION}-static`;
 const PRECACHE_URLS = ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"];
 
