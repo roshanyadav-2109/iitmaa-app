@@ -11,19 +11,30 @@ import { EVENT_NAME } from "@/lib/event-config";
  * still reads "2024" down its edge, and a stale year on every screen is worse
  * than no year at all.
  *
- * Navy line art on a light ground, so it belongs on `paper` surfaces — the
- * top bar, the login card, the footer. It disappears on the brand navy; put
- * it on a card there, as the login screen does.
+ * Two tones, because the supplied artwork is ink on solid white and vanishes
+ * on the brand maroon:
  *
- * Callers set the height with a class (`h-8`, `h-10`); the width follows.
+ * - `dark` (default) is that original, for `paper` surfaces — the top bar,
+ *   the footer, anywhere light.
+ * - `light` is a knockout derived from it: the white ground turned into
+ *   transparency by ink coverage, the wordmark taken to white and the swoosh
+ *   to the crest gold. It is what lets the mark sit directly on a dark field
+ *   instead of inside a white plate floating on one.
  */
-export function BrandLockup({ className }: { className?: string }) {
+export function BrandLockup({
+  className,
+  tone = "dark",
+}: {
+  className?: string;
+  tone?: "dark" | "light";
+}) {
+  const light = tone === "light";
   return (
     <Image
-      src="/logo/iitmaa.svg"
+      src={light ? "/logo/iitmaa-light.webp" : "/logo/iitmaa.svg"}
       alt={EVENT_NAME}
-      width={216}
-      height={66}
+      width={light ? 728 : 216}
+      height={light ? 220 : 66}
       priority
       className={cn("w-auto", className)}
     />
