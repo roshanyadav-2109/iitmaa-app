@@ -61,6 +61,10 @@ export function SignInForm() {
   const [oauthError, setOauthError] = useState<string | null>(null);
   const [googlePending, startGoogle] = useTransition();
   const [gisReady, setGisReady] = useState(false);
+  // Google is only offered when a client is actually configured. With no id,
+  // their script renders a button that answers 400 and the redirect fallback
+  // has nothing to redirect to -- two controls that look live and cannot work.
+  const [googleConfigured, setGoogleConfigured] = useState(true);
   const gisRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -91,6 +95,10 @@ export function SignInForm() {
         hashedNonce: string;
       };
       if (cancelled) return;
+      if (!clientId) {
+        setGoogleConfigured(false);
+        return;
+      }
 
       await loadGis();
       const google = (window as unknown as { google?: GoogleIdApi }).google;
@@ -183,13 +191,15 @@ export function SignInForm() {
       {/* Google's own button, rendered by their script into this slot. It
           signs in without leaving the page, which is what keeps an installed
           copy of the app out of the system browser. */}
-      <div ref={gisRef} className="min-h-[48px] w-full [&>div]:!w-full" />
+      {googleConfigured ? (
+        <div ref={gisRef} className="min-h-[48px] w-full [&>div]:!w-full" />
+      ) : null}
 
       {/* Shown when their script cannot load, or has not decided to offer a
           button — an ad blocker, a locked-down network, an older webview.
           This is the old redirect, which works everywhere and costs a trip
           out to accounts.google.com. */}
-      {gisReady ? null : (
+      {googleConfigured && !gisReady ? (
         <button
           type="button"
           onClick={handleGoogle}
@@ -203,7 +213,7 @@ export function SignInForm() {
           )}
           Continue with Google
         </button>
-      )}
+      ) : null}
 
       {oauthError ? (
         <div
