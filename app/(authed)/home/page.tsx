@@ -616,8 +616,8 @@ export default async function HomePage() {
       <Image
         src="/ui/campus-footer.webp"
         alt=""
-        width={1240}
-        height={703}
+        width={1200}
+        height={572}
         sizes="100vw"
         /* Pulled hard to the bottom of the scroll. Three paddings sit under
            this image: the page wrapper's pb-6 (24px) and main's pb-32 (128px)
