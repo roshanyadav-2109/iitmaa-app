@@ -30,6 +30,8 @@ import {
   EVENT_SECTORS,
   EVENT_LEGACY_SPEAKERS,
   EVENT_PAST_SPONSORS,
+  EVENT_DIGITAL_FOOTPRINT,
+  EVENT_SPONSORS_IMAGE,
 } from "@/lib/event-config";
 import { HeroCarousel } from "./hero-carousel";
 import { SponsorsBoard, type SponsorTier } from "./sponsors-marquee";
@@ -52,6 +54,7 @@ import {
   ViewAllSpeakers,
 } from "./key-participants-strip";
 import { BrandLockup } from "@/components/features/brand-lockup";
+import Image from "next/image";
 
 const LOGO_BUCKET = "LOGOS";
 // Folder name in storage = visible tier heading. Order = display order.
@@ -347,6 +350,32 @@ export default async function HomePage() {
       {/* The four things you actually do in the app — badge, scanner,
           secretariat, programme — directly under the masthead. Someone
           opening this at the door wants a QR code, not a photograph. */}
+      {/* Reach, above the four tiles. It is the argument for the day rather
+          than a thing you do on it, so it sits over the actions and not
+          among them. */}
+      {EVENT_DIGITAL_FOOTPRINT.length > 0 ? (
+        <section className="px-3 sm:px-5 lg:px-6">
+          <SectionHead title="Unmatched digital footprint" />
+          <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {EVENT_DIGITAL_FOOTPRINT.map((stat, i) => (
+              <div
+                key={`${stat.value}-${i}`}
+                className="rounded-lg px-3 py-4 text-center text-white"
+                style={{ backgroundColor: stat.colour }}
+              >
+                <dt className="font-display text-[20px] font-semibold leading-none tabular-nums">
+                  {stat.value}
+                </dt>
+                {/* Not dimmed. The grounds run from a dark purple to a mid
+                    grey, and a label at 70% white that reads on the purple is
+                    close to unreadable on the grey. */}
+                <dd className="mt-1 text-[11px] leading-4">{stat.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ) : null}
+
       <section className="px-3 sm:px-5 lg:px-6">
         <QuickActions role={role} />
       </section>
@@ -436,6 +465,20 @@ export default async function HomePage() {
         )}
       </section>
 
+      {/* The core team, under the day's own timetable. It carries the date,
+          the hours and the venue in the artwork itself, so it doubles as the
+          at-a-glance card for anyone who scrolled past the masthead. */}
+      <section className="px-3 sm:px-5 lg:px-6">
+        <Image
+          src="/hero/team-sangam-2026.webp"
+          alt="Meet the core team of IITMAA Sangam 2026 — 26 September 2026, 8am to 9pm, Taj MG Road, Bengaluru"
+          width={1200}
+          height={521}
+          sizes="(max-width: 1024px) 100vw, 960px"
+          className="block h-auto w-full rounded-lg bg-paper-deep"
+        />
+      </section>
+
       {/* About */}
       <section className="px-3 sm:px-5 lg:px-6">
         <SectionHead title="About Sangam" />
@@ -523,6 +566,23 @@ export default async function HomePage() {
         <section className="px-3 sm:px-5 lg:px-6">
           <SponsorsBoard tiers={sponsorTiers} />
         </section>
+      ) : EVENT_SPONSORS_IMAGE ? (
+        /* No logos in storage yet, so the event site's own sponsor board is
+           shown whole — the tier bands are drawn into the artwork. Upload
+           logos to the LOGOS bucket and the live board above takes over. */
+        <section className="px-3 sm:px-5 lg:px-6">
+          <SectionHead title="Our sponsors" />
+          <div className="mt-4 rounded-lg bg-white p-4 sm:p-5">
+            <Image
+              src={EVENT_SPONSORS_IMAGE}
+              alt="Sponsors and partners of IITMAA Sangam 2026"
+              width={1521}
+              height={1668}
+              sizes="(max-width: 1024px) 100vw, 900px"
+              className="block h-auto w-full"
+            />
+          </div>
+        </section>
       ) : null}
 
       {/* Connect */}
@@ -546,6 +606,22 @@ export default async function HomePage() {
         </div>
       </section>
       ) : null}
+
+      {/* The campus, closing the page. Full bleed and hard to the bottom: no
+          page gutter, no radius, nothing under it. The sky is cropped out of
+          the source and the top edge fades to transparent, so the buildings
+          rise out of the page instead of ending on a band of pale grey that
+          does not match the ground behind it. */}
+      <Image
+        src="/ui/campus-footer.webp"
+        alt=""
+        width={1240}
+        height={703}
+        sizes="100vw"
+        // -mb-6 cancels the page wrapper's pb-6 so nothing sits under it.
+        className="-mb-6 block h-auto w-full select-none"
+        aria-hidden
+      />
     </div>
   );
 }

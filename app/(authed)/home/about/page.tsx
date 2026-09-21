@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { TileGrid } from "@/components/features/tile-grid";
 import { MediaCarousel } from "@/components/features/media-carousel";
 import {
   EVENT_CITY,
@@ -15,6 +14,7 @@ import {
   EVENT_TAGLINE,
   EVENT_VIDEO_EMBED,
   EVENT_VISION,
+  EVENT_VENUE,
 } from "@/lib/event-config";
 
 export const dynamic = "force-dynamic";
@@ -36,29 +36,6 @@ function Head({ title, meta }: { title: string; meta?: string }) {
 export default function AboutSummitPage() {
   return (
     <div className="mx-auto w-full max-w-2xl space-y-14 pb-12 pt-4">
-      {/* No heading above this on purpose — it opens the page, and the line
-          under it already says what it is. */}
-      {EVENT_VIDEO_EMBED ? (
-        <section>
-          <div className="overflow-hidden rounded-lg bg-black">
-            <div className="relative aspect-video w-full">
-              <iframe
-                src={`https://www.youtube.com/embed/${EVENT_VIDEO_EMBED.id}?playsinline=1&rel=0`}
-                title={EVENT_VIDEO_EMBED.caption}
-                frameBorder="0"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="absolute left-0 top-0 h-full w-full"
-              />
-            </div>
-          </div>
-          <p className="mt-3 font-display text-[15px] font-semibold leading-snug text-brand-950">
-            {EVENT_VIDEO_EMBED.caption}
-          </p>
-        </section>
-      ) : null}
-
       <section>
         <h1 className="font-display text-[26px] font-semibold leading-tight text-brand-950">
           {EVENT_TAGLINE}
@@ -67,23 +44,58 @@ export default function AboutSummitPage() {
         <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.75] text-brand-900/85">
           {EVENT_NAME} brings the IIT Madras alumni community together for a
           single day of focused work. Alumni, founders, investors and policy
-          makers converge on {EVENT_DATE_TEXT} in {EVENT_CITY}.
+          makers converge on {EVENT_DATE_TEXT} at {EVENT_VENUE}.
         </p>
 
-        {/* Sits between the paragraph and the link rather than under the
-            video, so it breaks the run of text instead of stacking a second
-            image straight after the first. Centred and capped in width — full
-            bleed would make it a banner competing with the video above. */}
-        {EVENT_MEDIA.length > 0 ? (
-          <div className="mt-7">
-            <Head title="Glimpses from last year" />
+        {/* The core team banner. It carries the date, the hours and the venue
+            in the artwork, so it says the practical things the paragraph
+            above deliberately does not repeat. */}
+        <Image
+          src="/hero/team-sangam-2026.webp"
+          alt={`Meet the core team of ${EVENT_NAME}`}
+          width={1200}
+          height={521}
+          sizes="(max-width: 768px) 100vw, 672px"
+          className="mt-6 block h-auto w-full rounded-lg bg-paper-deep"
+        />
+
+      </section>
+
+      {/* Last year, after this year and clearly marked as such. It used to
+          open the page — a 2025 film above a 2026 headline, which read as
+          though the film were this year's. */}
+      {EVENT_MEDIA.length > 0 || EVENT_VIDEO_EMBED ? (
+        <section>
+          <Head title="Glimpses from last year" />
+
+          {EVENT_MEDIA.length > 0 ? (
             <div className="mt-4">
               <MediaCarousel items={EVENT_MEDIA} />
             </div>
-          </div>
-        ) : null}
+          ) : null}
 
-      </section>
+          {EVENT_VIDEO_EMBED ? (
+            <div className="mt-6">
+              <div className="overflow-hidden rounded-lg bg-black">
+                <div className="relative aspect-video w-full">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${EVENT_VIDEO_EMBED.id}?playsinline=1&rel=0`}
+                    title={EVENT_VIDEO_EMBED.caption}
+                    frameBorder="0"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className="absolute left-0 top-0 h-full w-full"
+                  />
+                </div>
+              </div>
+              <p className="mt-3 text-[13px] leading-snug text-brand-900/70">
+                {EVENT_VIDEO_EMBED.caption}
+              </p>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       {/* Event in numbers — set large in the display face, on rules rather
           than in four boxes, so the figures carry the section themselves. */}
@@ -169,13 +181,15 @@ export default function AboutSummitPage() {
           <ul className="list-ruled mt-1">
             {EVENT_AUDIENCE.map((a) => (
               <li key={a.name} className="flex items-start gap-3.5 py-3.5">
-                <Image
-                  src={a.icon}
-                  alt=""
-                  width={34}
-                  height={34}
-                  className="mt-0.5 size-[34px] shrink-0 object-contain"
-                />
+                {a.icon ? (
+                  <Image
+                    src={a.icon}
+                    alt=""
+                    width={34}
+                    height={34}
+                    className="mt-0.5 size-[34px] shrink-0 object-contain"
+                  />
+                ) : null}
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-[15px] font-semibold text-brand-950">
                     {a.name}
@@ -241,14 +255,23 @@ export default function AboutSummitPage() {
       {EVENT_HIGHLIGHTS.length > 0 ? (
         <section>
           <Head title="On the day" />
-          <div className="mt-4">
-            <TileGrid
-                duotone={false}
-                labelOutside
-                fit="contain"
-                items={EVENT_HIGHLIGHTS}
-              />
-          </div>
+          {/* A list, not the tile grid. These carry a sentence each and no
+              artwork, and a grid of pictures with no pictures in it is a
+              grid of empty boxes. */}
+          <ul className="list-ruled mt-1">
+            {EVENT_HIGHLIGHTS.map((h) => (
+              <li key={h.slug} className="py-3.5">
+                <p className="font-display text-[15px] font-semibold text-brand-950">
+                  {h.label}
+                </p>
+                {h.body ? (
+                  <p className="mt-0.5 text-[13px] leading-6 text-brand-900/65">
+                    {h.body}
+                  </p>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         </section>
       ) : null}
     </div>

@@ -15,6 +15,7 @@ import { TRACK_LABELS, TRACK_TO_INTERESTS } from "@/lib/constants";
 import { rangeIST } from "@/lib/date";
 import { initials } from "@/lib/utils";
 import { trackColor } from "@/components/features/session-card";
+import Image from "next/image";
 
 type VenueShape = { name: string | null; floor: string | number | null };
 interface SessionRow {
@@ -27,6 +28,7 @@ interface SessionRow {
   is_featured: boolean | null;
   capacity: number | null;
   current_checkins: number | null;
+  image_url: string | null;
   venues: VenueShape | VenueShape[] | null;
   interests: string[] | null;
 }
@@ -100,7 +102,7 @@ export default async function SessionDetailPage({
     const withInterests = await supabase
       .from("sessions")
       .select(
-        "id, title, description, track, start_at, end_at, is_featured, capacity, current_checkins, venues(name, floor), interests"
+        "id, title, description, track, start_at, end_at, is_featured, capacity, current_checkins, image_url, venues(name, floor), interests"
       )
       .eq("id", id)
       .eq("event_id", EVENT_ID)
@@ -110,7 +112,7 @@ export default async function SessionDetailPage({
       const fallback = await supabase
         .from("sessions")
         .select(
-          "id, title, description, track, start_at, end_at, is_featured, capacity, current_checkins, venues(name, floor)"
+          "id, title, description, track, start_at, end_at, is_featured, capacity, current_checkins, image_url, venues(name, floor)"
         )
         .eq("id", id)
         .eq("event_id", EVENT_ID)
@@ -243,6 +245,20 @@ export default async function SessionDetailPage({
           <h1 className="font-display text-[22px] font-bold leading-tight text-brand-950">
             {session.title}
           </h1>
+
+          {/* The session's own artwork, if it has any. Inset with the rest of
+              the card's contents rather than bled to its edges, and sized
+              from the picture so the 2.11:1 banners are not trimmed. */}
+          {session.image_url ? (
+            <Image
+              src={session.image_url}
+              alt=""
+              width={1200}
+              height={568}
+              sizes="(max-width: 1024px) 100vw, 900px"
+              className="block h-auto w-full rounded-md bg-paper-deep"
+            />
+          ) : null}
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-brand-900/85">
             <span className="inline-flex items-center gap-1.5">

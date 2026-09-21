@@ -43,10 +43,12 @@ export const EVENT_MAPS_URL =
   "https://www.google.com/maps/dir/?api=1&destination=Taj+MG+Road+Bengaluru";
 
 /** Headline delegate count. */
-export const EVENT_ATTENDEE_COUNT = "TBD";
+/** "an audience of over 1000 delegates" — 2026 sponsors deck, p3. */
+export const EVENT_ATTENDEE_COUNT = "1000+";
 
 /** Footfall across the day, which is not the delegate count. */
-export const EVENT_VISITOR_COUNT = "TBD";
+/** "Engage with 5000+ alumni, decision-makers and industry pioneers" — p15. */
+export const EVENT_VISITOR_COUNT = "5000+";
 
 export const EVENT_FOCUS_AREAS =
   "deep technology, manufacturing, research, entrepreneurship, sustainability, " +
@@ -90,6 +92,10 @@ export const EVENT_HERO_SLIDES: {
     alt: "SANGAM 2026: India Unbound: The Decade of Atmanirbhartha",
   },
   {
+    src: "/hero/team-sangam-2026.webp",
+    alt: "Meet the core team of IITMAA Sangam 2026 — 26 September 2026, 8am to 9pm, Taj MG Road, Bengaluru",
+  },
+  {
     src: "/panels/distinguished-speakers.webp",
     alt: "Distinguished Voices at Sangam 2026",
   },
@@ -115,14 +121,32 @@ export interface EventSector {
 export const EVENT_SECTORS: EventSector[] = [];
 
 /** "Event in numbers". Shown on the About screen. */
-export const EVENT_NUMBERS: { value: string; label: string }[] = [];
+export const EVENT_NUMBERS: { value: string; label: string }[] = [
+  { value: "60,000+", label: "Global alumni network" },
+  { value: "50", label: "Global active chapters" },
+  { value: "170+", label: "Events annually" },
+  { value: "7th", label: "Edition of the conclave" },
+];
 
 /** Who the event is for. */
 export const EVENT_AUDIENCE: {
   name: string;
   body: string;
-  icon: string;
-}[] = [];
+  /** Optional: the list lays out without one. */
+  icon?: string;
+}[] = [
+  { name: "Angel investors", body: "Backing the earliest rounds." },
+  { name: "VC partners", body: "100+ investors expected across the day." },
+  { name: "Policy makers", body: "Government, regulators and public institutions." },
+  {
+    name: "Industry & corporate leaders",
+    body: "Operators from Indian and global enterprises.",
+  },
+  {
+    name: "Alumni founders",
+    body: "50+ deep-tech startups from the IIT Madras ecosystem and beyond.",
+  },
+];
 
 /** Event vision. Used on the About screen. */
 export const EVENT_VISION: string[] = [];
@@ -154,9 +178,61 @@ export const EVENT_WHATSAPP_URL = "";
 export const EVENT_HIGHLIGHTS: {
   slug: string;
   label: string;
-  image: string;
-}[] = [];
+  /** Optional: the tile grid falls back to type when there is no artwork. */
+  image?: string;
+  body?: string;
+}[] = [
+  {
+    slug: "keynotes-panels",
+    label: "Keynotes & Panels",
+    body: "High-level discourse featuring policy makers, industry titans and celebrated alumni founders shaping the global economy.",
+  },
+  {
+    slug: "master-classes",
+    label: "Master Classes",
+    body: "Expert-led accelerators on entrepreneurship, generative AI, data security and smart manufacturing.",
+  },
+  {
+    slug: "networking",
+    label: "Networking",
+    body: "Relationship-building throughout, culminating in a curtain-raiser gala dinner.",
+  },
+];
 
+
+/**
+ * Reach, as the event site counts it.
+ *
+ * Their four counters, in their order. Every one is labelled "Impressions" on
+ * the site with no platform against it, so they are reproduced that way
+ * rather than guessed at.
+ */
+export const EVENT_DIGITAL_FOOTPRINT: {
+  value: string;
+  label: string;
+  /** Tile colour, from the event site's own stylesheet. */
+  colour: string;
+}[] = [
+  // Four grounds the site already uses, deliberately none of them the brand
+  // navy: the tiles sit above a row of navy action tiles, and two blocks of
+  // the same blue stacked read as one panel that has been split by accident.
+  // The website prints all four as a bare "Impressions"; the sponsors deck
+  // (p18) says which platform each one is, so the labels come from there.
+  { value: "100K+", label: "LinkedIn", colour: "#663366" },
+  { value: "25K+", label: "X", colour: "#E06A3C" },
+  { value: "20K+", label: "Instagram", colour: "#26909A" },
+  { value: "15K+", label: "YouTube", colour: "#808080" },
+];
+
+/**
+ * Sponsors, as one piece of artwork.
+ *
+ * The site lays its sponsors out as a single composed image with the tier
+ * bands drawn into it — the individual logo files it also references
+ * (sponsor-1.png and friends) all 404. Re-hosted here rather than hotlinked,
+ * and shown whole so the tiers stay as the organisers arranged them.
+ */
+export const EVENT_SPONSORS_IMAGE = "/sponsors/our-sponsors.webp";
 
 export interface EventPanel {
   slug: string;
@@ -201,7 +277,7 @@ export const EVENT_PANELS: EventPanel[] = [
   {
     slug: "infrastructure",
     title: "Build world-class for भारत",
-    story: "The creation of world-leading infra such as highways, rail, port, airport and metro as well as living/working spaces is game-changing for the average citizen. Not only is the emerging indian aesthetic eg in the new airports a matter of civic pride, but the fact that india can build the world's highest rail bridge,electrify 99.9% of its railways, dramatically increase its renewable energy output, build a graceful new state capital city (Amaravati): all this means that efficiency with beauty is the new mantra.",
+    story: "The creation of world-leading infra such as highways, rail, port, airport and metro as well as living/working spaces is game-changing for the average citizen. Not only is the emerging indian aesthetic eg in the new airports a matter of civic pride, but the fact that india can build the world's highest rail bridge,electrify 99.9% of its railways, dramatically increase its renewable energy output, build a graceful new state capital city: all this means that efficiency with beauty is the new mantra.",
     image: "/panels/infra.webp",
   },
   {
