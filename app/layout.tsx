@@ -58,10 +58,12 @@ export const metadata: Metadata = {
   // copy in a browser tab with the address bar showing.
   other: { "mobile-web-app-capable": "yes" },
   // No `icons` block on purpose: an explicit one overrides Next's file
-  // convention, and these previously pointed at the PWA tile. app/icon.png and
-  // app/apple-icon.png (the event mark) are picked up automatically and are
-  // what the browser tab should show. The summit hexagon stays the installed
-  // app icon via manifest.json.
+  // convention. app/icon.png and app/apple-icon.png are picked up
+  // automatically and are what the browser tab and the iOS home screen show;
+  // manifest.json carries the installed app icon separately. All three are
+  // the association's flame on white, at different fractions of their frame —
+  // a favicon is read at 16-20px, so the padding that gives a home-screen
+  // tile air only makes a tab icon smaller.
 };
 
 export const viewport: Viewport = {
