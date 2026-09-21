@@ -1,0 +1,235 @@
+"use client";
+
+import { EmptyArt } from "@/components/features/empty-art";
+import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, UserRound } from "@/components/icons";
+import { initials } from "@/lib/utils";
+
+interface Person {
+  id: string;
+  full_name: string;
+  designation: string | null;
+  company: string | null;
+  photo_url: string | null;
+}
+
+const ROTATE_MS = 4200; // total time per card (slide-in + hold + slide-out)
+
+export function KeyParticipantsStrip({ people }: { people: Person[] }) {
+  const list = useMemo(() => people, [people]);
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (list.length <= 1 || paused) return;
+    const id = window.setInterval(() => {
+      setIdx((c) => (c + 1) % list.length);
+    }, ROTATE_MS);
+    return () => window.clearInterval(id);
+  }, [list.length, paused]);
+
+  function next() {
+    setIdx((c) => (c + 1) % Math.max(list.length, 1));
+  }
+  function prev() {
+    setIdx((c) => (c - 1 + Math.max(list.length, 1)) % Math.max(list.length, 1));
+  }
+
+  if (list.length === 0) {
+    return (
+      <div className="mx-4 flex flex-col items-center rounded-lg bg-white p-5 text-center text-sm text-brand-950 ring-1 ring-rule sm:mx-6 lg:mx-8">
+        <EmptyArt name="empty-team" className="mb-3" />
+        Featured participants will appear here closer to the event.
+      </div>
+    );
+  }
+
+  const cur = list[idx];
+
+  return (
+    // `overflow-x-clip`, because the card animates in from translateX(110%)
+    // and out to -110% (see `participant-bounce` in globals.css). Nothing was
+    // clipping that, so for most of every cycle the card stuck out past the
+    // viewport and the whole page scrolled sideways on a phone. It only shows
+    // when there are participants to render, which is why it survived this
+    // long. `clip` rather than `hidden` so this never becomes a scroll
+    // container and steals the sticky positioning from anything inside.
+    <div
+      className="relative overflow-x-clip"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={(e) => {
+        touchStartX.current = e.touches[0]?.clientX ?? null;
+        setPaused(true);
+      }}
+      onTouchEnd={(e) => {
+        const start = touchStartX.current;
+        const end = e.changedTouches[0]?.clientX ?? null;
+        touchStartX.current = null;
+        setPaused(false);
+        if (start !== null && end !== null) {
+          const d = end - start;
+          if (d > 40) prev();
+          else if (d < -40) next();
+        }
+      }}
+    >
+      <div className="flex items-center justify-center px-3 sm:px-5 lg:px-6">
+        <button
+          type="button"
+          onClick={prev}
+          aria-label="Previous participant"
+          className="mr-2 hidden size-9 shrink-0 place-items-center rounded-full border border-rule bg-white text-brand-800 transition-colors hover:bg-paper-deep md:inline-grid"
+        >
+          <ChevronLeft className="size-4" strokeWidth={1.8} />
+        </button>
+        <div className="relative w-full max-w-[280px]">
+          <ParticipantCard
+            key={`${cur.id}-${idx}`}
+            person={cur}
+            animate={list.length > 1}
+            paused={paused}
+          />
+          <PhotoPreloader list={list} idx={idx} />
+        </div>
+        <button
+          type="button"
+          onClick={next}
+          aria-label="Next participant"
+          className="ml-2 hidden size-9 shrink-0 place-items-center rounded-full border border-rule bg-white text-brand-800 transition-colors hover:bg-paper-deep md:inline-grid"
+        >
+          <ChevronRight className="size-4" strokeWidth={1.8} />
+        </button>
+      </div>
+
+      {/* Dots */}
+      <div className="mt-3 flex items-center justify-center gap-1.5">
+        {list.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Show participant ${i + 1}`}
+            onClick={() => setIdx(i)}
+            className={`h-1.5 rounded-full transition-all ${
+              i === idx ? "w-5 bg-brand-800" : "w-1.5 bg-brand-200"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Warms the browser cache for the cards coming next.
+ *
+ * The visible card remounts on every rotation — its key changes so the slide
+ * animation restarts — which tears down the <Image> with it. Without this,
+ * each photo is fetched the first time it rotates in and the card flashes
+ * white while it loads.
+ *
+ * It has to be laid out at the real card width rather than hidden at 1px:
+ * next/image picks a srcset entry from the element's layout width, so a
+ * collapsed preloader would fetch a small variant and warm the wrong URL.
+ * Hence opacity-0 behind the card rather than display:none, which would also
+ * stop the fetch entirely.
+ */
+function PhotoPreloader({ list, idx }: { list: Person[]; idx: number }) {
+  if (list.length < 2) return null;
+  const upcoming = [1, 2]
+    .map((offset) => list[(idx + offset) % list.length])
+    .filter((p): p is Person => !!p?.photo_url);
+
+  return (
+    <div className="pointer-events-none absolute inset-0 -z-10 opacity-0" aria-hidden>
+      {upcoming.map((p) => (
+        <div key={p.id} className="absolute inset-0">
+          <Image
+            src={p.photo_url as string}
+            alt=""
+            fill
+            className="object-cover object-top"
+            sizes="(min-width: 768px) 280px, 70vw"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ParticipantCard({
+  person,
+  animate,
+  paused,
+}: {
+  person: Person;
+  /** The slide keyframes end at opacity 0 with fill-mode forwards, so
+   *  they must only run when another card is coming to replace this one.
+   *  With a single participant the interval never fires and the card would
+   *  animate itself off screen and stay gone. */
+  animate: boolean;
+  paused: boolean;
+}) {
+  return (
+    <article
+      className="relative isolate aspect-[3/4] w-full overflow-hidden rounded-lg bg-white ring-1 ring-rule will-change-transform"
+      style={
+        animate
+          ? {
+              animation: `participant-bounce ${ROTATE_MS}ms cubic-bezier(0.45, 0.05, 0.2, 1.05) forwards`,
+              // Hover/touch pauses rotation; without this the animation keeps
+              // running and dumps the card at opacity 0 mid-hover.
+              animationPlayState: paused ? "paused" : "running",
+            }
+          : undefined
+      }
+    >
+      {/* The photo runs on behind the arc rather than stopping at its apex.
+          The arc is an ellipse: its top is at 75% in the centre but dips to
+          about 79% at the card edges, so cutting the photo at 75% left white
+          wedges either side of it. 82% covers those and tucks the surplus
+          behind the arc. At 82% of a 3/4 card the photo box is ~0.94:1, so a
+          square source loses only a few percent off the sides — nothing like
+          the third it was being scaled up by when it filled the whole card. */}
+      <div className="absolute inset-x-0 top-0 h-[82%] w-full overflow-hidden bg-paper-deep/40">
+        {person.photo_url ? (
+          <Image
+            src={person.photo_url}
+            alt={person.full_name}
+            fill
+            className="object-cover object-top"
+            sizes="(min-width: 768px) 280px, 70vw"
+          />
+        ) : (
+          <div className="grid h-full place-items-center text-4xl font-semibold text-brand-800">
+            {initials(person.full_name)}
+          </div>
+        )}
+      </div>
+
+      {/* The blue arc, unchanged apart from dropping -z-10 so it now sits over
+          the photo instead of behind the old white card face. */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-[75%] h-[60%] w-[200%] -translate-x-1/2 rounded-[50%] bg-brand-800"
+        aria-hidden
+      />
+
+      <div className="absolute inset-x-0 bottom-0 px-4 pb-5 text-center">
+        <p className="text-[15px] font-semibold leading-tight text-white drop-shadow-sm">
+          {person.full_name}
+        </p>
+        {person.designation || person.company ? (
+          <p className="mt-1 line-clamp-2 text-[12px] font-medium leading-snug text-white/85">
+            {[person.designation, person.company].filter(Boolean).join(" | ")}
+          </p>
+        ) : (
+          <span className="inline-flex items-center justify-center gap-1 text-[11px] text-white/70">
+            <UserRound className="size-3" strokeWidth={1.7} /> Participant
+          </span>
+        )}
+      </div>
+    </article>
+  );
+}

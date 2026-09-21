@@ -1,0 +1,257 @@
+import Image from "next/image";
+import Link from "next/link";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { createClient } from "@/lib/supabase/server";
+import { rethrowIfRedirect } from "@/lib/redirect";
+import { initials } from "@/lib/utils";
+import {
+  EVENT_SOCIALS,
+  EVENT_WHATSAPP_URL,
+  type EventSocial,
+} from "@/lib/event-config";
+import { NotificationsBell } from "./notifications-bell";
+import { ChatButton } from "./chat/chat-button";
+import { DesktopNavTabs } from "./desktop-nav-tabs";
+
+// Monochrome marks for the desktop bar. Which accounts, and their URLs, come
+// from EVENT_SOCIALS — this row and the home screen used to keep separate
+// lists that disagreed on every shared platform.
+const SOCIAL_MARKS: Partial<
+  Record<EventSocial["key"], (p: { className?: string }) => React.ReactElement>
+> = {
+  x: XMark,
+  instagram: InstagramMark,
+  linkedin: LinkedInMark,
+};
+
+const BAR_SOCIALS = EVENT_SOCIALS.filter((s) => s.key in SOCIAL_MARKS);
+
+function firstName(full: string | null | undefined): string {
+  if (!full) return "there";
+  return full.trim().split(/\s+/)[0];
+}
+
+export async function TopBar() {
+  let name: string | null = null;
+  let photoUrl: string | null = null;
+  let signedIn = false;
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      signedIn = true;
+      const { data } = await supabase
+        .from("profiles")
+        .select("full_name, photo_url")
+        .eq("id", user.id)
+        .maybeSingle();
+      name = (data?.full_name as string | null) ?? null;
+      photoUrl = (data?.photo_url as string | null) ?? null;
+    }
+  } catch (err) {
+    rethrowIfRedirect(err);
+  }
+
+  return (
+    <TooltipProvider delayDuration={300}>
+      {/* Not a bar any more: no sticky strip, no white ground, no rule under
+          it. The greeting, WhatsApp and the bell sit on the page and scroll
+          away with it, which on a phone gives the content back the 56px that
+          a permanent header was holding. */}
+      <header className="safe-top">
+        <div>
+          <div className="mx-auto flex h-14 w-full max-w-screen-2xl items-center gap-3 px-3 sm:px-5 lg:h-[68px] lg:px-8">
+            {/* Desktop: PAN IIT lockup as the brand mark */}
+            <Link
+              href="/home"
+              aria-label="PAN IIT 2026 home"
+              className="hidden shrink-0 items-center lg:flex"
+            >
+              <Image
+                src="/logo/paniit.png"
+                alt="PAN IIT Alumni India"
+                width={512}
+                height={220}
+                priority
+                className="h-10 w-auto"
+              />
+            </Link>
+
+            {/* Mobile: avatar greeting on the left */}
+            <Link
+              href="/me"
+              className="group flex min-w-0 items-center gap-2.5 rounded-full pr-2 transition-colors hover:bg-paper-deep/60 lg:hidden"
+            >
+              {/* Signed out there is nobody to show: a ringed disc with "--"
+                  in it looks like a profile that failed to load. A plain
+                  person mark, no frame, reads as "not signed in". */}
+              {signedIn ? (
+                <Avatar className="size-9 shrink-0 ring-1 ring-rule">
+                  {photoUrl ? (
+                    <AvatarImage src={photoUrl} alt={name ?? "Profile"} />
+                  ) : null}
+                  <AvatarFallback className="bg-paper-deep text-[12px] font-semibold text-brand-800">
+                    {initials(name)}
+                  </AvatarFallback>
+                </Avatar>
+              ) : (
+                <PersonMark className="size-8 shrink-0 text-brand-950" />
+              )}
+              <p className="min-w-0 truncate text-[17px] font-semibold text-brand-900">
+                Hello, {firstName(name)}{" "}
+                <span className="inline-block align-[-1px]" aria-hidden>
+                  👋
+                </span>
+              </p>
+            </Link>
+
+            <div className="flex-1" aria-hidden />
+
+            {/* Social icons — desktop only, mirroring paniit.org */}
+            <div className="hidden items-center gap-0.5 pr-1 lg:flex">
+              {BAR_SOCIALS.map(({ key, href, label }) => {
+                const Icon = SOCIAL_MARKS[key]!;
+                return (
+                <a
+                  key={key}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="inline-grid size-9 place-items-center rounded-full text-brand-800/70 transition-colors hover:bg-paper-deep hover:text-brand-900"
+                >
+                  <Icon className="size-[18px]" />
+                </a>
+                );
+              })}
+              <span className="mx-2 h-5 w-px bg-rule" aria-hidden />
+            </div>
+
+            <div className="flex shrink-0 items-center gap-1 lg:gap-2">
+              {/* WhatsApp is out of the header for now — the mark is kept in
+                  this file, and EVENT_WHATSAPP_URL still feeds the help
+                  links elsewhere, so putting it back is one element. */}
+              <ChatButton />
+              <NotificationsBell />
+              <Link
+                href="/me"
+                aria-label="Profile"
+                className="hidden shrink-0 lg:inline-flex"
+              >
+                {signedIn ? (
+                  <Avatar className="size-9 ring-1 ring-rule transition-shadow hover:ring-2 hover:ring-rule-strong">
+                    {photoUrl ? (
+                      <AvatarImage src={photoUrl} alt={name ?? "Profile"} />
+                    ) : null}
+                    <AvatarFallback className="bg-paper-deep text-[12px] font-semibold text-brand-800">
+                      {initials(name)}
+                    </AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <PersonMark className="size-8 text-brand-950" />
+                )}
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop keeps its tab strip: the bottom bar that carries
+            navigation on a phone is lg:hidden, so without this there is no
+            way to move between screens on a laptop. It scrolls away with the
+            rest now rather than staying pinned. */}
+        <div className="hidden rounded-lg bg-brand-900 lg:block">
+          <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-center px-8">
+            <DesktopNavTabs />
+          </div>
+        </div>
+      </header>
+    </TooltipProvider>
+  );
+}
+
+/**
+ * Head and shoulders, solid — no disc and no ring behind it, and filled
+ * rather than stroked: at 32px an outline of this shape reads as a ring with
+ * something inside it, which is the thing it replaced.
+ */
+function PersonMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className={className}
+      fill="currentColor"
+    >
+      <circle cx="12" cy="7.9" r="4.3" />
+      <path d="M12 13.4c-4.3 0-7.7 2.3-7.7 6.2v.6c0 .9.7 1.6 1.6 1.6h12.2c.9 0 1.6-.7 1.6-1.6v-.6c0-3.9-3.4-6.2-7.7-6.2z" />
+    </svg>
+  );
+}
+
+function XMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M18.244 2H21l-6.49 7.41L22 22h-6.43l-4.78-6.26L4.94 22H2.18l6.94-7.93L2 2h6.59l4.33 5.72L18.244 2zm-1.13 18.4h1.55L7.01 3.52H5.34L17.114 20.4z" />
+    </svg>
+  );
+}
+
+function InstagramMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.4" cy="6.6" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function LinkedInMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z" />
+    </svg>
+  );
+}
+
+function WhatsAppMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className={className}
+    >
+      <path
+        fill="#25D366"
+        d="M16.05 4C9.42 4 4.04 9.38 4.04 16.01a11.94 11.94 0 001.72 6.16L4 28l5.99-1.72A12 12 0 0028.06 16C28.06 9.38 22.68 4 16.05 4zm0 21.94c-1.94 0-3.83-.52-5.5-1.5l-.39-.23-3.55 1.02 1.04-3.46-.25-.4a9.94 9.94 0 1118.6-5.36 9.94 9.94 0 01-9.95 9.93zm5.7-7.45c-.31-.16-1.85-.91-2.14-1.01-.29-.11-.5-.16-.71.16-.21.31-.81 1.01-.99 1.22-.18.21-.36.23-.67.08-.31-.16-1.32-.49-2.51-1.55-.93-.83-1.55-1.85-1.73-2.16-.18-.31-.02-.48.13-.63.13-.13.31-.36.47-.54.16-.18.21-.31.32-.51.11-.21.05-.39-.03-.55-.08-.16-.71-1.71-.97-2.34-.25-.61-.51-.53-.71-.54-.18-.01-.39-.01-.6-.01-.21 0-.55.08-.83.39-.29.31-1.09 1.06-1.09 2.59 0 1.53 1.11 3.01 1.27 3.22.16.21 2.19 3.34 5.31 4.69.74.32 1.32.51 1.78.65.74.24 1.42.21 1.96.13.6-.09 1.85-.75 2.11-1.47.26-.72.26-1.34.18-1.47-.08-.13-.29-.21-.6-.36z"
+      />
+    </svg>
+  );
+}

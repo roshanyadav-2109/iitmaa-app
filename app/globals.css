@@ -1,0 +1,307 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* White with the faintest cool cast. See tailwind.config.ts `paper`,
+       which is what the signed-in shell actually paints with; this is the
+       same value for the pages outside it. */
+    --background: 218 52% 96%;
+    --foreground: 246 53% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 246 53% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 246 53% 16%;
+
+    --primary: 247 65% 23%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 246 53% 16%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 246 15% 40%;
+
+    --accent: 348 100% 43%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 348 100% 43%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 247 65% 23%;
+
+    /* 8px reads app-template; 6px reads printed programme. Cascades to
+       every rounded-lg/md/sm in the app. */
+    --radius: 0.375rem;
+
+    /* Sidebar palette — brand navy + slate, tuned to match the app shell. */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 246 25% 30%;
+    --sidebar-primary: 247 65% 23%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 247 65% 23%;
+    --sidebar-border: 240 6% 90%;
+    --sidebar-ring: 247 65% 23%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html,
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * The things that give a web page away as a web page.
+   *
+   * A tap that flashes a grey box, a drag that peels the whole view down to
+   * reload it, a long press that offers to copy a button's label, a
+   * horizontal swipe that bounces the page sideways — none of these happen
+   * in an app, and all of them happen in a browser by default.
+   */
+  html {
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
+  }
+  /* Chrome, not content: the programme, a message and a bio all stay
+     selectable, because copying them is a thing people do. */
+  button,
+  a,
+  [role="button"],
+  nav,
+  header,
+  label,
+  summary {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* No 300ms wait for a second tap that is never coming, and no zoom on a
+       double tap — an app's buttons answer the first time. */
+    touch-action: manipulation;
+  }
+
+  /*
+   * Never smaller than 16px on a phone.
+   *
+   * Safari zooms the page in when a field it is focusing is under 16px, and
+   * it does not zoom back out afterwards — tap the message box and the whole
+   * thread is left magnified. Every typed field in the app was 13–14px, so
+   * this is set once here rather than in each of the twelve components that
+   * has one. Desktop keeps the smaller sizes, where no such zoom exists.
+   */
+  @media (max-width: 767px) {
+    input:not([type="checkbox"]):not([type="radio"]),
+    textarea,
+    select {
+      font-size: 16px;
+    }
+  }
+  body {
+    /* Standard ligatures and contextual alternates are all Poppins needs.
+       Numerals stay proportional here — the tabular-nums utility opts in
+       where columns of times and counts need to line up. */
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
+}
+
+@layer base {
+  /*
+   * Display type — the title treatment, applied via `font-display`.
+   *
+   * Deliberately not applied to h1/h2 globally: several `h2`/`h3` in this app
+   * are small field labels, which want the body treatment, not a title one.
+   * Opt in per title.
+   *
+   * Letter-spacing is the part that matters. `tracking-tight` exists to
+   * correct Inter's loose default fit; Poppins needs its own value, and a
+   * heading set at Poppins' natural fit reads noticeably slack.
+   */
+  .font-display {
+    /* Poppins is a geometric sans with generous default sidebearings; at
+       title sizes it needs pulling in slightly or headings read loose. The
+       serif variation axes that used to be set here are gone with the serif. */
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    font-feature-settings: "liga" 1, "calt" 1;
+  }
+
+  /* Titles set in the display face never want the sans's tight tracking. */
+  .font-display.tracking-tight {
+    letter-spacing: -0.005em;
+  }
+}
+
+@layer utilities {
+  /*
+   * Section kicker.
+   *
+   * Replaces `text-[10px] font-semibold uppercase tracking-[0.24em]`, which
+   * appeared 19 times and is the most recognisable generated-UI signature
+   * there is. A serif italic at a readable size says the same thing —
+   * "this labels what follows" — without the letterspaced-shout.
+   */
+  .eyebrow {
+    /* Was a serif italic, which distinguished a label from body text by
+       typeface. With one family doing both jobs that distinction has to come
+       from weight, size and colour instead. Not italic: Poppins has no true
+       italic, only a slanted roman, and at 12px it reads as a rendering
+       fault rather than as emphasis. */
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.78125rem;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+
+  /*
+   * Editorial section head: title sits on a hairline that runs the full
+   * width. This is what replaces the white card around content groupings —
+   * the rule does the separating that 42 identical boxes were doing badly.
+   */
+  /* Was a hairline above every section title. The rules are gone — the
+     section gap does the separating on its own now — but the class stays so
+     the heads keep a consistent offset and one place can bring a rule back. */
+  .section-head {
+    padding-top: 0.25rem;
+  }
+
+  /* Rows of an unboxed list. The dividers between them are gone too; the
+     row padding is what keeps them apart. */
+  .list-ruled > * + * {
+    border-top: 0;
+  }
+}
+
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes sponsor-road-rtl {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-33.333%, 0, 0); }
+}
+
+@keyframes sponsor-road-lift {
+  0% {
+    transform: translateY(12px);
+    opacity: 0.72;
+  }
+  18% {
+    transform: translateY(-9px);
+    opacity: 1;
+  }
+  43% {
+    transform: translateY(-9px);
+    opacity: 1;
+  }
+  68%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes participant-bounce {
+  0%   { transform: translateX(110%) translateY(0)   scale(0.92); opacity: 0; }
+  18%  { transform: translateX(0%)   translateY(-8px) scale(1.02); opacity: 1; }
+  30%  { transform: translateX(0%)   translateY(0)    scale(1);    opacity: 1; }
+  70%  { transform: translateX(0%)   translateY(0)    scale(1);    opacity: 1; }
+  85%  { transform: translateX(0%)   translateY(6px)  scale(0.98); opacity: 0.85; }
+  100% { transform: translateX(-110%) translateY(0)   scale(0.92); opacity: 0; }
+}
+
+@keyframes login-greeting {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+    filter: blur(4px);
+  }
+  12%,
+  88% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.99);
+    filter: blur(4px);
+  }
+}
+
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+  .animate-marquee-rtl {
+    /* Per-strip speed. The IIT logos keep the original 35s; a row of
+       readable cards needs longer, because the right speed is the one that
+       lets you finish a sentence before it leaves. */
+    animation: marquee-rtl var(--marquee-duration, 35s) linear infinite;
+  }
+  /* Stop under the pointer, and while anything inside has keyboard focus —
+     a link that walks away mid-read is worse than no movement at all. */
+  .marquee-hoverable:hover .animate-marquee-rtl,
+  .marquee-hoverable:focus-within .animate-marquee-rtl {
+    animation-play-state: paused;
+  }
+  /* Continuous drift is exactly what a motion-sensitivity setting is asking
+     about, and nothing here depends on the movement to be readable. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee-rtl,
+    .animate-sponsor-road-rtl,
+    .animate-sponsor-road-lift {
+      animation: none;
+    }
+  }
+  .animate-sponsor-road-rtl {
+    animation: sponsor-road-rtl 42s linear infinite;
+  }
+  .animate-sponsor-road-lift {
+    animation: sponsor-road-lift 4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    animation-delay: var(--sponsor-lift-delay, 0s);
+  }
+  .animate-login-greeting {
+    animation: login-greeting 2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

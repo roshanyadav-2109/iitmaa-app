@@ -1,0 +1,177 @@
+import Link from "next/link";
+import { EmptyArt } from "@/components/features/empty-art";
+import { Shield } from "@/components/icons";
+import { createClient } from "@/lib/supabase/server";
+import { AnnouncementComposer } from "./announcement-composer";
+import { EVENT_ID } from "@/lib/event-config";
+
+interface Stat {
+  label: string;
+  value: string | number;
+}
+
+export const dynamic = "force-dynamic";
+
+export default async function AdminPage() {
+  let allowed = false;
+  let stats: Stat[] = [];
+  let topSessions: { id: string; title: string; current_checkins: number | null }[] = [];
+  let topQuestions: { id: string; session_id: string; question: string; upvotes: number }[] = [];
+
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return (
+        <Forbidden message="You need to sign in as an organizer or admin." />
+      );
+    }
+    const { data: me } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+    allowed = me?.role === "organizer" || me?.role === "admin";
+    if (!allowed) return <Forbidden message="Admins only." />;
+
+    const [{ count: registered }, { count: checkedIn }, { count: meetingsCount }, { count: acceptedCount }, ts, tq] = await Promise.all([
+      // "Registered" counts this summit's participants, not every profile in
+      // the shared project.
+      supabase
+        .from("event_participants")
+        .select("profile_id", { count: "exact", head: true })
+        .eq("event_id", EVENT_ID),
+      supabase
+        .from("session_checkins")
+        .select("user_id", { count: "exact", head: true }),
+      supabase
+        .from("meetings")
+        .select("id", { count: "exact", head: true })
+        .eq("event_id", EVENT_ID),
+      supabase
+        .from("meetings")
+        .select("id", { count: "exact", head: true })
+        .eq("event_id", EVENT_ID)
+        .eq("status", "accepted"),
+      supabase
+        .from("sessions")
+        .select("id, title, current_checkins")
+        .eq("event_id", EVENT_ID)
+        .order("current_checkins", { ascending: false, nullsFirst: false })
+        .limit(5),
+      supabase
+        .from("session_questions")
+        .select("id, session_id, question, upvotes, is_answered")
+        .eq("is_answered", false)
+        .order("upvotes", { ascending: false })
+        .limit(5),
+    ]);
+
+    stats = [
+      { label: "Registered", value: registered ?? 0 },
+      { label: "Checked in", value: checkedIn ?? 0 },
+      { label: "Meetings", value: meetingsCount ?? 0 },
+      { label: "Accepted", value: acceptedCount ?? 0 },
+    ];
+    topSessions = (ts.data as typeof topSessions | null) ?? [];
+    topQuestions = (tq.data as typeof topQuestions | null) ?? [];
+  } catch {
+    return <Forbidden message="Could not load admin data." />;
+  }
+
+  return (
+    <div className="mx-auto w-full max-w-3xl pt-5 pb-10 lg:max-w-4xl lg:pt-8 space-y-6">
+      <header>
+        <h1 className="font-display text-2xl font-semibold text-brand-900">Admin</h1>
+        <p className="mt-1 text-sm leading-6 text-brand-900/70">
+          Live event operations dashboard.
+        </p>
+      </header>
+
+      <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {stats.map((s) => (
+          <div key={s.label} className="rounded-lg border border-rule bg-white p-4">
+            <div className="eyebrow text-brand-900/60">
+              {s.label}
+            </div>
+            <div className="mt-1 text-2xl font-semibold tabular-nums text-brand-900">
+              {typeof s.value === "number" ? s.value.toLocaleString() : s.value}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <AnnouncementComposer />
+
+      <section className="rounded-lg border border-rule bg-white p-4">
+        <h2 className="eyebrow text-brand-900/60">
+          Top sessions by check-ins
+        </h2>
+        <ul className="mt-2 divide-y divide-slate-100">
+          {topSessions.length === 0 ? (
+            <li className="flex flex-col items-center py-4 text-center">
+                <EmptyArt name="empty-checkins" className="mb-2 size-12" />
+                <span className="text-sm text-brand-950">No check-ins yet.</span>
+              </li>
+          ) : (
+            topSessions.map((s) => (
+              <li key={s.id} className="flex items-center justify-between py-2.5">
+                <Link
+                  href={`/agenda/${s.id}`}
+                  className="text-sm text-brand-900 hover:underline"
+                >
+                  {s.title}
+                </Link>
+                <span className="text-xs tabular-nums text-brand-900/60">
+                  {(s.current_checkins ?? 0).toLocaleString()}
+                </span>
+              </li>
+            ))
+          )}
+        </ul>
+      </section>
+
+      <section className="rounded-lg border border-rule bg-white p-4">
+        <h2 className="eyebrow text-brand-900/60">
+          Hot unanswered questions
+        </h2>
+        <ul className="mt-2 divide-y divide-slate-100">
+          {topQuestions.length === 0 ? (
+            <li className="flex flex-col items-center py-4 text-center">
+                <EmptyArt name="empty-questions" className="mb-2 size-12" />
+                <span className="text-sm text-brand-950">
+                  No open questions right now.
+                </span>
+              </li>
+          ) : (
+            topQuestions.map((q) => (
+              <li key={q.id} className="flex items-start justify-between gap-3 py-2.5">
+                <Link
+                  href={`/agenda/${q.session_id}`}
+                  className="line-clamp-2 text-sm text-brand-900 hover:underline"
+                >
+                  {q.question}
+                </Link>
+                <span className="shrink-0 text-xs tabular-nums text-brand-900/60">
+                  ▲ {q.upvotes}
+                </span>
+              </li>
+            ))
+          )}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function Forbidden({ message }: { message: string }) {
+  return (
+    <div className="mx-auto max-w-md px-4 py-16 text-center">
+      <Shield className="mx-auto h-10 w-10 text-rule-strong" strokeWidth={1.5} />
+      <h1 className="mt-4 font-display text-lg font-semibold text-brand-900">Restricted</h1>
+      <p className="mt-1 text-sm text-brand-900/60">{message}</p>
+    </div>
+  );
+}
