@@ -12,10 +12,11 @@ import { EVENT_LEGACY_SPEAKERS } from "@/lib/event-config";
  * A row that never stops moving reads as a back catalogue, which is what it
  * is.
  *
- * Same card as the current speakers — the framed photograph with its mirrored
- * square corner, name and role set below on the page's own ground. The frame
- * is the thing that ties the two rows together; what separates them is the
- * heading and the fact that this one keeps moving.
+ * Same card as /speakers — the site's full treatment, name and role in white
+ * over a coloured block, the mirrored square corner alternating down the row.
+ * The current speakers above run plain, frame on the photograph only, so the
+ * colour here is what tells the two rows apart at a glance: this is the back
+ * catalogue, and it looks like the directory rather than like this year.
  *
  * The row carries the list twice and wraps at half its own width, so at the
  * loop point the second copy sits exactly where the first began and there is
@@ -56,7 +57,7 @@ export function LegacySpeakers() {
               <SpeakerCard
                 person={splitRole(person)}
                 index={i % half}
-                variant="plain"
+                variant="panel"
                 labelled={i < half}
                 sizes="176px"
               />
