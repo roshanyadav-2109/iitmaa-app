@@ -52,6 +52,13 @@ const MAP = {
   ExternalLink: "square-arrow-right-up",
   FileText: "document-text",
   Hand: "user-hand-up",
+  // The five "Who attends" rows on the About screen. Solar rather than a
+  // bitmap so they inherit the accent colour and stay crisp at any size.
+  HandMoney: "hand-money",
+  GraphUp: "graph-up",
+  Buildings3: "buildings-3",
+  CaseMinimalistic: "case-minimalistic",
+  Diploma: "diploma",
   Info: "info-circle",
   Loader2: null,
   LoaderCircle: null,

@@ -68,30 +68,70 @@ const config: Config = {
   			// neutral grey it used to be, which next to a cool ground reads
   			// as dirty.
   			paper: {
-  				DEFAULT: '#EFF3FA',
-  				deep: '#E2E9F4',
+  				DEFAULT: '#F8F5F3',
+  				deep: '#EFE8E4',
   				raised: '#FFFFFF'
   			},
   			// Hairline rules. Replaces `brand-100` (#d4d2ed, a periwinkle) as
   			// the border everywhere — that lilac cast on 150 borders was most
   			// of why the app looked purple-tinted. Neutral, matching `paper`.
   			rule: {
-  				DEFAULT: '#E4E4E7',
-  				strong: '#C4C4C8',
-  				faint: '#EFEFF1'
+  				DEFAULT: '#E7E0DD',
+  				strong: '#CFC4C0',
+  				faint: '#F1ECEA'
   			},
+  			// The primary, taken from the IIT Madras crest. It replaces
+  			// PanIIT's blue-violet navy (#1B1464), which came across with the
+  			// fork and sat on every heading, button and nav item -- the whole
+  			// app read blue. The hue is the crest maroon, sampled off the
+  			// Alumni and Corporate Relations lockup (#5D100A).
+  			//
+  			// Steps are placed by measured L* rather than by eye, so the app
+  			// keeps the weight it had and changes only its colour: 950 lands
+  			// at L*5.3 against the old 4.5, 900 at 14.7 against 9.6. Those
+  			// three steps carry 623 of the 634 uses; the light end is nearly
+  			// unused and exists to keep the ramp coherent.
   			brand: {
-  				'50': '#eeedf7',
-  				'100': '#d4d2ed',
-  				'200': '#a9a5db',
-  				'300': '#7d78c9',
-  				'400': '#524bb7',
-  				'500': '#3b329e',
-  				'600': '#2e2783',
-  				'700': '#241e6b',
-  				'800': '#1B1464',
-  				'900': '#15104e',
-  				'950': '#0d0930'
+  				'50': '#FAF2F2',
+  				'100': '#F2DCDE',
+  				'200': '#E0B2B7',
+  				'300': '#C9858C',
+  				'400': '#A95460',
+  				'500': '#8C3340',
+  				'600': '#7A2430',
+  				'700': '#731D28',
+  				'800': '#6B1721',
+  				'900': '#4A0F17',
+  				'950': '#26070B'
+  			},
+  			// The crest's gold. Decoration, and the one warm light that is not
+  			// the orange accent: 400 is the crest value exactly but manages
+  			// only 2.17:1 on white, so anything carrying text uses 600/700.
+  			// On brand-800 the light steps are legible (300 is 7.25:1), which
+  			// is where they are meant to sit.
+  			gold: {
+  				'50': '#FDF8EC',
+  				'100': '#F7EBCB',
+  				'200': '#EEDBA1',
+  				'300': '#E4C878',
+  				'400': '#D3AB44',
+  				'500': '#B88F2E',
+  				'600': '#9A7420',
+  				'700': '#7A5A16',
+  				'800': '#5A4210',
+  				'900': '#3C2B0A'
+  			},
+  			// Errors and destructive actions. Needed once the accent stopped
+  			// being PanIIT's red: orange does not read as danger, and the new
+  			// brand maroon is itself a dark red, so this sits clear of both --
+  			// 5.94:1 on white, 2.00:1 against brand-800.
+  			danger: {
+  				'50': '#FDF2F1',
+  				'100': '#FBDDDA',
+  				'200': '#F2B5B0',
+  				'500': '#C0261C',
+  				'600': '#A61F16',
+  				'700': '#871912'
   			},
   			// The accent, taken from the IITMAA mark rather than inherited.
   			// The ramp this replaced was PanIIT's red (#DD002B) and came across
@@ -116,16 +156,18 @@ const config: Config = {
   				'800': '#5E290C',
   				'900': '#3F1B08'
   			},
+  			// Track marks stay distinct from one another; the two that were
+  			// the old navy follow the brand to maroon.
   			track: {
   				ai: '#7C3AED',
   				deeptech: '#06B6D4',
   				policy: '#10B981',
-  				investor: '#1B1464',
+  				investor: '#6B1721',
   				workshop: '#EC4899',
   				founders: '#F97316',
   				climate: '#22C55E',
   				fintech: '#3B82F6',
-  				keynote: '#1B1464',
+  				keynote: '#6B1721',
   				general: '#64748B'
   			},
   			sidebar: {

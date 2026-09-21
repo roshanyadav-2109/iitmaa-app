@@ -56,12 +56,12 @@ const TRACK_COLORS: Record<string, string> = {
   ai: "#7C3AED",
   deeptech: "#06B6D4",
   policy: "#10B981",
-  investor: "#1B1464",
+  investor: "#6B1721",
   workshop: "#EC4899",
   founders: "#F97316",
   climate: "#22C55E",
   fintech: "#3B82F6",
-  keynote: "#1B1464",
+  keynote: "#6B1721",
   general: "#64748B",
 };
 

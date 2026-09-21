@@ -1,6 +1,14 @@
 import Image from "next/image";
 import { MediaCarousel } from "@/components/features/media-carousel";
 import {
+  Buildings3,
+  CaseMinimalistic,
+  Diploma,
+  GraphUp,
+  HandMoney,
+} from "@/components/icons";
+import type { AudienceIcon } from "@/lib/event-config";
+import {
   EVENT_CITY,
   EVENT_AUDIENCE,
   EVENT_CONTACTS,
@@ -16,6 +24,15 @@ import {
   EVENT_VISION,
   EVENT_VENUE,
 } from "@/lib/event-config";
+
+/** The glyph each "Who attends" row carries. */
+const AUDIENCE_ICONS: Record<AudienceIcon, typeof HandMoney> = {
+  angel: HandMoney,
+  vc: GraphUp,
+  policy: Buildings3,
+  industry: CaseMinimalistic,
+  founder: Diploma,
+};
 
 export const dynamic = "force-dynamic";
 
@@ -205,13 +222,14 @@ export default function AboutSummitPage() {
             {EVENT_AUDIENCE.map((a) => (
               <li key={a.name} className="flex items-start gap-3.5 py-3.5">
                 {a.icon ? (
-                  <Image
-                    src={a.icon}
-                    alt=""
-                    width={34}
-                    height={34}
-                    className="mt-0.5 size-[34px] shrink-0 object-contain"
-                  />
+                  /* A glyph rather than a picture: it inherits the accent
+                     colour, stays crisp at any size and costs no request. */
+                  <span className="mt-0.5 grid size-[34px] shrink-0 place-items-center rounded-md bg-iit-50 text-iit-600">
+                    {(() => {
+                      const Glyph = AUDIENCE_ICONS[a.icon];
+                      return <Glyph className="size-[19px]" strokeWidth={1.6} />;
+                    })()}
+                  </span>
                 ) : null}
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-[15px] font-semibold text-brand-950">
@@ -318,7 +336,7 @@ function PhoneMark() {
       {/* Solid receiver in the brand navy, with the red signal arcs the
           supplied icon set uses as its accent. */}
       <path
-        fill="#1B1464"
+        fill="#6B1721"
         d="M7.3 3.6a1.7 1.7 0 0 1 2.4.5l1.5 2.4a1.7 1.7 0 0 1-.3 2.2l-1.3 1.1a10.6 10.6 0 0 0 4.6 4.6l1.1-1.3a1.7 1.7 0 0 1 2.2-.3l2.4 1.5a1.7 1.7 0 0 1 .5 2.4l-1 1.5c-.7 1-2 1.4-3.2 1A18.4 18.4 0 0 1 4.8 8c-.4-1.2 0-2.5 1-3.2l1.5-1.2z"
       />
       <path

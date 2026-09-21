@@ -129,22 +129,39 @@ export const EVENT_NUMBERS: { value: string; label: string }[] = [
 ];
 
 /** Who the event is for. */
+export type AudienceIcon =
+  | "angel"
+  | "vc"
+  | "policy"
+  | "industry"
+  | "founder";
+
 export const EVENT_AUDIENCE: {
   name: string;
   body: string;
-  /** Optional: the list lays out without one. */
-  icon?: string;
+  /** Drawn from the app's own icon set, so it takes the accent colour. */
+  icon?: AudienceIcon;
 }[] = [
-  { name: "Angel investors", body: "Backing the earliest rounds." },
-  { name: "VC partners", body: "100+ investors expected across the day." },
-  { name: "Policy makers", body: "Government, regulators and public institutions." },
+  { name: "Angel investors", body: "Backing the earliest rounds.", icon: "angel" },
+  {
+    name: "VC partners",
+    body: "100+ investors expected across the day.",
+    icon: "vc",
+  },
+  {
+    name: "Policy makers",
+    body: "Government, regulators and public institutions.",
+    icon: "policy",
+  },
   {
     name: "Industry & corporate leaders",
     body: "Operators from Indian and global enterprises.",
+    icon: "industry",
   },
   {
     name: "Alumni founders",
     body: "50+ deep-tech startups from the IIT Madras ecosystem and beyond.",
+    icon: "founder",
   },
 ];
 
@@ -763,11 +780,19 @@ export interface EventPastSponsor {
 
 export const EVENT_PAST_SPONSORS: EventPastSponsor[] = [];
 
+export type ScaleIcon =
+  | "delegates"
+  | "visitors"
+  | "investors"
+  | "startups"
+  | "exhibitors";
+
 export interface EventScaleStat {
   value: string;
   label: string;
   short: string;
-  icon: string;
+  /** Drawn from the app's own icon set so it recolours with the palette. */
+  icon: ScaleIcon;
 }
 
 const SCALE_ALL: EventScaleStat[] = [
@@ -775,7 +800,7 @@ const SCALE_ALL: EventScaleStat[] = [
     value: EVENT_VISITOR_COUNT,
     label: "Visitors expected",
     short: "Visitors",
-    icon: "/audience/ceos.webp",
+    icon: "visitors",
   },
   // Both from the 2026 sponsors deck (p3): "We aim to bring together 100+
   // investors and 50+ deep-tech startups". They fill the row and they are the
@@ -784,13 +809,13 @@ const SCALE_ALL: EventScaleStat[] = [
     value: "100+",
     label: "Investors expected",
     short: "Investors",
-    icon: "/audience/investors.webp",
+    icon: "investors",
   },
   {
     value: "50+",
     label: "Deep-tech startups",
     short: "Startups",
-    icon: "/audience/directors.webp",
+    icon: "startups",
   },
 ];
 
@@ -809,11 +834,11 @@ export const EVENT_SCALE_STANDIN: EventScaleStat = {
   value: EVENT_ATTENDEE_COUNT,
   label: "Delegates",
   short: "Delegates",
-  icon: "/audience/investors.webp",
+  icon: "delegates",
 };
 
 /** The mark for the live exhibitor count - the Expo tab's own icon. */
-export const EVENT_SCALE_EXHIBITOR_ICON = "/ui/nav-expo.webp";
+export const EVENT_SCALE_EXHIBITOR_ICON = "exhibitors" as const;
 
 /**
  * Promotional banners across the top of the agenda.

@@ -75,7 +75,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1B1464",
+  themeColor: "#6B1721",
   width: "device-width",
   initialScale: 1,
   // maximumScale/userScalable are gone. iOS has ignored them since 10, and

@@ -116,7 +116,7 @@ export function MyQr({ token }: { token: string }) {
           aria-label="Your badge QR"
         />
       </div>
-      {err ? <p className="mt-3 text-xs text-iit-500">{err}</p> : null}
+      {err ? <p className="mt-3 text-xs text-danger-600">{err}</p> : null}
     </div>
   );
 }

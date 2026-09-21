@@ -56,7 +56,7 @@ export function AppPromptBanner({
         // scale row under it brings mt-3 of its own), and both disappear
         // with the banner when there is nothing to ask.
         "mb-2 mt-5 flex items-center gap-3.5 overflow-hidden rounded-[18px] rounded-br-none p-4 sm:gap-4 sm:p-5",
-        isInstall ? "bg-[#DCEFE4]" : "bg-[#D8E6FA]"
+        isInstall ? "bg-[#DCEFE4]" : "bg-[#F7EBCB]"
       )}
     >
       {/* Artwork on the left, opposite the gate pass below it, so the two

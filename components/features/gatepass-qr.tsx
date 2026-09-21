@@ -20,7 +20,7 @@ export function GatePassQr({ token, size = 220 }: { token: string; size?: number
         errorCorrectionLevel: "H",
         margin: 2,
         width: size,
-        color: { dark: "#0d0930", light: "#ffffff" },
+        color: { dark: "#26070B", light: "#ffffff" },
       },
       (e) => {
         setErr(e ? e.message : null);
@@ -37,7 +37,7 @@ export function GatePassQr({ token, size = 220 }: { token: string; size?: number
         className="block h-auto w-full max-w-[240px] rounded-md"
         aria-label="Entry gate pass QR"
       />
-      {err ? <p className="mt-2 text-xs text-iit-500">{err}</p> : null}
+      {err ? <p className="mt-2 text-xs text-danger-600">{err}</p> : null}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { MyQrDialog } from "@/components/features/my-qr-dialog";
 // side by side, so the icon reads as the thing you aim at and the label as
 // its caption. Centred, because a stacked tile with left-aligned text leaves
 // the icon floating over an edge it does not line up with.
-// brand-800 (#1B1464), the same navy as the scale blocks these sit under.
+// brand-800 (#6B1721), the same maroon as the scale blocks above them.
 // They were brand-950, a near-black picked to separate them from the navy
 // masthead block above — that block is a white card now, so the reason is
 // gone, and two rows of solid tiles in two different darks read as an

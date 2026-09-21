@@ -36,7 +36,7 @@ export function LoginCta({
 // square, mirrored from card to card. The speaker cards already carry it;
 // the call-to-action banners carry it now too, so the app has one corner
 // language rather than two.
-        "flex items-center gap-3 overflow-hidden rounded-[18px] rounded-br-none bg-[#D8E6FA] p-4 sm:gap-5 sm:p-5",
+        "flex items-center gap-3 overflow-hidden rounded-[18px] rounded-br-none bg-[#F7EBCB] p-4 sm:gap-5 sm:p-5",
         className
       )}
     >

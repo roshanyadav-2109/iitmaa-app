@@ -193,7 +193,7 @@ export function AppPromptSheet({
         className={cn(
           "rounded-t-2xl border-t-0 p-0 pb-[max(env(safe-area-inset-bottom),1rem)]",
           // Same ground as this prompt's banner on the home screen.
-          isInstall ? "bg-[#DCEFE4]" : "bg-[#D8E6FA]"
+          isInstall ? "bg-[#DCEFE4]" : "bg-[#F7EBCB]"
         )}
       >
         <div className="mx-auto w-full max-w-md px-5 pb-1 pt-4">

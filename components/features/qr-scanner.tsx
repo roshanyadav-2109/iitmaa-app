@@ -216,7 +216,7 @@ export function QrScanner() {
       ) : (
         <div className="flex flex-col items-center text-center">
           <EmptyArt name="camera-blocked" className="mb-2 size-12" />
-          <p className="text-xs text-iit-500">
+          <p className="text-xs text-danger-600">
             Camera blocked — check browser permissions and try again.
           </p>
         </div>

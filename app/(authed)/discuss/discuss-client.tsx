@@ -133,7 +133,7 @@ export function DiscussClient({
       <Composer />
 
       {errored ? (
-        <p className="rounded-lg border border-iit-200 bg-iit-50 p-3 text-[13px] text-iit-700">
+        <p className="rounded-lg border border-danger-200 bg-danger-50 p-3 text-[13px] text-danger-700">
           Couldn&apos;t load the discussion. Pull to refresh.
         </p>
       ) : null}
@@ -450,7 +450,7 @@ function PostCard({
             onClick={onDelete}
             disabled={pending}
             aria-label="Delete post"
-            className="grid size-7 shrink-0 place-items-center rounded-md text-brand-800/45 hover:bg-paper-deep hover:text-iit-500"
+            className="grid size-7 shrink-0 place-items-center rounded-md text-brand-800/45 hover:bg-danger-50 hover:text-danger-600"
           >
             <Trash2 className="size-3.5" strokeWidth={1.7} />
           </button>

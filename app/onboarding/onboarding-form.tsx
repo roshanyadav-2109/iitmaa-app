@@ -176,7 +176,7 @@ export function OnboardingForm({
       {message ? (
         <div
           role="alert"
-          className="rounded-md border border-iit-200 bg-iit-50 px-3 py-2 text-sm text-iit-700"
+          className="rounded-md border border-danger-200 bg-danger-50 px-3 py-2 text-sm text-danger-700"
         >
           {message}
           {/* A dead end otherwise: the session is gone, so the form cannot
@@ -207,7 +207,7 @@ function Label({
   return (
     <span className="mb-1.5 block text-xs font-medium text-brand-900">
       {children}
-      {required ? <span className="ml-0.5 text-iit-500">*</span> : null}
+      {required ? <span className="ml-0.5 text-danger-600">*</span> : null}
     </span>
   );
 }

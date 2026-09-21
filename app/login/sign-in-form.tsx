@@ -234,7 +234,7 @@ export function SignInForm() {
       {oauthError ? (
         <div
           role="alert"
-          className="rounded-md border border-iit-200 bg-iit-50 px-3 py-2 text-sm leading-5 text-iit-700"
+          className="rounded-md border border-danger-200 bg-danger-50 px-3 py-2 text-sm leading-5 text-danger-700"
         >
           {oauthError}
         </div>

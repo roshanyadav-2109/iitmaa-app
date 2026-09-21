@@ -250,7 +250,7 @@ export function MeetingsView({
       {/* Availability banner — the same light blue block as the gate pass
           and the sign-in prompt, so the three "open this" rows in the app
           read as one family rather than three inventions. */}
-      <div className="flex items-center gap-3 overflow-hidden rounded-lg bg-[#D8E6FA] p-4 sm:gap-5 sm:p-5">
+      <div className="flex items-center gap-3 overflow-hidden rounded-lg bg-[#F7EBCB] p-4 sm:gap-5 sm:p-5">
         <div className="min-w-0 flex-1">
           <p className="font-display text-[17px] font-semibold leading-snug text-brand-950 sm:text-[19px]">
             My availability
@@ -796,7 +796,7 @@ function StatusPill({ status }: { status: MeetingRow["status"] }) {
   const style: Record<MeetingRow["status"], string> = {
     pending: "bg-amber-50 text-amber-700",
     accepted: "bg-emerald-50 text-emerald-700",
-    declined: "bg-iit-50 text-iit-700",
+    declined: "bg-danger-50 text-danger-700",
     rescheduled: "bg-paper-deep text-brand-800",
     cancelled: "bg-paper-deep text-brand-800/70",
   };

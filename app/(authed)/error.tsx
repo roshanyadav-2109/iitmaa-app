@@ -18,7 +18,7 @@ export default function AuthedError({
 
   return (
     <div className="px-4 py-12">
-      <div className="mx-auto max-w-md rounded-lg border border-iit-200 bg-iit-50 p-6 text-center">
+      <div className="mx-auto max-w-md rounded-lg border border-danger-200 bg-danger-50 p-6 text-center">
         <EmptyArt name="error-generic" className="mx-auto size-28" />
         <h1 className="mt-3 font-display text-base font-semibold text-brand-900">Something broke on this page</h1>
         <p className="mt-2 text-xs text-brand-900/70">{error.message || "Unknown client error."}</p>

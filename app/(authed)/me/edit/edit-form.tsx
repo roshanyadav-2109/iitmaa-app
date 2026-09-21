@@ -114,7 +114,7 @@ export function EditProfileForm({ initial }: { initial: InitialProfile }) {
       />
 
       {message ? (
-        <p className="text-sm text-iit-500" role="alert">
+        <p className="text-sm text-danger-600" role="alert">
           {message}
         </p>
       ) : null}
