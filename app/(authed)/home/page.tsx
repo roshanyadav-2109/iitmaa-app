@@ -47,7 +47,10 @@ import { PastSponsors } from "@/components/features/past-sponsors";
 import { PostStrip } from "@/components/features/post-strip";
 import { PressStrip } from "@/components/features/press-strip";
 import { SectorMarquee } from "@/components/features/sector-marquee";
-import { KeyParticipantsStrip } from "./key-participants-strip";
+import {
+  KeyParticipantsStrip,
+  ViewAllSpeakers,
+} from "./key-participants-strip";
 import { BrandLockup } from "@/components/features/brand-lockup";
 
 const LOGO_BUCKET = "LOGOS";
@@ -91,6 +94,7 @@ interface KeyPerson {
   designation: string | null;
   company: string | null;
   photo_url: string | null;
+  batch: string | null;
 }
 
 export default async function HomePage() {
@@ -361,6 +365,9 @@ export default async function HomePage() {
           </div>
           <div className="mt-4">
             <KeyParticipantsStrip people={keyPeople} />
+          </div>
+          <div className="mt-4">
+            <ViewAllSpeakers count={keyPeople.length} />
           </div>
         </section>
       ) : null}

@@ -1,235 +1,146 @@
-"use client";
+import type { CSSProperties } from "react";
 
-import { EmptyArt } from "@/components/features/empty-art";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, UserRound } from "@/components/icons";
+import Link from "next/link";
+
+import { ArrowUpRight } from "@/components/icons";
 import { initials } from "@/lib/utils";
 
-interface Person {
+export interface Person {
   id: string;
   full_name: string;
   designation: string | null;
   company: string | null;
   photo_url: string | null;
+  /** Alumni batch as the event site prints it, e.g. "BTCE '79 & DAA '25". */
+  batch: string | null;
 }
 
-const ROTATE_MS = 4200; // total time per card (slide-in + hold + slide-out)
+/**
+ * The speakers, drifting right to left.
+ *
+ * This used to show one card at a time and swap it every 4.2 seconds. With
+ * eighty-odd speakers that is nearly six minutes to see the line-up once, and
+ * whoever you wanted to look at had usually just gone. A marquee shows a dozen
+ * at a glance and never takes a name away before it has been read; the full
+ * list is a tap away under it.
+ *
+ * The list is rendered twice and the track translated by exactly half its
+ * width, so the seam lands back at the start and the loop has no jump. The
+ * second copy is scenery — `aria-hidden`, so a screen reader hears each name
+ * once — and the whole thing stops on hover and for anyone who has asked for
+ * reduced motion.
+ */
+/**
+ * How many ride the belt.
+ *
+ * Every speaker twice over is 164 photographs on the home screen, which is a
+ * lot to ask of a phone on venue wifi for a strip you can only ever see a
+ * dozen of. The belt is a taste; "View all" is the directory.
+ */
+const BELT_MAX = 24;
 
 export function KeyParticipantsStrip({ people }: { people: Person[] }) {
-  const list = useMemo(() => people, [people]);
-  const [idx, setIdx] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+  if (people.length === 0) return null;
 
-  useEffect(() => {
-    if (list.length <= 1 || paused) return;
-    const id = window.setInterval(() => {
-      setIdx((c) => (c + 1) % list.length);
-    }, ROTATE_MS);
-    return () => window.clearInterval(id);
-  }, [list.length, paused]);
-
-  function next() {
-    setIdx((c) => (c + 1) % Math.max(list.length, 1));
-  }
-  function prev() {
-    setIdx((c) => (c - 1 + Math.max(list.length, 1)) % Math.max(list.length, 1));
-  }
-
-  if (list.length === 0) {
-    return (
-      <div className="mx-4 flex flex-col items-center rounded-lg bg-white p-5 text-center text-sm text-brand-950 ring-1 ring-rule sm:mx-6 lg:mx-8">
-        <EmptyArt name="empty-team" className="mb-3" />
-        Featured participants will appear here closer to the event.
-      </div>
-    );
-  }
-
-  const cur = list[idx];
+  const belt = people.slice(0, BELT_MAX);
+  const stream = [...belt, ...belt];
+  const half = belt.length;
+  // Scaled to the number of cards so adding speakers slows the belt instead
+  // of speeding it up. ~2.6s per card is about the time it takes to read a
+  // name and a title.
+  const seconds = Math.round(belt.length * 2.6);
 
   return (
-    // `overflow-x-clip`, because the card animates in from translateX(110%)
-    // and out to -110% (see `participant-bounce` in globals.css). Nothing was
-    // clipping that, so for most of every cycle the card stuck out past the
-    // viewport and the whole page scrolled sideways on a phone. It only shows
-    // when there are participants to render, which is why it survived this
-    // long. `clip` rather than `hidden` so this never becomes a scroll
-    // container and steals the sticky positioning from anything inside.
-    <div
-      className="relative overflow-x-clip"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={(e) => {
-        touchStartX.current = e.touches[0]?.clientX ?? null;
-        setPaused(true);
-      }}
-      onTouchEnd={(e) => {
-        const start = touchStartX.current;
-        const end = e.changedTouches[0]?.clientX ?? null;
-        touchStartX.current = null;
-        setPaused(false);
-        if (start !== null && end !== null) {
-          const d = end - start;
-          if (d > 40) prev();
-          else if (d < -40) next();
-        }
-      }}
-    >
-      <div className="flex items-center justify-center px-3 sm:px-5 lg:px-6">
-        <button
-          type="button"
-          onClick={prev}
-          aria-label="Previous participant"
-          className="mr-2 hidden size-9 shrink-0 place-items-center rounded-full border border-rule bg-white text-brand-800 transition-colors hover:bg-paper-deep md:inline-grid"
-        >
-          <ChevronLeft className="size-4" strokeWidth={1.8} />
-        </button>
-        <div className="relative w-full max-w-[280px]">
-          <ParticipantCard
-            key={`${cur.id}-${idx}`}
-            person={cur}
-            animate={list.length > 1}
-            paused={paused}
-          />
-          <PhotoPreloader list={list} idx={idx} />
-        </div>
-        <button
-          type="button"
-          onClick={next}
-          aria-label="Next participant"
-          className="ml-2 hidden size-9 shrink-0 place-items-center rounded-full border border-rule bg-white text-brand-800 transition-colors hover:bg-paper-deep md:inline-grid"
-        >
-          <ChevronRight className="size-4" strokeWidth={1.8} />
-        </button>
-      </div>
-
-      {/* Dots */}
-      <div className="mt-3 flex items-center justify-center gap-1.5">
-        {list.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`Show participant ${i + 1}`}
-            onClick={() => setIdx(i)}
-            className={`h-1.5 rounded-full transition-all ${
-              i === idx ? "w-5 bg-brand-800" : "w-1.5 bg-brand-200"
-            }`}
-          />
+    <div className="marquee-hoverable relative overflow-hidden">
+      <ul
+        className="animate-marquee-rtl flex w-max gap-4 px-3 sm:px-5 lg:px-6"
+        style={{ "--marquee-duration": `${seconds}s` } as CSSProperties}
+      >
+        {stream.map((person, i) => (
+          <li
+            key={`${person.id}-${i}`}
+            className="w-[168px] shrink-0 sm:w-[184px]"
+            aria-hidden={i >= half}
+          >
+            <ParticipantCard person={person} labelled={i < half} />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
 
 /**
- * Warms the browser cache for the cards coming next.
+ * One speaker, set the way the event site sets them: the name, then the role
+ * across as many lines as it takes, then the batch in italic underneath.
  *
- * The visible card remounts on every rotation — its key changes so the slide
- * animation restarts — which tears down the <Image> with it. Without this,
- * each photo is fetched the first time it rotates in and the card flashes
- * white while it loads.
- *
- * It has to be laid out at the real card width rather than hidden at 1px:
- * next/image picks a srcset entry from the element's layout width, so a
- * collapsed preloader would fetch a small variant and warm the wrong URL.
- * Hence opacity-0 behind the card rather than display:none, which would also
- * stop the fetch entirely.
+ * The role is deliberately not collapsed onto one line with a separator.
+ * "Controller of Warship Production & Acquisition, Indian Navy" reads as one
+ * run-on title that way; on two lines it reads as a job and a place, which is
+ * what it is.
  */
-function PhotoPreloader({ list, idx }: { list: Person[]; idx: number }) {
-  if (list.length < 2) return null;
-  const upcoming = [1, 2]
-    .map((offset) => list[(idx + offset) % list.length])
-    .filter((p): p is Person => !!p?.photo_url);
-
-  return (
-    <div className="pointer-events-none absolute inset-0 -z-10 opacity-0" aria-hidden>
-      {upcoming.map((p) => (
-        <div key={p.id} className="absolute inset-0">
-          <Image
-            src={p.photo_url as string}
-            alt=""
-            fill
-            className="object-cover object-top"
-            sizes="(min-width: 768px) 280px, 70vw"
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function ParticipantCard({
   person,
-  animate,
-  paused,
+  labelled,
 }: {
   person: Person;
-  /** The slide keyframes end at opacity 0 with fill-mode forwards, so
-   *  they must only run when another card is coming to replace this one.
-   *  With a single participant the interval never fires and the card would
-   *  animate itself off screen and stay gone. */
-  animate: boolean;
-  paused: boolean;
+  labelled: boolean;
 }) {
   return (
-    <article
-      className="relative isolate aspect-[3/4] w-full overflow-hidden rounded-lg bg-white ring-1 ring-rule will-change-transform"
-      style={
-        animate
-          ? {
-              animation: `participant-bounce ${ROTATE_MS}ms cubic-bezier(0.45, 0.05, 0.2, 1.05) forwards`,
-              // Hover/touch pauses rotation; without this the animation keeps
-              // running and dumps the card at opacity 0 mid-hover.
-              animationPlayState: paused ? "paused" : "running",
-            }
-          : undefined
-      }
-    >
-      {/* The photo runs on behind the arc rather than stopping at its apex.
-          The arc is an ellipse: its top is at 75% in the centre but dips to
-          about 79% at the card edges, so cutting the photo at 75% left white
-          wedges either side of it. 82% covers those and tucks the surplus
-          behind the arc. At 82% of a 3/4 card the photo box is ~0.94:1, so a
-          square source loses only a few percent off the sides — nothing like
-          the third it was being scaled up by when it filled the whole card. */}
-      <div className="absolute inset-x-0 top-0 h-[82%] w-full overflow-hidden bg-paper-deep/40">
+    <article className="flex h-full flex-col">
+      <div className="relative aspect-square w-full overflow-hidden rounded-md bg-paper-deep">
         {person.photo_url ? (
           <Image
             src={person.photo_url}
-            alt={person.full_name}
+            alt={labelled ? person.full_name : ""}
             fill
+            sizes="184px"
             className="object-cover object-top"
-            sizes="(min-width: 768px) 280px, 70vw"
           />
         ) : (
-          <div className="grid h-full place-items-center text-4xl font-semibold text-brand-800">
+          <div className="grid h-full place-items-center text-3xl font-semibold text-brand-800/70">
             {initials(person.full_name)}
           </div>
         )}
       </div>
 
-      {/* The blue arc, unchanged apart from dropping -z-10 so it now sits over
-          the photo instead of behind the old white card face. */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-[75%] h-[60%] w-[200%] -translate-x-1/2 rounded-[50%] bg-brand-800"
-        aria-hidden
-      />
-
-      <div className="absolute inset-x-0 bottom-0 px-4 pb-5 text-center">
-        <p className="text-[15px] font-semibold leading-tight text-white drop-shadow-sm">
-          {person.full_name}
+      <p className="mt-2.5 font-display text-[13px] font-semibold leading-snug text-brand-950">
+        {person.full_name}
+      </p>
+      {person.designation ? (
+        <p className="mt-0.5 text-[11.5px] leading-4 text-brand-900/70">
+          {person.designation}
         </p>
-        {person.designation || person.company ? (
-          <p className="mt-1 line-clamp-2 text-[12px] font-medium leading-snug text-white/85">
-            {[person.designation, person.company].filter(Boolean).join(" | ")}
-          </p>
-        ) : (
-          <span className="inline-flex items-center justify-center gap-1 text-[11px] text-white/70">
-            <UserRound className="size-3" strokeWidth={1.7} /> Participant
-          </span>
-        )}
-      </div>
+      ) : null}
+      {person.company ? (
+        <p className="text-[11.5px] leading-4 text-brand-900/70">
+          {person.company}
+        </p>
+      ) : null}
+      {person.batch ? (
+        <p className="mt-1 text-[11px] font-semibold italic leading-4 text-iit-600">
+          {person.batch}
+        </p>
+      ) : null}
     </article>
+  );
+}
+
+/** "View all" under the strip, sized to say how many there are. */
+export function ViewAllSpeakers({ count }: { count: number }) {
+  return (
+    <div className="px-3 sm:px-5 lg:px-6">
+      <Link
+        href="/speakers"
+        className="group/link inline-flex items-center gap-1.5 border-b border-brand-800/30 pb-0.5 text-[13px] font-medium text-brand-800 transition-colors hover:border-brand-800"
+      >
+        View all {count} speakers
+        <ArrowUpRight
+          className="size-4 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+          strokeWidth={1.6}
+        />
+      </Link>
+    </div>
   );
 }

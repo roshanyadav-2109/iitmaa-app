@@ -109,6 +109,8 @@ export interface PublicKeyPerson {
   designation: string | null;
   company: string | null;
   photo_url: string | null;
+  /** Alumni batch as the event site prints it, e.g. "BTCE '79 & DAA '25". */
+  batch: string | null;
 }
 
 export const getPublicKeyParticipants = unstable_cache(
@@ -116,7 +118,7 @@ export const getPublicKeyParticipants = unstable_cache(
     const supabase = createPublicClient();
     const { data } = await supabase
       .from("key_participants")
-      .select("id, full_name, designation, company, photo_url")
+      .select("id, full_name, designation, company, photo_url, batch")
       .eq("event_id", EVENT_ID)
       .eq("is_published", true)
       .order("display_order", { ascending: true, nullsFirst: false })
