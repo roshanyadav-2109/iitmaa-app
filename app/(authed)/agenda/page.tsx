@@ -18,8 +18,10 @@ import {
 import { PageWithFilters } from "@/components/features/page-with-filters";
 import { AgendaFilters } from "./agenda-filters";
 import { PromoCarousel } from "@/components/features/promo-carousel";
+import { PanelsList } from "@/components/features/panels-list";
 import { AgendaRealtime } from "@/components/features/agenda-realtime";
 import { getPublicSessions } from "@/lib/public-data";
+import { EVENT_PANELS } from "@/lib/event-config";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -129,6 +131,24 @@ export default async function AgendaPage({
       header={<PromoCarousel />}
       filters={<AgendaFilters venues={venueOptions} />}
     >
+      {/* What the day covers, from the event site. There is no 2026 timetable
+          published yet, so this is the programme until real sessions with
+          times land in the database -- at which point they appear below and
+          this stays as the overview. */}
+      {EVENT_PANELS.length > 0 ? (
+        <section className="mb-8">
+          <h2 className="font-display text-[17px] font-semibold leading-tight text-brand-950">
+            Panels &amp; keynotes
+          </h2>
+          <p className="mt-1 text-[12.5px] leading-5 text-brand-900/60">
+            Atmanirbharta, explored across the day.
+          </p>
+          <div className="mt-4">
+            <PanelsList />
+          </div>
+        </section>
+      ) : null}
+
       {userInterests.length === 0 ? (
         /* In the same green as the Recommended bar on a card, because that
            green is exactly what this offer buys you. A line of grey text

@@ -158,6 +158,78 @@ export const EVENT_HIGHLIGHTS: {
 }[] = [];
 
 
+export interface EventPanel {
+  slug: string;
+  title: string;
+  /** The site's own "Story" paragraph. Empty for a card that is a banner. */
+  story: string;
+  image: string;
+}
+
+/**
+ * The 2026 programme, as iitmaasangam.com publishes it.
+ *
+ * Titles, stories and artwork only. The panellist lists inside those modals
+ * are last year's and were never cleared out — the Digital Payments panel
+ * still names the OpenAI and Microsoft speakers who sat on the 2025 AI panel,
+ * and the semiconductor one carries 2025's healthcare line-up. None of those
+ * names appear on the 2026 speaker list. Putting them on a panel here would
+ * tell an attendee to turn up for people who are not speaking.
+ *
+ * There are no times either: the site publishes no 2026 schedule, only last
+ * year's as a pair of images. So these are what the day covers, not when.
+ */
+export const EVENT_PANELS: EventPanel[] = [
+  {
+    slug: "distinguished",
+    title: "Distinguished Voices at Sangam 2026",
+    story: "",
+    image: "/panels/distinguished-speakers.webp",
+  },
+  {
+    slug: "ai",
+    title: "Sovereign AI - now or never? A Roadmap to get there",
+    story: "GenerativeAI is beginning to be pervasive, although we must not forget PredictiveAI. The big question is Sovereign AI: where India should invest its limited generativeAI funds: in foundational models, or in the layers above and below? The layer above: use open source models, focus on applications in domains such as agriculture, medicine, defense, jurisprudence and governance? The layer below: data centers hosting multiple models? Can't ignore concerns about job loss, water/energy demand from data centers, biases from training/post training data that skew model output, hallucinations; loss of cultural and national sovereignty, based on western or chinese values or politically charged (left or right) perspectives baked into the models\".",
+    image: "/panels/panel-ai.webp",
+  },
+  {
+    slug: "defence",
+    title: "Future Wars - How do we win?",
+    story: "Warfare is changing with drones/missiles/space but land border supremacy, a blue water navy, and air defenses continue to be the core of national security. Surging Indian defense exports are a source of soft power as well, and must be ramped up. Jet engines and other critical technologies need to be indigenized. Information warfare, quantum warfare, and the malicious use of indian data need to be defended against.",
+    image: "/panels/defence.webp",
+  },
+  {
+    slug: "infrastructure",
+    title: "Build world-class for भारत",
+    story: "The creation of world-leading infra such as highways, rail, port, airport and metro as well as living/working spaces is game-changing for the average citizen. Not only is the emerging indian aesthetic eg in the new airports a matter of civic pride, but the fact that india can build the world's highest rail bridge,electrify 99.9% of its railways, dramatically increase its renewable energy output, build a graceful new state capital city (Amaravati): all this means that efficiency with beauty is the new mantra.",
+    image: "/panels/infra.webp",
+  },
+  {
+    slug: "fintech",
+    title: "Digital Payments Revolution: Here we come, world!",
+    story: "The Indian economy has grown steadily and has become resilient to external shocks. With the enthusiastic acceptance of UPI, india has set a global benchmark for Digital Public Infrastructure, and reduced its reliance on external players. The India Stack has the potential to further create \"a multi-protocol switch\" to complement SWIFT, ease trade in multiple currencies across multiple countries, and increase capital flows.",
+    image: "/panels/fintech.webp",
+  },
+  {
+    slug: "spacetech",
+    title: "Space Tech - let a thousand flowers bloom",
+    story: "There is an explosion of innovation in the aerospace industry in india, both in ISRO and the private sector. In addition to the official Indian manned space flight program, and reusable rockets, we have firms such as Agnikul, Skyroot, Galaxeye and a host of other private companies doing leading-edge work. There are new opportunities, in addition to traditional space exploration, including space tourism, space/satellite based warfare, space data centers, and enhanced civilian applications",
+    image: "/panels/space-tech.webp",
+  },
+  {
+    slug: "port-led",
+    title: "Megaports with muscle - securing trade in the new Spice Route",
+    story: "India is reviving the maritime trading power which it had 3000 years ago, through deepwater container ports such as Vizhinjam and Vadhavan, efficient cargo movement, shipbuilding, etc. Dual-use ports such as Galathea Bay in Great Nicobar enable the defense of straits and sea lanes. With a blue-water navy, port infrastructure, and the India Stack, India can attempt to recreate its earlier dominance of Indian Ocean trade, via offering quick, dependable good transportation and multi-party compatibility.",
+    image: "/panels/port-led.webp",
+  },
+  {
+    slug: "semiconductor",
+    title: "Nanometers - does size really matter?",
+    story: "India has always had the design talent, but it typically works for foreign firms. The physical fabs in India are now beginning to come on line, and with the manufacturing know-how, even at 28nm+, India can move up the value chain. There are also DLI recipients that are taping out their products, with production initially in overseas fabs, but moving to India shortly. Sustained progress on both fronts can reduce supply chain risks for defense and electronics manufacturing",
+    image: "/panels/nanometer.webp",
+  },
+];
+
 /**
  * Promotional video on the home and About screens.
  *

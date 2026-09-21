@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 // active, dimmed when not — the same contrast the labels already use.
 const TABS = [
   { href: "/home", label: "Home", icon: "/ui/nav-home.webp" },
-  { href: "/agenda", label: "Agenda", icon: "/ui/nav-agenda.webp" },
+  { href: "/agenda", label: "Panels", icon: "/ui/nav-agenda.webp" },
   { href: "/attendees", label: "Network", icon: "/ui/nav-network.webp" },
   { href: "/discuss", label: "Discuss", icon: "/ui/nav-discuss.webp" },
   { href: "/exhibitors", label: "Expo", icon: "/ui/nav-expo.webp" },

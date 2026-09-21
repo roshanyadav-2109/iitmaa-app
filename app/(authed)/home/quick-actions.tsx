@@ -76,7 +76,7 @@ export function QuickActions({ role }: Props) {
         <ActionLink
           href="/agenda"
           icon={<TileIcon src="/ui/agenda.webp" />}
-          label="Agenda"
+          label="Panels"
         />
       </div>
 
