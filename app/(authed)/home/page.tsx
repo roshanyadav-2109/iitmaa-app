@@ -30,7 +30,6 @@ import {
   EVENT_SECTORS,
   EVENT_LEGACY_SPEAKERS,
   EVENT_PAST_SPONSORS,
-  EVENT_DIGITAL_FOOTPRINT,
   EVENT_SPONSORS_IMAGE,
 } from "@/lib/event-config";
 import { HeroCarousel } from "./hero-carousel";
@@ -353,33 +352,6 @@ export default async function HomePage() {
       <section className="px-3 sm:px-5 lg:px-6">
         <QuickActions role={role} />
       </section>
-
-      {/* Reach, under the four tiles. Someone opening this at the door wants a
-          QR code first; the reach figures are the argument for being here,
-          which is a thing you read after you are in. */}
-      {EVENT_DIGITAL_FOOTPRINT.length > 0 ? (
-        <section className="px-3 sm:px-5 lg:px-6">
-          <SectionHead title="Unmatched digital footprint" />
-          <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {EVENT_DIGITAL_FOOTPRINT.map((stat, i) => (
-              <div
-                key={`${stat.value}-${i}`}
-                className="rounded-lg px-3 py-4 text-center text-white"
-                style={{ backgroundColor: stat.colour }}
-              >
-                <dt className="font-display text-[20px] font-semibold leading-none tabular-nums">
-                  {stat.value}
-                </dt>
-                {/* Not dimmed. The grounds run from a dark purple to a mid
-                    grey, and a label at 70% white that reads on the purple is
-                    close to unreadable on the grey. */}
-                <dd className="mt-1 text-[11px] leading-4">{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-      ) : null}
-
 
       {/* The pass, under the four tiles: it is what you open at the door,
           and the tiles are what you open before you get there. */}
