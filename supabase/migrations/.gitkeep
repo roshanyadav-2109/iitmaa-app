@@ -1,3 +1,1 @@
-# 0001_init.sql is now committed (reconstructed from the live PanIIT project
-# on 2026-09-21). It was previously owner-provided and absent from the repo,
-# which made a fresh Supabase project impossible to build from source.
+# 0001_init.sql is the complete schema. Add 0002_* onward for changes from here.

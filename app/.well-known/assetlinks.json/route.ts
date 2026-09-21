@@ -16,8 +16,11 @@ import { NextResponse } from "next/server";
  */
 export const dynamic = "force-static";
 
-const DEV_FINGERPRINT =
-  "0A:1C:1D:B8:2D:01:2A:75:7B:74:84:75:2C:18:78:30:BE:02:CE:D0:E6:96:60:27:21:DF:96:71:6C:2C:E0:56";
+// Set ANDROID_CERT_FINGERPRINT to the SHA-256 of this app's own upload key
+// once a keystore exists. There is deliberately no default: a fingerprint
+// from another project's keystore can never verify this app, and shipping
+// one only produces a TWA that silently falls back to a browser bar.
+const DEV_FINGERPRINT = "";
 
 export function GET() {
   const fingerprints = [
@@ -34,7 +37,7 @@ export function GET() {
         target: {
           namespace: "android_app",
           package_name:
-            process.env.ANDROID_PACKAGE_NAME || "org.paniit.ap2026.twa",
+            process.env.ANDROID_PACKAGE_NAME || "org.iitmaa.sangam.twa",
           sha256_cert_fingerprints: fingerprints,
         },
       },

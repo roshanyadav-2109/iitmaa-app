@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 
 // Distinct payload prefix so the gate scanner can disambiguate a "venue
-// entry pass" from the social/networking connect QR (`paniit2026:`).
-const PASS_PREFIX = "paniit2026-pass:";
+// entry pass" from the social/networking connect QR (`sangam:`).
+const PASS_PREFIX = "sangam-pass:";
 
 export function GatePassQr({ token, size = 220 }: { token: string; size?: number }) {
   const ref = useRef<HTMLCanvasElement | null>(null);

@@ -19,7 +19,7 @@ import { createClient } from "@/lib/supabase/server";
  */
 
 /** Everything lands here, so the console can quota and prune one folder. */
-const FOLDER = "paniit-ap-2026/discussion";
+const FOLDER = "sangam/discussion";
 
 export type SignedUpload =
   | {

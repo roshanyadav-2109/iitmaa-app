@@ -50,7 +50,7 @@ interface Announcement {
   created_at: string;
 }
 
-const STORAGE_KEY = "paniit-seen-announcements";
+const STORAGE_KEY = "sangam-seen-announcements";
 
 function timeAgo(iso: string): string {
   const ms = Date.now() - new Date(iso).getTime();

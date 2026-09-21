@@ -69,14 +69,14 @@ export async function GET(req: Request) {
     return new NextResponse(toCsv(people), {
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
-        "Content-Disposition": `attachment; filename="paniit2026-contacts.csv"`,
+        "Content-Disposition": `attachment; filename="sangam-contacts.csv"`,
       },
     });
   }
   return new NextResponse(toVcf(people), {
     headers: {
       "Content-Type": "text/vcard; charset=utf-8",
-      "Content-Disposition": `attachment; filename="paniit2026-contacts.vcf"`,
+      "Content-Disposition": `attachment; filename="sangam-contacts.vcf"`,
     },
   });
 }

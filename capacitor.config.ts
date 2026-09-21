@@ -19,11 +19,11 @@
  * the Mac that builds it, and the type comes back.
  */
 const config = {
-  appId: "org.paniit.ap2026",
-  appName: "PanIIT AP 2026",
+  appId: "org.iitmaa.sangam",
+  appName: "IITMAA Sangam",
   webDir: "public",
   server: {
-    url: "https://paniitapp-vijayawada-ashen.vercel.app",
+    url: "https://iitmaa-app.vercel.app",
     cleartext: false,
   },
   ios: {

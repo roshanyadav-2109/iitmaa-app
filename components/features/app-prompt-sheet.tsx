@@ -39,7 +39,7 @@ function urlBase64ToUint8Array(base64String: string): ArrayBuffer {
  *
  * It comes up by itself a few seconds in, at most one prompt per visit, and
  * a "Not now" holds for a week. The banner on the home screen opens the same
- * sheet on demand through the `paniit:app-prompt` window event, so there is
+ * sheet on demand through the `sangam:app-prompt` window event, so there is
  * one piece of copy and one piece of logic rather than two.
  */
 export function AppPromptSheet({

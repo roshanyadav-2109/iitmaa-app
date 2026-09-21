@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
     // re-hit the optimiser, which is what made cards flash white.
     minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
-      { protocol: "https", hostname: "fncnndrexzmqqengbkvi.supabase.co" },
       { protocol: "https", hostname: "*.supabase.co" },
       { protocol: "https", hostname: "afilemanager.s3.dualstack.ap-southeast-1.amazonaws.com" },
       { protocol: "https", hostname: "res.cloudinary.com" },

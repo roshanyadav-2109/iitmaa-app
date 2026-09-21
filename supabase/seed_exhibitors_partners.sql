@@ -1,5 +1,5 @@
 -- Sample seed data for the exhibitors directory and the home-tab partner
--- marquees. Requires migration 0006_exhibitors_availability_partners.sql.
+-- marquees. Requires the schema in supabase/migrations/0001_init.sql.
 --
 -- Re-runnable: every insert uses `on conflict do nothing` (or a guarded
 -- unique key). Logo URLs are left NULL — the UI falls back to a clean

@@ -1,23 +1,19 @@
--- 0001_init.sql — base schema for the IITMAA Sangam backend.
+-- 0001_init.sql — the complete schema for IITMAA Sangam.
 --
--- The Vijayawada repo never had this file: its migrations start at 0002 and
--- `supabase/migrations/.gitkeep` said "0001_init.sql is provided by the
--- project owner separately". The base tables only ever existed inside the
--- live shared project (fncnndrexzmqqengbkvi), so a fresh Supabase project
--- could not be built from that repo at all.
+-- This is the schema of record: 34 tables with their constraints, indexes,
+-- functions, triggers, row-level-security policies and storage buckets, plus
+-- the Sangam row in `events`. Apply it to an empty Supabase project and the
+-- app has everything it needs.
 --
--- This file closes that gap. It was reconstructed from the live PanIIT
--- project's catalog on 2026-09-21 and applied to the IITMAA project
--- (zrftldroguntsahfqugu). Structure only — no rows were copied from the
--- PanIIT/Bangalore data.
+-- Scoping. Every table that belongs to an event carries `event_id NOT NULL`,
+-- defaulting to the Sangam event. RLS on the content tables is `USING (true)`,
+-- so scoping is enforced in the app layer: every query filters on `EVENT_ID`
+-- and every insert sets it. Keep doing both — it costs nothing here and is
+-- what would make a second edition cheap.
 --
--- Two deliberate departures from the source:
---   * `event_id` column defaults point at the Sangam event
---     (5a9a0000-0000-4000-8000-000000000003) rather than the Bangalore UUID,
---     so a forgotten filter writes Sangam rows instead of another summit's.
---   * The pg_cron session-reminder job is NOT reproduced: it called the
---     Vijayawada Vercel deployment with its own bearer token. Recreate it
---     against the Sangam deployment when one exists.
+-- Scheduled work. There is no pg_cron job. `/api/cron/session-reminders`
+-- accepts Vercel's signed cron requests, so schedule it from vercel.json
+-- rather than from the database.
 
 -- ============ 1. extensions ============
 create extension if not exists pg_cron with schema pg_catalog;

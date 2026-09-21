@@ -2,6 +2,9 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
 
+// Plain node script, so it cannot import the TypeScript event config.
+const EVENT_NAME = process.env.NEXT_PUBLIC_EVENT_NAME || "IITMAA Sangam";
+
 const IMAGE_EXTENSIONS = new Set([".avif", ".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
 
 const TIER_FOLDERS = [
@@ -53,7 +56,7 @@ const bucket = process.env.SPONSOR_LOGOS_BUCKET || "logos";
 // The LOGOS bucket is shared with the Bangalore edition, whose tier folders
 // sit at the bucket root. This edition's logos live under a prefix so the two
 // summits do not read each other's partners.
-const storagePrefix = (process.env.SPONSOR_LOGOS_PREFIX || "ap-2026").replace(/^\/+|\/+$/g, "");
+const storagePrefix = (process.env.SPONSOR_LOGOS_PREFIX || "sangam").replace(/^\/+|\/+$/g, "");
 // sponsors.event_id is NOT NULL and defaults to the Bangalore event, so this
 // must be set explicitly or AP sponsors land in the Bangalore app.
 const eventId = process.env.NEXT_PUBLIC_EVENT_ID;
@@ -139,7 +142,7 @@ async function syncSponsor(sponsor) {
     name: sponsor.name,
     tier: sponsor.tier,
     logo_url: sponsor.logo_url,
-    description: `${sponsor.tierLabel} at PanIIT Andhra Pradesh Summit 2026.`,
+    description: `${sponsor.tierLabel} at ${EVENT_NAME}.`,
   });
   if (error) throw error;
 }

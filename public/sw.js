@@ -10,7 +10,7 @@
  *
  * v2 caches static files only, and never stands between the app and a page.
  */
-const CACHE_VERSION = "paniit-v2";
+const CACHE_VERSION = "sangam-v1";
 const CACHE_NAME = `${CACHE_VERSION}-static`;
 const PRECACHE_URLS = ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"];
 
@@ -112,7 +112,7 @@ self.addEventListener("push", (event) => {
     icon: "/icons/icon-192.png",
     badge: "/icons/icon-192.png",
     data: { url: data.url || "/home" },
-    tag: data.tag || "paniit-default",
+    tag: data.tag || "sangam-default",
     renotify: false,
     vibrate: [80, 40, 80],
   };

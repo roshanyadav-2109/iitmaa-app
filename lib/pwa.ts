@@ -10,7 +10,7 @@
 
 export type AppPromptKind = "install" | "notifications";
 
-export const APP_PROMPT_EVENT = "paniit:app-prompt";
+export const APP_PROMPT_EVENT = "sangam:app-prompt";
 
 /** Ask the slide-up to open. No-op on the server. */
 export function openAppPrompt(kind: AppPromptKind): void {
@@ -42,7 +42,7 @@ export function isIosSafari(): boolean {
   return iOS && webkit;
 }
 
-const SNOOZE_KEY = "paniit:app-prompt-snooze";
+const SNOOZE_KEY = "sangam:app-prompt-snooze";
 
 type SnoozeMap = Partial<Record<AppPromptKind, number>>;
 

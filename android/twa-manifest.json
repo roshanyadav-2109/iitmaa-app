@@ -1,8 +1,8 @@
 {
-  "packageId": "org.paniit.ap2026.twa",
-  "host": "paniitapp-vijayawada-ashen.vercel.app",
-  "name": "PanIIT Andhra Pradesh Summit 2026",
-  "launcherName": "PanIIT AP 2026",
+  "packageId": "org.iitmaa.sangam.twa",
+  "host": "iitmaa-app.vercel.app",
+  "name": "IITMAA Sangam",
+  "launcherName": "Sangam",
   "display": "standalone",
   "themeColor": "#1B1464",
   "themeColorDark": "#1B1464",
@@ -14,8 +14,8 @@
   "splashScreenFadeOutDuration": 300,
   "enableNotifications": true,
   "startUrl": "/home",
-  "iconUrl": "https://paniitapp-vijayawada-ashen.vercel.app/icons/icon-512.png",
-  "maskableIconUrl": "https://paniitapp-vijayawada-ashen.vercel.app/icons/icon-maskable-512.png",
+  "iconUrl": "https://iitmaa-app.vercel.app/icons/icon-512.png",
+  "maskableIconUrl": "https://iitmaa-app.vercel.app/icons/icon-maskable-512.png",
   "appVersionName": "1.0.0",
   "appVersionCode": 1,
   "shortcuts": [
@@ -23,34 +23,36 @@
       "name": "My QR badge",
       "shortName": "Badge",
       "url": "/me/qr",
-      "chosenIconUrl": "https://paniitapp-vijayawada-ashen.vercel.app/icons/icon-192.png"
+      "chosenIconUrl": "https://iitmaa-app.vercel.app/icons/icon-192.png"
     },
     {
       "name": "Agenda",
       "shortName": "Agenda",
       "url": "/agenda",
-      "chosenIconUrl": "https://paniitapp-vijayawada-ashen.vercel.app/icons/icon-192.png"
+      "chosenIconUrl": "https://iitmaa-app.vercel.app/icons/icon-192.png"
     },
     {
       "name": "Directory",
       "shortName": "People",
       "url": "/attendees",
-      "chosenIconUrl": "https://paniitapp-vijayawada-ashen.vercel.app/icons/icon-192.png"
+      "chosenIconUrl": "https://iitmaa-app.vercel.app/icons/icon-192.png"
     }
   ],
   "signingKey": {
-    "path": "C:\\Users\\singh\\Downloads\\paniitapp-vijayawada\\android\\paniit-release.keystore",
-    "alias": "paniit"
+    "path": "android/sangam-release.keystore",
+    "alias": "sangam"
   },
   "appVersion": "1.0.0",
-  "webManifestUrl": "https://paniitapp-vijayawada-ashen.vercel.app/manifest.json",
+  "webManifestUrl": "https://iitmaa-app.vercel.app/manifest.json",
   "fallbackType": "customtabs",
   "features": {},
-  "alphaDependencies": { "enabled": false },
+  "alphaDependencies": {
+    "enabled": false
+  },
   "enableSiteSettingsShortcut": true,
   "isChromeOSOnly": false,
   "isMetaQuest": false,
-  "fullScopeUrl": "https://paniitapp-vijayawada-ashen.vercel.app/",
+  "fullScopeUrl": "https://iitmaa-app.vercel.app/",
   "minSdkVersion": 23,
   "orientation": "portrait",
   "additionalTrustedOrigins": [],

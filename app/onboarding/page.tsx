@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { rethrowIfRedirect } from "@/lib/redirect";
 import { OnboardingForm, type OnboardingInitial } from "./onboarding-form";
 import { syncProfileForUser } from "@/lib/auth/sync-profile";
 import { EVENT_SHORT_NAME } from "@/lib/event-config";
+import { BrandLockup } from "@/components/features/brand-lockup";
 
 export const dynamic = "force-dynamic";
 
@@ -106,30 +106,7 @@ export default async function OnboardingPage({
             one side reads as a masthead, and this screen is a form. */}
         <header className="flex flex-col items-center gap-2 lg:hidden">
           <div className="flex items-center justify-center gap-4">
-            <Image
-              src="/logo/paniit-mark.png"
-              alt="PanIIT Alumni India"
-              width={289}
-              height={288}
-              priority
-              className="h-9 w-auto"
-            />
-            <Image
-              src="/logo/paniit-ap-mark.png"
-              alt={EVENT_SHORT_NAME}
-              width={860}
-              height={720}
-              priority
-              className="h-11 w-auto"
-            />
-            <Image
-              src="/logo/ap-government.webp"
-              alt="Government of Andhra Pradesh"
-              width={384}
-              height={400}
-              priority
-              className="h-10 w-auto"
-            />
+            <BrandLockup className="text-xl" />
           </div>
           <p className="eyebrow text-brand-800/75">
             {EVENT_SHORT_NAME} | Setup
@@ -139,30 +116,7 @@ export default async function OnboardingPage({
         <section className="rounded-lg border border-rule bg-white p-5 lg:p-10">
           <div className="hidden flex-col items-center gap-2 lg:flex">
             <div className="flex items-center justify-center gap-4">
-              <Image
-                src="/logo/paniit-mark.png"
-                alt="PanIIT Alumni India"
-                width={289}
-                height={288}
-                priority
-                className="h-9 w-auto lg:h-10"
-              />
-              <Image
-                src="/logo/paniit-ap-mark.png"
-                alt={EVENT_SHORT_NAME}
-                width={860}
-                height={720}
-                priority
-                className="h-11 w-auto lg:h-12"
-              />
-              <Image
-                src="/logo/ap-government.webp"
-                alt="Government of Andhra Pradesh"
-                width={384}
-                height={400}
-                priority
-                className="h-10 w-auto lg:h-11"
-              />
+              <BrandLockup className="text-xl" />
             </div>
             <p className="eyebrow text-brand-800/75">
               {EVENT_SHORT_NAME} | Setup

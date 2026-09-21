@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { LoginCta } from "@/components/features/login-cta";
 import { getViewer } from "@/lib/viewer";
 import Link from "next/link";
@@ -14,7 +13,6 @@ import { createClient } from "@/lib/supabase/server";
 import { rethrowIfRedirect } from "@/lib/redirect";
 import { SUMMIT_TZ } from "@/lib/constants";
 import {
-  EVENT_ATTENDEE_COUNT,
   EVENT_DATE_LABEL,
   EVENT_MAPS_URL,
   EVENT_NAME,
@@ -48,6 +46,7 @@ import { PostStrip } from "@/components/features/post-strip";
 import { PressStrip } from "@/components/features/press-strip";
 import { SectorMarquee } from "@/components/features/sector-marquee";
 import { KeyParticipantsStrip } from "./key-participants-strip";
+import { BrandLockup } from "@/components/features/brand-lockup";
 
 const LOGO_BUCKET = "LOGOS";
 // Folder name in storage = visible tier heading. Order = display order.
@@ -242,7 +241,7 @@ export default async function HomePage() {
 
   return (
     <div className="-mx-3 space-y-14 pb-6 pt-4 sm:-mx-5 lg:mx-auto lg:w-[85vw] lg:max-w-6xl lg:space-y-20 lg:px-0 lg:pt-8">
-      {/* Carousel and the Andhra panel as one card: the pictures and the
+      {/* Carousel and the detail panel as one card: the pictures and the
           theme line they illustrate are a single opening statement, and two
           separated blocks read as two. The carousel's slides carry no radius
           or border of their own — this card is what they sit in — and the
@@ -310,26 +309,11 @@ export default async function HomePage() {
               View directions
             </a>
 
-            {/* The two bodies behind the summit, under the button rather
-                than over the theme line: a pair of crests above a headline
-                reads as a letterhead, and the panel's job is the headline.
-                Sized to their own optical weight — a square mark and a round
-                seal at one pixel height do not look the same size. */}
-            <div className="mt-5 flex items-center justify-center gap-3 border-t border-rule pt-4">
-              <Image
-                src="/logo/paniit-mark.png"
-                alt="PanIIT Alumni India"
-                width={289}
-                height={288}
-                className="h-8 w-auto"
-              />
-              <Image
-                src="/logo/ap-government.webp"
-                alt="Government of Andhra Pradesh"
-                width={384}
-                height={400}
-                className="h-9 w-auto"
-              />
+            {/* The event wordmark, under the button rather than over the
+                theme line: a crest above a headline reads as a letterhead,
+                and the panel's job is the headline. */}
+            <div className="mt-5 flex items-center justify-center border-t border-rule pt-4">
+              <BrandLockup className="text-base" />
             </div>
           </div>
         </div>
@@ -393,22 +377,6 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {/* The two leaders the summit is held under, above the day. Full
-          bleed to the card's edges and 2:1, the ratio it was made at, so the
-          faces are never cropped out of it on a narrow screen. */}
-      <section className="px-3 sm:px-5 lg:px-6">
-        <div className="overflow-hidden rounded-lg">
-          <Image
-            src="/ui/leadership-banner.webp"
-            alt="Prime Minister Narendra Modi and Chief Minister N. Chandrababu Naidu, with the map of Andhra Pradesh"
-            width={1600}
-            height={800}
-            sizes="(max-width: 1024px) 100vw, 960px"
-            className="h-auto w-full"
-          />
-        </div>
-      </section>
-
       {/*
         Today's calendar. Was a white card containing a stack of smaller white
         cards — a box inside a box, with the border doing the work twice. Now
@@ -454,9 +422,8 @@ export default async function HomePage() {
       <section className="px-3 sm:px-5 lg:px-6">
         <SectionHead title="About the summit" />
         <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.75] text-brand-900/85">
-          The {EVENT_NAME} brings together {EVENT_ATTENDEE_COUNT} delegates —
-          alumni, founders, investors, and policy makers across 23 IIT campuses
-          — for one day on building Andhra Pradesh&rsquo;s deep-tech decade.
+          {EVENT_NAME} brings together alumni, founders, investors and policy
+          makers from across the 23 IIT campuses.
         </p>
         <Link
           href="/home/about"
@@ -473,28 +440,32 @@ export default async function HomePage() {
 
       {/* Video — a live stream on the day, a recording before it. */}
       <section className="px-3 sm:px-5 lg:px-6">
-        <SectionHead
-          title={EVENT_VIDEO_EMBED.heading}
-          meta={EVENT_VIDEO_EMBED.isLive ? "Live" : undefined}
-        />
-        <div className="mt-4 overflow-hidden rounded-lg bg-black">
-          <div className="relative aspect-video w-full">
-            <iframe
-              src={`https://www.youtube.com/embed/${EVENT_VIDEO_EMBED.id}?playsinline=1&rel=0${
-                EVENT_VIDEO_EMBED.isLive ? "&autoplay=1&mute=1" : ""
-              }`}
-              title={EVENT_VIDEO_EMBED.caption}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="absolute left-0 top-0 h-full w-full"
+        {EVENT_VIDEO_EMBED ? (
+          <>
+            <SectionHead
+              title={EVENT_VIDEO_EMBED.heading}
+              meta={EVENT_VIDEO_EMBED.isLive ? "Live" : undefined}
             />
-          </div>
-        </div>
-        <p className="mt-3 font-display text-[15px] font-semibold leading-snug text-brand-950">
-          {EVENT_VIDEO_EMBED.caption}
-        </p>
+            <div className="mt-4 overflow-hidden rounded-lg bg-black">
+              <div className="relative aspect-video w-full">
+                <iframe
+                  src={`https://www.youtube.com/embed/${EVENT_VIDEO_EMBED.id}?playsinline=1&rel=0${
+                    EVENT_VIDEO_EMBED.isLive ? "&autoplay=1&mute=1" : ""
+                  }`}
+                  title={EVENT_VIDEO_EMBED.caption}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="absolute left-0 top-0 h-full w-full"
+                />
+              </div>
+            </div>
+            <p className="mt-3 font-display text-[15px] font-semibold leading-snug text-brand-950">
+              {EVENT_VIDEO_EMBED.caption}
+            </p>
+          </>
+        ) : null}
         <div className="mt-5">
           <PressStrip />
         </div>

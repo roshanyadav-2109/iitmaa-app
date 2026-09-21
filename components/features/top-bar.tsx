@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,10 +8,12 @@ import {
   EVENT_SOCIALS,
   EVENT_WHATSAPP_URL,
   type EventSocial,
+  EVENT_NAME,
 } from "@/lib/event-config";
 import { NotificationsBell } from "./notifications-bell";
 import { ChatButton } from "./chat/chat-button";
 import { DesktopNavTabs } from "./desktop-nav-tabs";
+import { BrandLockup } from "@/components/features/brand-lockup";
 
 // Monochrome marks for the desktop bar. Which accounts, and their URLs, come
 // from EVENT_SOCIALS — this row and the home screen used to keep separate
@@ -64,20 +65,13 @@ export async function TopBar() {
       <header className="safe-top">
         <div>
           <div className="mx-auto flex h-14 w-full max-w-screen-2xl items-center gap-3 px-3 sm:px-5 lg:h-[68px] lg:px-8">
-            {/* Desktop: PAN IIT lockup as the brand mark */}
+            {/* Desktop: the event wordmark as the brand mark */}
             <Link
               href="/home"
-              aria-label="PAN IIT 2026 home"
+              aria-label={`${EVENT_NAME} home`}
               className="hidden shrink-0 items-center lg:flex"
             >
-              <Image
-                src="/logo/paniit.png"
-                alt="PAN IIT Alumni India"
-                width={512}
-                height={220}
-                priority
-                className="h-10 w-auto"
-              />
+              <BrandLockup className="text-lg" />
             </Link>
 
             {/* Mobile: avatar greeting on the left */}
@@ -110,7 +104,7 @@ export async function TopBar() {
 
             <div className="flex-1" aria-hidden />
 
-            {/* Social icons — desktop only, mirroring paniit.org */}
+            {/* Social icons — desktop only, from EVENT_SOCIALS */}
             <div className="hidden items-center gap-0.5 pr-1 lg:flex">
               {BAR_SOCIALS.map(({ key, href, label }) => {
                 const Icon = SOCIAL_MARKS[key]!;

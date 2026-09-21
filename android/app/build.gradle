@@ -21,11 +21,11 @@ plugins {
 }
 
 def twaManifest = [
-    applicationId: 'org.paniit.ap2026.twa',
-    hostName: 'paniitapp-vijayawada-ashen.vercel.app', // The domain being opened in the TWA.
+    applicationId: 'org.iitmaa.sangam.twa',
+    hostName: 'iitmaa-app.vercel.app', // The domain being opened in the TWA.
     launchUrl: '/home', // The start path for the TWA. Must be relative to the domain.
-    name: 'PanIIT Andhra Pradesh Summit 2026', // The application name.
-    launcherName: 'PanIIT AP 2026', // The name shown on the Android Launcher.
+    name: 'IITMAA Sangam', // The application name.
+    launcherName: 'Sangam', // The name shown on the Android Launcher.
     themeColor: '#1B1464', // The color used for the status bar.
     themeColorDark: '#1B1464', // The color used for the dark status bar.
     navigationColor: '#1B1464', // The color used for the navigation bar.
@@ -52,9 +52,9 @@ def twaManifest = [
 
 android {
     compileSdkVersion 36
-    namespace "org.paniit.ap2026.twa"
+    namespace "org.iitmaa.sangam.twa"
     defaultConfig {
-        applicationId "org.paniit.ap2026.twa"
+        applicationId "org.iitmaa.sangam.twa"
         minSdkVersion 23
         targetSdkVersion 36
         versionCode 1
@@ -78,12 +78,12 @@ android {
             // The URL the Web Manifest for the Progressive Web App that the TWA points to. This
             // is used by Chrome OS and Meta Quest to open the Web version of the PWA instead of
             // the TWA, as it will probably give a better user experience for non-mobile devices.
-            resValue "string", "webManifestUrl", 'https://paniitapp-vijayawada-ashen.vercel.app/manifest.json'
+            resValue "string", "webManifestUrl", 'https://iitmaa-app.vercel.app/manifest.json'
         
 
         
             // This is used by Meta Quest.
-            resValue "string", "fullScopeUrl", 'https://paniitapp-vijayawada-ashen.vercel.app/'
+            resValue "string", "fullScopeUrl", 'https://iitmaa-app.vercel.app/'
         
 
         

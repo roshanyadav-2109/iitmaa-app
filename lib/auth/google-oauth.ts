@@ -1,8 +1,10 @@
 import { createHash, randomBytes } from "crypto";
 import { NextResponse } from "next/server";
 
-const DEFAULT_GOOGLE_CLIENT_ID =
-  "1076635361002-gtk11i99pcdc97j5uectb3ov1hgv7ifi.apps.googleusercontent.com";
+// No default: the client must be the one registered for this app's own
+// domain. A baked-in fallback would silently authenticate against someone
+// else's OAuth client and fail in a way that looks like a code bug.
+const DEFAULT_GOOGLE_CLIENT_ID = "";
 
 export const GOOGLE_OAUTH_STATE_COOKIE = "google_oauth_state";
 export const GOOGLE_OAUTH_NONCE_COOKIE = "google_oauth_nonce";

@@ -44,8 +44,8 @@ next-env.d.ts
 
 # playwright/debug artifacts
 .playwright-mcp/
-paniit-nav-inspect*.json
-paniit-org-*.png
+nav-inspect*.json
+org-*.png
 
 
 # Local screenshots from browser checks.

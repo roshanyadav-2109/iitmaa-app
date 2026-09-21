@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { rethrowIfRedirect } from "@/lib/redirect";
@@ -13,6 +12,7 @@ import {
   EVENT_TAGLINE,
   EVENT_VENUE_STAT,
 } from "@/lib/event-config";
+import { BrandLockup } from "@/components/features/brand-lockup";
 
 export const dynamic = "force-dynamic";
 
@@ -45,39 +45,9 @@ export default async function SignInPage() {
 
         <div className="relative z-10 mx-auto flex w-full max-w-sm flex-col items-center lg:max-w-md lg:my-auto">
           <div className="w-full rounded-lg bg-paper px-5 py-4 lg:px-7 lg:py-5">
-            {/* PanIIT, the summit, the state — three marks, no rules between
-                them. The alumni mark is the standalone square, not
-                paniit.png: that file is a lockup that already contains the
-                summit logo, so using it here printed the summit twice.
-
-                Each is sized to its own optical weight rather than to one
-                height: a square mark and a round seal at the same pixel
-                height do not look the same size. */}
-            <div className="flex items-center justify-center gap-4 lg:gap-5">
-              <Image
-                src="/logo/paniit-mark.png"
-                alt="PanIIT Alumni India"
-                width={289}
-                height={288}
-                priority
-                className="h-10 w-auto lg:h-11"
-              />
-              <Image
-                src="/logo/paniit-ap-mark.png"
-                alt={EVENT_SHORT_NAME}
-                width={860}
-                height={720}
-                priority
-                className="h-12 w-auto lg:h-14"
-              />
-              <Image
-                src="/logo/ap-government.webp"
-                alt="Government of Andhra Pradesh"
-                width={384}
-                height={400}
-                priority
-                className="h-11 w-auto lg:h-12"
-              />
+            {/* The event wordmark, alone. */}
+            <div className="flex items-center justify-center">
+              <BrandLockup className="text-2xl lg:text-3xl" />
             </div>
             <div className="mt-3 pt-2.5 text-center">
               <p className="eyebrow text-brand-800">

@@ -1,131 +1,105 @@
-// Generates PWA icons (192, 512, maskable-512) from the AP summit mark.
+// Generates every rasterised app mark from one source file.
 // Run: npm run generate-icons
 //
-// Two deliberate changes from the Bangalore version of this script:
+// Source is public/logo/sangam-mark.svg and nothing else — vector, so every
+// size is rendered rather than resampled, and there is no separate favicon
+// artwork to keep in step.
 //
-//   1. Source is public/logo/paniit-ap-mark.png (the square hexagon mark),
-//      not the wide lockup. The lockup is ~2.3:1, so squeezing it into a
-//      square left it a thin illegible strip.
-//   2. Background is white, not brand navy. The mark is dark navy line art —
-//      on a navy tile it all but disappeared.
+// Emits:
+//   public/icons/icon-192.png, icon-512.png, icon-maskable-512.png
+//   app/icon.png, app/apple-icon.png   (Next's own metadata routes)
+//   android/store_icon.png             (Play listing / TWA)
+//   public/splash/splash-<w>x<h>.png   (iOS launch images)
 //
-// A hairline navy border keeps the icon from vanishing against a light
-// home screen. The maskable variant skips the border and corner radius (the
-// launcher applies its own mask) and uses a wider safe zone.
+// The mark is full-bleed navy on purpose: a maskable icon must paint to the
+// edge or the launcher's mask cuts into a transparent corner, and the glyph
+// inside the SVG already sits within the safe zone.
 const fs = require("node:fs");
 const path = require("node:path");
 const sharp = require("sharp");
 
-const OUT_DIR = path.join(__dirname, "..", "public", "icons");
-const APP_DIR = path.join(__dirname, "..", "app");
-const MARK = path.join(__dirname, "..", "public", "logo", "paniit-ap-mark.png");
-// Browser tab / home-screen favicon uses the PAN IIT alumni mark. The summit
-// hexagon carries three lines of type and turns to mush at 16-32px, whereas
-// the boxed "iit" reads at any size.
-const FAVICON_MARK = path.join(__dirname, "..", "public", "logo", "paniit-mark.png");
-const BRAND = "#1B1464";
+const ROOT = path.join(__dirname, "..");
+const MARK = path.join(ROOT, "public", "logo", "sangam-mark.svg");
+const ICON_DIR = path.join(ROOT, "public", "icons");
+const SPLASH_DIR = path.join(ROOT, "public", "splash");
+const APP_DIR = path.join(ROOT, "app");
+const ANDROID_DIR = path.join(ROOT, "android");
 
-fs.mkdirSync(OUT_DIR, { recursive: true });
+const BG = "#1B1464";
 
-async function emit(size, name, maskable = false) {
-  // Maskable icons get a generous safe zone; standard icons can fill more.
-  const padRatio = maskable ? 0.26 : 0.13;
-  const inner = Math.round(size * (1 - padRatio * 2));
+// The device sizes the manifest's apple-touch-startup-image links expect.
+const SPLASH_SIZES = [
+  [750, 1334],
+  [828, 1792],
+  [1125, 2436],
+  [1170, 2532],
+  [1179, 2556],
+  [1206, 2622],
+  [1290, 2796],
+  [1320, 2868],
+  [1536, 2048],
+];
 
-  const mark = await sharp(MARK)
-    .resize(inner, inner, { fit: "inside", withoutEnlargement: false })
-    .toBuffer();
-
-  const radius = maskable ? 0 : Math.round(size * 0.18);
-  const stroke = Math.max(1, Math.round(size * 0.012));
-  const inset = stroke / 2;
-
-  // Rounded white tile + hairline border, drawn as one layer.
-  const plate = Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
-       <rect width="${size}" height="${size}" rx="${radius}" ry="${radius}" fill="#ffffff"/>
-       ${
-         maskable
-           ? ""
-           : `<rect x="${inset}" y="${inset}" width="${size - stroke}" height="${size - stroke}"
-                    rx="${radius - inset}" ry="${radius - inset}"
-                    fill="none" stroke="${BRAND}" stroke-opacity="0.16" stroke-width="${stroke}"/>`
-       }
-     </svg>`
-  );
-
-  // Clip everything to the rounded square so corners stay transparent.
-  const clip = Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
-       <rect width="${size}" height="${size}" rx="${radius}" ry="${radius}" fill="white"/>
-     </svg>`
-  );
-
-  const out = path.join(OUT_DIR, name);
-  await sharp({
-    create: {
-      width: size,
-      height: size,
-      channels: 4,
-      background: { r: 255, g: 255, b: 255, alpha: 0 },
-    },
-  })
-    .composite([
-      { input: plate },
-      { input: mark, gravity: "center" },
-      { input: clip, blend: "dest-in" },
-    ])
-    .png()
-    .toFile(out);
-  console.log(`  wrote ${name}`);
+if (!fs.existsSync(MARK)) {
+  console.error("Missing source mark: %s", MARK);
+  process.exit(1);
+}
+for (const d of [ICON_DIR, SPLASH_DIR, ANDROID_DIR]) {
+  fs.mkdirSync(d, { recursive: true });
 }
 
-// Next.js file-convention favicons (app/icon.png, app/apple-icon.png). These
-// are what the browser tab actually uses, so they take the PAN IIT mark. The
-// mark already carries its own navy box, so it needs no extra border — just a
-// white tile behind it, and less padding than the summit hexagon.
-async function emitFavicon(size, dir, name) {
-  const inner = Math.round(size * 0.82);
-  const mark = await sharp(FAVICON_MARK)
-    .resize(inner, inner, { fit: "inside", withoutEnlargement: false })
-    .toBuffer();
-
-  const radius = Math.round(size * 0.16);
-  const tile = Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
-       <rect width="${size}" height="${size}" rx="${radius}" ry="${radius}" fill="#ffffff"/>
-     </svg>`
-  );
-
-  const out = path.join(dir, name);
-  await sharp({
-    create: {
-      width: size,
-      height: size,
-      channels: 4,
-      background: { r: 255, g: 255, b: 255, alpha: 0 },
-    },
-  })
-    .composite([
-      { input: tile },
-      { input: mark, gravity: "center" },
-      { input: tile, blend: "dest-in" },
-    ])
+/** Render the square mark at `size`, straight from the vector. */
+async function square(size, out) {
+  await sharp(MARK, { density: 384 })
+    .resize(size, size, { fit: "contain" })
     .png()
     .toFile(out);
-  console.log(`  wrote ${path.relative(path.join(__dirname, ".."), out)}`);
+  console.log("  %s (%dx%d)", path.relative(ROOT, out), size, size);
 }
 
-(async () => {
-  console.log("Generating PWA icons →", OUT_DIR);
-  await emit(192, "icon-192.png");
-  await emit(512, "icon-512.png");
-  await emit(512, "icon-maskable-512.png", true);
-  console.log("Generating favicons →", APP_DIR);
-  await emitFavicon(256, APP_DIR, "icon.png");
-  await emitFavicon(180, APP_DIR, "apple-icon.png");
-  console.log("Done.");
-})().catch((err) => {
+/**
+ * Launch image: the mark centred on the brand field.
+ *
+ * Sized against the short edge so the mark occupies the same share of the
+ * screen on a tall phone and a square-ish tablet.
+ */
+async function splash(w, h) {
+  const mark = Math.round(Math.min(w, h) * 0.32);
+  const buf = await sharp(MARK, { density: 384 })
+    .resize(mark, mark, { fit: "contain" })
+    .toBuffer();
+
+  const out = path.join(SPLASH_DIR, `splash-${w}x${h}.png`);
+  await sharp({
+    create: {
+      width: w,
+      height: h,
+      channels: 4,
+      background: BG,
+    },
+  })
+    .composite([{ input: buf, gravity: "center" }])
+    .png()
+    .toFile(out);
+  console.log("  %s", path.relative(ROOT, out));
+}
+
+async function main() {
+  console.log("icons:");
+  await square(192, path.join(ICON_DIR, "icon-192.png"));
+  await square(512, path.join(ICON_DIR, "icon-512.png"));
+  await square(512, path.join(ICON_DIR, "icon-maskable-512.png"));
+  await square(512, path.join(APP_DIR, "icon.png"));
+  await square(180, path.join(APP_DIR, "apple-icon.png"));
+  await square(512, path.join(ANDROID_DIR, "store_icon.png"));
+
+  console.log("splash:");
+  for (const [w, h] of SPLASH_SIZES) {
+    await splash(w, h);
+  }
+}
+
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });

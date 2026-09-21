@@ -1,7 +1,6 @@
 "use client";
 
 import { EmptyArt } from "@/components/features/empty-art";
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import {
   Dialog,
@@ -15,6 +14,7 @@ import { createClient } from "@/lib/supabase/client";
 import { ProfileAvatar } from "@/components/features/default-avatar";
 import { EVENT_NAME } from "@/lib/event-config";
 import { GatePassQr } from "./gatepass-qr";
+import { BrandLockup } from "@/components/features/brand-lockup";
 
 interface PassProfile {
   full_name: string | null;
@@ -95,14 +95,7 @@ export function GatePassDialog({
             Your single-attendee venue entry pass.
           </DialogDescription>
           <div className="flex items-center justify-between gap-3 pr-7">
-            <Image
-              src="/logo/paniit.png"
-              alt={EVENT_NAME}
-              width={520}
-              height={196}
-              priority
-              className="h-8 w-auto"
-            />
+            <BrandLockup className="text-base" />
             <span className="shrink-0 eyebrow text-brand-950">
               Gate Pass
             </span>

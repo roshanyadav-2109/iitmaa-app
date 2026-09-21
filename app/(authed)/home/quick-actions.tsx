@@ -69,7 +69,7 @@ export function QuickActions({ role }: Props) {
           label="Scan QR"
         />
         <ActionLink
-          href="mailto:summit@paniit.org"
+          href="mailto:secretariat@iitmaa.org"
           icon={<TileIcon src="/ui/contact-us.webp" />}
           label="Contact us"
         />

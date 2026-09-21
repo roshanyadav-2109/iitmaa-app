@@ -95,7 +95,7 @@ The fallback is best-effort against races; the RPC is preferred.
 The attendee filter accepts either column being true. Pick one and drop the
 other in the cleanup migration if you want a single source of truth.
 
-### QR token prefix `paniit2026:`
+### QR token prefix `sangam:`
 The scanner accepts either the prefixed form or the raw token (back-compat).
 Prefix prevents accidental scans of unrelated QR codes from creating
 connections.

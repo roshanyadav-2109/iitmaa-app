@@ -28,7 +28,9 @@ async function run(sql) {
 
 const ROSHAN = "f9c357f3-9167-41ed-980e-ede5dbe29742";
 const TEJASH = "ba9ae374-6e19-45e1-8f07-3bda288032e7";
-const PANIIT = "f0583fb2-56ea-46d5-bf24-218c003b57d4";
+// Set to a profile id in THIS project. The old value was a row in another
+// project's database and resolves to nothing here.
+const ORGANISER = process.env.TEST_ORGANISER_ID || "";
 
 function ord(a, b) {
   return a < b ? [a, b] : [b, a];
@@ -73,18 +75,18 @@ async function seedConversation(meId, otherId, messages) {
 async function main() {
   console.log("Seeding Roshan ↔ Tejash:");
   const convA = await seedConversation(ROSHAN, TEJASH, [
-    { sender: TEJASH, body: "Hey Roshan, saw you're at PAN IIT — would love to catch up!", read: true },
+    { sender: TEJASH, body: "Hey Roshan, saw you are going — would love to catch up!", read: true },
     { sender: ROSHAN, body: "Hi Tejash! Yeah I'm here all day. Free around 11?", read: true },
     { sender: TEJASH, body: "Perfect, see you at the Strategy Hall foyer.", read: true },
     { sender: TEJASH, body: "Also — quick question about Neural AI's roadmap, can we dig into it?", read: false },
   ]);
 
-  console.log("\nSeeding Roshan ↔ PanIIT account:");
-  const convB = await seedConversation(ROSHAN, PANIIT, [
-    { sender: PANIIT, body: "Welcome to PAN IIT 2026, Roshan! Let us know if you need anything.", read: true },
+  console.log("\nSeeding Roshan ↔ organiser account:");
+  const convB = await seedConversation(ROSHAN, ORGANISER, [
+    { sender: ORGANISER, body: "Welcome! Let us know if you need anything.", read: true },
     { sender: ROSHAN, body: "Thanks! All good so far — really enjoying the day.", read: true },
-    { sender: PANIIT, body: "Reminder: the Pitchathon kicks off at 14:00 in Strategy Hall.", read: false },
-    { sender: PANIIT, body: "Networking dinner registration closes at 17:00.", read: false },
+    { sender: ORGANISER, body: "Reminder: the Pitchathon kicks off at 14:00 in Strategy Hall.", read: false },
+    { sender: ORGANISER, body: "Networking dinner registration closes at 17:00.", read: false },
   ]);
 
   console.log("\nVerifying triggers + queries:");

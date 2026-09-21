@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sangam mark">
+  <!--
+    Placeholder mark: a confluence — two streams meeting and leaving as one.
+    Drawn in geometry rather than type so it renders identically wherever it
+    is rasterised, with no font to install on the machine that builds icons.
+
+    Replace with real artwork when there is some; scripts/generate-icons.js
+    reads this file and nothing else.
+  -->
+  <rect width="512" height="512" fill="#1B1464"/>
+  <g fill="none" stroke="#EFF3FA" stroke-width="26" stroke-linecap="round">
+    <path d="M168 120 C168 232, 256 232, 256 300"/>
+    <path d="M344 120 C344 232, 256 232, 256 300"/>
+    <path d="M256 300 L256 392"/>
+  </g>
+  <circle cx="256" cy="392" r="18" fill="#DD002B"/>
+</svg>

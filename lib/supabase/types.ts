@@ -1,6 +1,6 @@
 // Generated from the live Supabase OpenAPI spec on 2026-05-17.
 // To refresh after schema changes, run:
-//   supabase gen types typescript --project-id fncnndrexzmqqengbkvi --schema public > lib/supabase/types.ts
+//   supabase gen types typescript --project-id zrftldroguntsahfqugu --schema public > lib/supabase/types.ts
 
 export type Json =
   | string

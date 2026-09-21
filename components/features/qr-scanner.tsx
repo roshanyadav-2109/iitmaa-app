@@ -7,7 +7,7 @@ import { Loader2 } from "@/components/icons";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-const PREFIX = "paniit2026:";
+const PREFIX = "sangam:";
 
 // Two-note "ding" via Web Audio so we don't need to ship an asset.
 function playSuccessChime() {

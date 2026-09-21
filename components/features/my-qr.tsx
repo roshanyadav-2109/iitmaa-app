@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 
-const PREFIX = "paniit2026:";
-// Both bodies behind the summit, drawn into the middle of the code. Local
-// assets so the canvas can read them back without a CORS taint, and both
-// already cut out — the only background either had was the plate this used
-// to draw behind them.
-const QR_LOGOS = ["/logo/paniit-mark.png", "/logo/ap-government.webp"];
+const PREFIX = "sangam:";
+// Marks drawn into the middle of the code. Empty until this event has its
+// own artwork: drawCenterLogos already no-ops on an empty list, so the code
+// renders clean rather than carrying another organisation's crest. Local
+// assets only — a remote one would CORS-taint the canvas.
+const QR_LOGOS: string[] = [];
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {

@@ -1,5 +1,5 @@
 -- Tag every existing session with the interest array that matches its track.
--- Apply this AFTER migration 0007_session_interests.sql has been run.
+-- Apply this after supabase/migrations/0001_init.sql has been run.
 -- Mirrors lib/constants.ts TRACK_TO_INTERESTS so the agenda's Recommended
 -- pill + filter pick up the same tags the UI uses for matchmaking.
 --

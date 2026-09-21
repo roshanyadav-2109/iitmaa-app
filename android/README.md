@@ -2,7 +2,7 @@
 
 ## Android — built, signed, ready to install
 
-`paniit-ap-2026.apk` (sideload / testing) and `paniit-ap-2026.aab` (Play
+`sangam.apk` (sideload / testing) and `sangam.aab` (Play
 Console upload) are produced from this directory.
 
 It is a Trusted Web Activity: a real Android app whose window is Chrome
@@ -21,12 +21,12 @@ bubblewrap update --skipVersionUpgrade   # regenerate from twa-manifest.json
 ```
 
 Then sign with `apksigner` (APK) and `jarsigner` (AAB) using
-`paniit-release.keystore`. Bump `appVersionCode` in `twa-manifest.json` for
+`sangam-release.keystore`. Bump `appVersionCode` in `twa-manifest.json` for
 every Play upload.
 
 ### The two things that must stay in step
 
-1. **The keystore is the app's identity.** `paniit-release.keystore` and
+1. **The keystore is the app's identity.** `sangam-release.keystore` and
    `keystore-password.txt` are gitignored and exist only on this machine.
    Lose them and this listing can never be updated again — back them up
    somewhere that is not a laptop.

@@ -5,7 +5,7 @@ import { useDriftScroll } from "@/hooks/use-drift-scroll";
 import { EVENT_LEGACY_SPEAKERS } from "@/lib/event-config";
 
 /**
- * Who past PanIIT summits have had on stage, drifting past.
+ * Who previous editions have had on stage, drifting past.
  *
  * A moving row rather than a grid: ten portraits stacked in a grid on a
  * phone is five rows of faces, which reads as this summit's line-up however
@@ -37,7 +37,7 @@ export function LegacySpeakers() {
     <div
       ref={ref}
       className="no-scrollbar -mx-3 overflow-x-auto overscroll-x-contain [scroll-behavior:auto] sm:-mx-5 lg:-mx-6"
-      aria-label="Speakers at previous PanIIT summits"
+      aria-label="Speakers at previous editions"
     >
       <div className="pl-3 sm:pl-5 lg:pl-6">
         <ul className="flex w-max">

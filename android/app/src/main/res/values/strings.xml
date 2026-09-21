@@ -34,7 +34,7 @@
         \"relation\": [\"delegate_permission/common.handle_all_urls\"],
         \"target\": {
             \"namespace\": \"web\",
-            \"site\": \"https://paniitapp-vijayawada-ashen.vercel.app\"
+            \"site\": \"https://iitmaa-app.vercel.app\"
         }
     }]
     

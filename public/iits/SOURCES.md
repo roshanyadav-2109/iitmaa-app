@@ -3,7 +3,7 @@
 Taken from each institute's English Wikipedia article, trimmed and
 normalised to a 200x120 transparent box. These are trademarks, shown
 to identify the institutes taking part in the summit. Replace with
-official artwork from PanIIT's brand kit where available — only the
+official artwork from the event's own brand kit where available — only the
 filenames need to match.
 
 - **IIT Kharagpur** (`kharagpur.webp`) — File:IIT Kharagpur Logo.svg

@@ -2,11 +2,10 @@
 
 Mobile-first event app for **IITMAA Sangam**.
 
-> **Fork note.** This repo is the Sangam edition, forked from the PanIIT
-> Andhra Pradesh / Vijayawada app (which was itself forked from the Bangalore
-> summit app). Everything edition-specific lives in
+> Everything edition-specific lives in
 > [`lib/event-config.ts`](lib/event-config.ts) — name, theme, date, venue,
-> delegate count.
+> delegate count. Most of that file is deliberately empty: the content arrays
+> render nothing until this event's own material goes in.
 >
 > **`EVENT_DATE_ISO` is not cosmetic**: `lib/slots.ts` builds the whole
 > meeting-availability grid from it.
@@ -16,34 +15,28 @@ Mobile-first event app for **IITMAA Sangam**.
 | Item | Status |
 | --- | --- |
 | Own Supabase project, schema applied | ✅ `zrftldroguntsahfqugu`, verified against the source schema |
-| `0001_init.sql` committed | ✅ reconstructed — the PanIIT repos never had one |
-| Event name, tagline, venue, date | ⚠️ **still PanIIT AP's** — change in `lib/event-config.ts` |
+| `0001_init.sql` committed | ✅ the complete schema lives in this repo |
+| Event name, tagline, venue, date | ⚠️ **placeholders** — set in `lib/event-config.ts` |
 | `events` row identity | ⚠️ placeholder: city `TBD`, `starts_on` 2026-12-01 |
-| Google OAuth client + redirect URI | ⚠️ still PanIIT's, bound to `app.vja.paniit.space` — create one for the Sangam domain |
-| App icons in `public/icons/` | ⚠️ still PanIIT artwork — re-run `npm run generate-icons` |
-| Android TWA package + keystore | ⚠️ still `org.paniit.ap2026`; needs its own id and a fresh keystore |
+| Google OAuth client + redirect URI | ⚠️ none set — register one for this app's domain |
+| App icons + splash | ⚠️ placeholder mark — replace `public/logo/sangam-mark.svg`, then `npm run generate-icons` |
+| Android TWA keystore | ⚠️ package is `org.iitmaa.sangam.twa`; still needs its own keystore |
 | pg_cron session-reminder job | ⚠️ not carried over — recreate against the Sangam deployment |
 
 ### Backend
 
-Sangam has **its own Supabase project** (`zrftldroguntsahfqugu`). This is a
-deliberate break from the earlier editions, which share one project
-(`fncnndrexzmqqengbkvi`) partitioned by `event_id`.
+Sangam runs on its own Supabase project (`zrftldroguntsahfqugu`). Nothing is
+shared with any other event.
 
-That sharing is worth understanding before touching anything: scoping there is
-enforced in the **app layer**, not by RLS — content-table RLS is `USING (true)`,
-so every query filters on `EVENT_ID` and every insert sets it. A query that
-forgets the filter reads another live summit's data. Sangam's own project means
-a mistake here is contained.
+Every table that belongs to an event carries `event_id NOT NULL`, defaulting
+to the Sangam event. RLS on the content tables is `USING (true)`, so scoping
+is enforced in the **app layer**: every query filters on `EVENT_ID` and every
+insert sets it. Keep doing both — it costs nothing and would make a second
+edition cheap.
 
 | Edition | slug | `event_id` |
 | --- | --- | --- |
-| PAN IIT Bangalore Summit 2026 | `blr-2026` | `b1a11111-…-000000000001` |
-| PanIIT Andhra Pradesh Summit 2026 | `ap-2026` | `a9d40000-…-000000000002` |
-| **IITMAA Sangam** | `sangam` | `5a9a0000-…-000000000003` |
-
-The schema still carries `event_id` throughout, and the app still filters on it.
-Keep doing both — it costs nothing and keeps a future edition cheap.
+| IITMAA Sangam | `sangam` | `5a9a0000-0000-4000-8000-000000000003` |
 
 ## Quick start
 
@@ -86,8 +79,8 @@ For direct app-domain Google sign-in, configure the OAuth client in Google Cloud
 - Authorized JavaScript origin: `https://<sangam-domain>`
 - Authorized redirect URI: `https://<sangam-domain>/auth/google/callback`
 
-(PanIIT's existing client is bound to `app.vja.paniit.space` and will not work
-for this app — create a new one.)
+There is deliberately no default client id in the code: one bound to another
+domain fails in a way that looks like a code bug.
 
 The Google redirect stays on the app domain. Supabase Auth is only used after the app receives the Google ID token, so the existing Supabase Google provider can keep storing the provider login configuration.
 
@@ -95,7 +88,7 @@ The Google redirect stays on the app domain. Supabase Auth is only used after th
 
 | File | What it does | Run when |
 | --- | --- | --- |
-| `supabase/migrations/0001_init.sql` | Full base schema — 34 tables, constraints, indexes, functions, triggers, RLS policies, storage buckets, and the Sangam `events` row. Reconstructed from the PanIIT project's catalog; the upstream repos never committed this. | Applied to `zrftldroguntsahfqugu` |
+| `supabase/migrations/0001_init.sql` | The complete schema — 34 tables, constraints, indexes, functions, triggers, RLS policies, storage buckets, and the Sangam `events` row. | Applied to `zrftldroguntsahfqugu` |
 | `supabase/migrations/0002_email_unique.sql` | Partial unique index on `lower(email)` so the sign-in lookup deterministically resolves one profile. | **Run before testing sign-in.** Paste into Supabase SQL editor or `psql` against the DB URL. |
 
 ## Bulk-importing the attendee registration CSV
