@@ -168,6 +168,14 @@ export const EVENT_AUDIENCE: {
 /** Event vision. Used on the About screen. */
 export const EVENT_VISION: string[] = [];
 
+/**
+ * Where "Contact us" writes to. The secretariat address the fork shipped with
+ * (secretariat@iitmaa.org) was hardcoded into the home tile; this is the
+ * association's own inbox, and it lives here so there is one place to change
+ * it rather than a mailto: buried in a component.
+ */
+export const EVENT_CONTACT_EMAIL = "alumni@iitm.ac.in";
+
 /** Organising contacts. */
 export const EVENT_CONTACTS: {
   name: string;

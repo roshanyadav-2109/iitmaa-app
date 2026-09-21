@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { MyQrDialog } from "@/components/features/my-qr-dialog";
+import { EVENT_CONTACT_EMAIL } from "@/lib/event-config";
 
 // The four tiles stack their icon over their label rather than sitting them
 // side by side, so the icon reads as the thing you aim at and the label as
@@ -69,7 +70,7 @@ export function QuickActions({ role }: Props) {
           label="Scan QR"
         />
         <ActionLink
-          href="mailto:secretariat@iitmaa.org"
+          href={`mailto:${EVENT_CONTACT_EMAIL}`}
           icon={<TileIcon src="/ui/contact-us.webp" />}
           label="Contact us"
         />
