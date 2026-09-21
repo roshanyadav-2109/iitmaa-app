@@ -12,20 +12,6 @@
 export const EVENT_CITY = "Bengaluru";
 export const EVENT_STATE = "Karnataka";
 export const EVENT_NAME = "IITMAA Sangam 2026";
-/**
- * The film that plays behind the sign-in panel, muted and cropped free of
- * YouTube's own furniture. See app/login/video-backdrop.tsx.
- * https://www.youtube.com/watch?v=0m3IlAmSiFs
- */
-export const LOGIN_BACKDROP_VIDEO_ID = "0m3IlAmSiFs";
-
-/**
- * Where the film starts, in seconds. It opens on a title card, and a sign-in
- * screen that begins on static type is a sign-in screen that looks broken --
- * so it drops in partway, already flying.
- */
-export const LOGIN_BACKDROP_START_SECONDS = 45;
-
 export const EVENT_SHORT_NAME = "Sangam 2026";
 export const EVENT_APP_NAME = "Sangam 2026";
 

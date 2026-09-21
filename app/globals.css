@@ -318,52 +318,6 @@
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
-  /* The sign-in backdrop.
-
-     YouTube draws its own furniture -- a title bar with the channel and a
-     "Watch on YouTube" link at the top, a control strip with the pause button
-     at the bottom -- and no parameter removes all of it. So the player is
-     deliberately oversized past its container, which is what actually crops
-     that chrome out of the frame, and the container clips the overflow.
-
-     1.7 takes 20.6% off each edge. The title bar runs to about 12% of the
-     player's height and the control strip to about 10%, so the crop clears
-     both with room rather than landing on the boundary.
-
-     The cover maths is measured against the panel, not the viewport, using
-     container query units: the panel is 62svh tall on a phone and a column
-     at lg, so vw/vh would crop the wrong amount in both. Whichever axis is
-     the binding constraint wins the max(), the other is derived from 16:9.
-     The plain 100% pair above it is the fallback for a browser without cqw --
-     the picture then fills the panel letterboxed instead of cropped.
-
-     pointer-events are off here rather than only on a cover layer, so the
-     player cannot be clicked, paused, or opened on YouTube even if something
-     above it stops painting. */
-  .login-backdrop {
-    container-type: size;
-  }
-  .login-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    width: calc(max(100cqw, 100cqh * 16 / 9) * 1.7);
-    height: calc(max(100cqh, 100cqw * 9 / 16) * 1.7);
-    border: 0;
-    pointer-events: none;
-    user-select: none;
-  }
-  /* Motion is the whole point of the backdrop, so there is nothing to tone
-     down -- it goes, and the maroon underneath carries the panel alone. */
-  @media (prefers-reduced-motion: reduce) {
-    .login-video {
-      display: none;
-    }
-  }
-
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
