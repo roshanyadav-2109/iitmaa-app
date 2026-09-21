@@ -69,18 +69,34 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "slot_not_proposed" }, { status: 400 });
   }
 
+  // Availability is opt-in, and this is the only route that forgot it.
+  //
+  // Someone who has never opened the availability picker has no rows at all,
+  // and /api/meetings/request deliberately lets a proposer reach them anyway
+  // ("Zero rows = they never touched it"). Requiring a matching row here then
+  // made every slot they were allowed to be sent impossible to accept — which
+  // is every slot, for every user, until someone publishes availability.
+  //
+  // Same rule as request and reschedule: any row at all means they engaged
+  // with the picker and their answer is respected; no rows means no opinion.
   const { data: availability, error: availErr } = await supabase
     .from("availability_slots")
     .select("slot_start, slot_end, status")
     .eq("event_id", EVENT_ID)
-    .eq("user_id", user.id)
-    .eq("slot_start", slot.start)
-    .eq("status", "available")
-    .maybeSingle();
+    .eq("user_id", user.id);
   if (availErr) return NextResponse.json({ error: availErr.message }, { status: 500 });
-  const available = (availability as AvailabilityRow | null) ?? null;
-  if (!available || new Date(available.slot_end).toISOString() !== slot.end) {
-    return NextResponse.json({ error: "slot_not_available" }, { status: 409 });
+
+  const availRows = (availability as AvailabilityRow[] | null) ?? [];
+  if (availRows.length > 0) {
+    const free = availRows.some(
+      (row) =>
+        row.status === "available" &&
+        new Date(row.slot_start).toISOString() === slot.start &&
+        new Date(row.slot_end).toISOString() === slot.end
+    );
+    if (!free) {
+      return NextResponse.json({ error: "slot_not_available" }, { status: 409 });
+    }
   }
 
   const { data: acceptedMeetings, error: acceptedErr } = await supabase
@@ -103,14 +119,28 @@ export async function POST(req: Request) {
   if (conflict) return NextResponse.json({ error: "slot_occupied" }, { status: 409 });
 
   // Try the Postgres RPC first (race-condition safe). Fall back to in-app logic.
+  //
+  // It reports refusal in its return value rather than by raising, so `rpcErr`
+  // being null does not mean the meeting was accepted. Treating it that way
+  // answered ok to a losing race and left the meeting pending — the requester
+  // would have been told it was confirmed by a row that never changed.
   const { data: rpcData, error: rpcErr } = await supabase.rpc("accept_meeting", {
     p_meeting_id: meeting_id,
     p_slot: slot,
   });
-  if (!rpcErr) {
+  const rpcResult = (rpcData ?? null) as { success?: boolean; reason?: string } | null;
+  if (!rpcErr && rpcResult?.success === true) {
     await markAvailabilityBooked(supabase, user.id, meeting_id, slot.start);
+    await linkConnection(supabase, meeting.requester_id, meeting.invitee_id);
     await notifyAccepted(meeting.requester_id, user.id, slot.start);
-    return NextResponse.json({ ok: true, via: "rpc", result: rpcData });
+    return NextResponse.json({ ok: true, via: "rpc", result: rpcResult });
+  }
+  if (!rpcErr && rpcResult?.success === false) {
+    // It looked and declined: someone else took the window first.
+    return NextResponse.json(
+      { error: rpcResult.reason === "slot_conflict" ? "slot_occupied" : "race" },
+      { status: 409 }
+    );
   }
 
   // Fallback path.
@@ -126,15 +156,32 @@ export async function POST(req: Request) {
 
   await markAvailabilityBooked(supabase, user.id, meeting_id, slot.start);
 
-  const a = meeting.requester_id < meeting.invitee_id ? meeting.requester_id : meeting.invitee_id;
-  const b = meeting.requester_id < meeting.invitee_id ? meeting.invitee_id : meeting.requester_id;
-  await supabase
-    .from("connections")
-    .upsert({ user_a: a, user_b: b }, { onConflict: "user_a,user_b" });
+  await linkConnection(supabase, meeting.requester_id, meeting.invitee_id);
 
   await notifyAccepted(meeting.requester_id, user.id, slot.start);
 
   return NextResponse.json({ ok: true, via: "fallback" });
+}
+
+/**
+ * Two people who have agreed to meet are connected.
+ *
+ * Shared by both accept paths. It used to sit inline on the fallback only, so
+ * whether a confirmed meeting produced a connection depended on which branch
+ * happened to run — the RPC is tried first, so in practice it usually did not.
+ *
+ * The pair is stored lowest id first because the unique index is on the
+ * ordered pair; inserting it either way round would duplicate the row.
+ */
+async function linkConnection(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  requesterId: string,
+  inviteeId: string
+) {
+  const [a, b] = requesterId < inviteeId ? [requesterId, inviteeId] : [inviteeId, requesterId];
+  await supabase
+    .from("connections")
+    .upsert({ user_a: a, user_b: b }, { onConflict: "user_a,user_b" });
 }
 
 /**
