@@ -39,9 +39,6 @@ export function PanelsCarousel() {
               sizes="(max-width: 640px) 86vw, (max-width: 1024px) 62vw, 48vw"
               className="block h-auto w-full rounded-lg bg-paper-deep"
             />
-            <figcaption className="mt-2 font-display text-[12.5px] font-semibold leading-snug text-brand-950">
-              {panel.title}
-            </figcaption>
           </figure>
         </li>
       ))}

@@ -17,11 +17,9 @@ import {
 } from "@/components/features/session-card";
 import { PageWithFilters } from "@/components/features/page-with-filters";
 import { AgendaFilters } from "./agenda-filters";
-import { PromoCarousel } from "@/components/features/promo-carousel";
 import { PanelsCarousel } from "@/components/features/panels-list";
 import { AgendaRealtime } from "@/components/features/agenda-realtime";
 import { getPublicSessions } from "@/lib/public-data";
-import { EVENT_PANELS } from "@/lib/event-config";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -128,27 +126,11 @@ export default async function AgendaPage({
     /* The banners sit in the header slot, above My Agenda and the filter
        mark, rather than between the controls and the programme. */
     <PageWithFilters
-      header={
-        <>
-          {/* The panels first, then the banner slots. The panels are the day;
-              the promo strip is advertising, and advertising does not open a
-              screen. */}
-          {EVENT_PANELS.length > 0 ? (
-            <section className="mb-6">
-              <h2 className="font-display text-[17px] font-semibold leading-tight text-brand-950">
-                Panels &amp; keynotes
-              </h2>
-              <p className="mt-1 text-[12.5px] leading-5 text-brand-900/60">
-                Atmanirbharta, explored across the day.
-              </p>
-              <div className="mt-3">
-                <PanelsCarousel />
-              </div>
-            </section>
-          ) : null}
-          <PromoCarousel />
-        </>
-      }
+      /* The banners alone: no heading over them and no promo slots under
+         them. Every one of these panels is also a card in the list below
+         with its title and time, so a heading here only repeated what the
+         page already says. */
+      header={<PanelsCarousel />}
       filters={<AgendaFilters venues={venueOptions} />}
     >
       {userInterests.length === 0 ? (

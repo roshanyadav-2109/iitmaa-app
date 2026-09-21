@@ -148,19 +148,22 @@ export function SessionCard({
       href={`/agenda/${session.id}`}
       className="block overflow-hidden rounded-lg border border-rule bg-white transition-colors hover:bg-paper-deep/40"
     >
-      {/* The session's own artwork, full bleed to the card's edges. No fixed
-          aspect and no object-cover: the panel banners are about 2.11:1 and
-          anything tighter trims the top and bottom off them. A session
-          without artwork simply starts at its title. */}
+      {/* The session's own artwork, inset from the card's edges rather than
+          bled to them, so it sits inside the box with the type instead of
+          capping it. No fixed aspect and no object-cover: the panel banners
+          are about 2.11:1 and anything tighter trims the top and bottom off
+          them. A session without artwork simply starts at its title. */}
       {session.image_url ? (
-        <Image
-          src={session.image_url}
-          alt=""
-          width={1200}
-          height={568}
-          sizes="(max-width: 640px) 100vw, 640px"
-          className="block h-auto w-full bg-paper-deep"
-        />
+        <div className="px-3 pt-3">
+          <Image
+            src={session.image_url}
+            alt=""
+            width={1200}
+            height={568}
+            sizes="(max-width: 640px) 100vw, 640px"
+            className="block h-auto w-full rounded-md bg-paper-deep"
+          />
+        </div>
       ) : null}
 
       {/*
@@ -182,24 +185,21 @@ export function SessionCard({
             </p>
           ) : null}
 
-          <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[12.5px] leading-snug text-brand-950">
+          {/* Time on its own line, the room on the next. They were sharing
+              one line and wrapping unpredictably; two lines always read the
+              same way, and the pin marks where the room starts. */}
+          <p className="mt-1.5 text-[12.5px] leading-snug text-brand-950">
             <span className="tabular-nums">
               {rangeIST(session.start_at, session.end_at)}
             </span>
-            {venueName ? (
-              <>
-                {/* No separator between the time and the room. At this
-                    width the room always wraps to its own line, so the
-                    middot ended up leading a line instead of dividing
-                    two — the pin already marks where the room starts. */}
-                <span className="inline-flex items-center gap-1">
-                  <MapPin className="h-3 w-3 text-brand-950/50" />
-                  {venueName}
-                  {venueFloor ? <span>({venueFloor})</span> : null}
-                </span>
-              </>
-            ) : null}
           </p>
+          {venueName ? (
+            <p className="mt-0.5 inline-flex items-center gap-1 text-[12.5px] leading-snug text-brand-950">
+              <MapPin className="h-3 w-3 shrink-0 text-brand-950/50" />
+              {venueName}
+              {venueFloor ? <span>({venueFloor})</span> : null}
+            </p>
+          ) : null}
         </div>
 
         <BookmarkButton sessionId={session.id} initial={bookmarked} />
