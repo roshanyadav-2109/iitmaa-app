@@ -18,7 +18,7 @@ import {
 import { PageWithFilters } from "@/components/features/page-with-filters";
 import { AgendaFilters } from "./agenda-filters";
 import { PromoCarousel } from "@/components/features/promo-carousel";
-import { PanelsList } from "@/components/features/panels-list";
+import { PanelsCarousel } from "@/components/features/panels-list";
 import { AgendaRealtime } from "@/components/features/agenda-realtime";
 import { getPublicSessions } from "@/lib/public-data";
 import { EVENT_PANELS } from "@/lib/event-config";
@@ -131,20 +131,20 @@ export default async function AgendaPage({
       header={<PromoCarousel />}
       filters={<AgendaFilters venues={venueOptions} />}
     >
-      {/* What the day covers, from the event site. There is no 2026 timetable
-          published yet, so this is the programme until real sessions with
-          times land in the database -- at which point they appear below and
-          this stays as the overview. */}
+      {/* The banners, swipeable, above the day itself. The panels are also
+          seeded as sessions, so the list below carries the same topics with
+          their times -- this is the picture of the day, that is the running
+          order. */}
       {EVENT_PANELS.length > 0 ? (
-        <section className="mb-8">
+        <section className="mb-7">
           <h2 className="font-display text-[17px] font-semibold leading-tight text-brand-950">
             Panels &amp; keynotes
           </h2>
           <p className="mt-1 text-[12.5px] leading-5 text-brand-900/60">
             Atmanirbharta, explored across the day.
           </p>
-          <div className="mt-4">
-            <PanelsList />
+          <div className="mt-3">
+            <PanelsCarousel />
           </div>
         </section>
       ) : null}

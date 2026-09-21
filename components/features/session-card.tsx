@@ -165,6 +165,16 @@ export function SessionCard({
             </p>
           ) : null}
 
+          {/* What the session is about, in the organisers' own words. Clamped
+              to four lines: these run to a paragraph each, and a card that is
+              mostly prose stops the day being scannable. The full text is on
+              the session's own page. */}
+          {session.description ? (
+            <p className="mt-1.5 line-clamp-4 text-[12.5px] leading-[1.6] text-brand-900/75">
+              {session.description}
+            </p>
+          ) : null}
+
           <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[12.5px] leading-snug text-brand-950">
             <span className="tabular-nums">
               {rangeIST(session.start_at, session.end_at)}

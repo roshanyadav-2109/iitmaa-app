@@ -3,47 +3,78 @@ import Image from "next/image";
 import { EVENT_PANELS } from "@/lib/event-config";
 
 /**
- * What the day covers: the panels and keynotes, as the event site publishes
- * them.
+ * The panel banners, swipeable.
  *
- * Not the agenda in the timetable sense — there is no 2026 timetable to show.
- * Each card is a topic and the organisers' own framing of it, so someone can
- * arrive knowing what the day is about even while the running order is still
- * being settled. When real sessions with times land in the database they
- * appear below this, and this stays as the overview.
+ * Stacked, eight banners at 2.11:1 were most of a screen each and the titles
+ * underneath were a scroll apart from the artwork they belonged to. Side by
+ * side you can see the shape of the day in one gesture.
  *
- * A card with no story is a banner rather than a panel; it renders as the
- * picture and its title alone instead of leaving an empty paragraph.
+ * Cards sit at 86% of the viewport rather than full width so the next one is
+ * always part-visible. That peek is what tells you it swipes — a full-width
+ * card looks like a static image until you happen to try.
+ *
+ * No fixed aspect and no object-cover: the artwork is about 2.11:1 and any
+ * frame tighter than that trims the top and bottom off every banner. The
+ * frame follows the picture instead, so whatever is uploaded next fits.
  */
-export function PanelsList() {
+export function PanelsCarousel() {
   if (EVENT_PANELS.length === 0) return null;
 
   return (
-    <ul className="space-y-5">
+    <ul
+      className="no-scrollbar -mx-3 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth scroll-pl-3 px-3 pb-1 sm:-mx-5 sm:scroll-pl-5 sm:px-5 lg:-mx-6 lg:scroll-pl-6 lg:px-6"
+      aria-label="Panels and keynotes"
+    >
       {EVENT_PANELS.map((panel) => (
         <li
           key={panel.slug}
-          className="overflow-hidden rounded-lg bg-paper-raised"
+          className="w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-[48%]"
         >
-          <div className="relative aspect-[1200/453] w-full bg-paper-deep">
+          <figure>
             <Image
               src={panel.image}
               alt={panel.title}
-              fill
-              sizes="(max-width: 1024px) 100vw, 900px"
-              className="object-cover"
+              width={1200}
+              height={568}
+              sizes="(max-width: 640px) 86vw, (max-width: 1024px) 62vw, 48vw"
+              className="block h-auto w-full rounded-lg bg-paper-deep"
             />
-          </div>
-          <div className="px-4 py-4 sm:px-5 sm:py-5">
-            <h3 className="font-display text-[15px] font-semibold leading-snug text-brand-950">
+            <figcaption className="mt-2 font-display text-[12.5px] font-semibold leading-snug text-brand-950">
+              {panel.title}
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * The same panels as rows in the programme list.
+ *
+ * Deliberately shaped like the session cards they sit alongside — a title and
+ * what it is about — so the tab reads as one list whether or not a timed
+ * schedule exists yet. Where a session card carries a time, these carry the
+ * topic mark: there are no 2026 times published, and inventing them would be
+ * worse than leaving the column out.
+ */
+export function PanelsAgendaList() {
+  const panels = EVENT_PANELS.filter((p) => p.story);
+  if (panels.length === 0) return null;
+
+  return (
+    <ul className="flex flex-col gap-2">
+      {panels.map((panel) => (
+        <li key={panel.slug}>
+          <article className="rounded-lg border border-rule bg-paper-raised px-4 py-4 sm:px-5">
+            <p className="eyebrow text-brand-800/70">Panel</p>
+            <h3 className="mt-1 font-display text-[15px] font-semibold leading-snug text-brand-950">
               {panel.title}
             </h3>
-            {panel.story ? (
-              <p className="mt-2 max-w-[70ch] text-[13px] leading-[1.65] text-brand-900/75">
-                {panel.story}
-              </p>
-            ) : null}
-          </div>
+            <p className="mt-2 max-w-[70ch] text-[13px] leading-[1.65] text-brand-900/75">
+              {panel.story}
+            </p>
+          </article>
         </li>
       ))}
     </ul>

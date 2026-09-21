@@ -90,11 +90,11 @@ export const EVENT_HERO_SLIDES: {
     alt: "SANGAM 2026: India Unbound: The Decade of Atmanirbhartha",
   },
   {
-    src: "/panels/img-distinguished-speakers-v2.webp",
+    src: "/panels/distinguished-speakers.webp",
     alt: "Distinguished Voices at Sangam 2026",
   },
   {
-    src: "/panels/img-panel-ai-v2.webp",
+    src: "/panels/panel-ai.webp",
     alt: "Sovereign AI - now or never? A Roadmap to get there",
   },
 ];
