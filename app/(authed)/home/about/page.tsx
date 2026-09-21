@@ -47,6 +47,19 @@ export default function AboutSummitPage() {
           makers converge on {EVENT_DATE_TEXT} at {EVENT_VENUE}.
         </p>
 
+        {/* India drawn as its people, from the sponsors deck's own About page.
+            It carries the Atmanirbhar Bharat theme without a line of copy,
+            which is why the deck leads with it too. */}
+        <Image
+          src="/ui/india-people.webp"
+          alt=""
+          width={720}
+          height={773}
+          sizes="(max-width: 768px) 70vw, 380px"
+          className="mx-auto mt-7 block h-auto w-[70%] max-w-[380px]"
+          aria-hidden
+        />
+
         {/* The core team banner. It carries the date, the hours and the venue
             in the artwork, so it says the practical things the paragraph
             above deliberately does not repeat. */}
@@ -178,7 +191,17 @@ export default function AboutSummitPage() {
       {EVENT_AUDIENCE.length > 0 ? (
         <section>
           <Head title="Who attends" />
-          <ul className="list-ruled mt-1">
+          {/* The deck's own audience illustration, over its own list. */}
+          <Image
+            src="/ui/audience-globe.webp"
+            alt=""
+            width={560}
+            height={560}
+            sizes="(max-width: 768px) 55vw, 260px"
+            className="mx-auto mt-4 block h-auto w-[55%] max-w-[260px]"
+            aria-hidden
+          />
+          <ul className="list-ruled mt-2">
             {EVENT_AUDIENCE.map((a) => (
               <li key={a.name} className="flex items-start gap-3.5 py-3.5">
                 {a.icon ? (
