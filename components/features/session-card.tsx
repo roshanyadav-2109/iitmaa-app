@@ -148,13 +148,25 @@ export function SessionCard({
       href={`/agenda/${session.id}`}
       className="block overflow-hidden rounded-lg border border-rule bg-white transition-colors hover:bg-paper-deep/40"
     >
-      {/* The session's own artwork, inset from the card's edges rather than
+      {/*
+        The title opens the card, with the bookmark beside it — the name is
+        what you are scanning for, and the artwork is decoration until you
+        know which session you are looking at.
+      */}
+      <div className="flex items-start justify-between gap-3 pl-4 pr-3 pt-3.5">
+        <h3 className="min-w-0 flex-1 font-display text-[15.5px] font-semibold leading-snug text-brand-950">
+          {session.title}
+        </h3>
+        <BookmarkButton sessionId={session.id} initial={bookmarked} />
+      </div>
+
+      {/* The artwork under the title, inset from the card's edges rather than
           bled to them, so it sits inside the box with the type instead of
           capping it. No fixed aspect and no object-cover: the panel banners
           are about 2.11:1 and anything tighter trims the top and bottom off
-          them. A session without artwork simply starts at its title. */}
+          them. A session without artwork closes the gap by itself. */}
       {session.image_url ? (
-        <div className="px-3 pt-3">
+        <div className="px-3 pt-2.5">
           <Image
             src={session.image_url}
             alt=""
@@ -167,47 +179,38 @@ export function SessionCard({
       ) : null}
 
       {/*
-        Title, then what kind of session it is, then when and where — in that
-        order, each on its own line. Everything here is set in the brand
-        near-black rather than in tints of it: on a card carrying four short
-        lines, greying three of them to rank them just makes three of them
-        harder to read.
+        Then what kind of session it is, then when and where — each on its own
+        line. Everything here is set in the brand near-black rather than in
+        tints of it: on a card carrying four short lines, greying three of
+        them to rank them just makes three of them harder to read.
       */}
-      <div className="flex items-start justify-between gap-3 py-3.5 pl-4 pr-3">
-        <div className="min-w-0 flex-1">
-          <h3 className="font-display text-[15.5px] font-semibold leading-snug text-brand-950">
-            {session.title}
-          </h3>
-
-          {sector ? (
-            <p className="mt-1 text-[13px] font-medium leading-snug text-brand-950">
-              Sector: {sector}
-            </p>
-          ) : null}
-
-          {/* Time on its own line, the room on the next. They were sharing
-              one line and wrapping unpredictably; two lines always read the
-              same way, and the pin marks where the room starts.
-
-              Labelled "Time:" to match the "Sector:" line above it — on a
-              card where every line is a short fact, a bare pair of clock
-              times has to be decoded before it is read. */}
-          <p className="mt-1.5 text-[12.5px] leading-snug text-brand-950">
-            <span className="font-medium">Time: </span>
-            <span className="tabular-nums">
-              {rangeIST(session.start_at, session.end_at)}
-            </span>
+      <div className="pb-3.5 pl-4 pr-3 pt-2">
+        {sector ? (
+          <p className="text-[13px] font-medium leading-snug text-brand-950">
+            Sector: {sector}
           </p>
-          {venueName ? (
-            <p className="mt-0.5 inline-flex items-center gap-1 text-[12.5px] leading-snug text-brand-950">
-              <MapPin className="h-3 w-3 shrink-0 text-brand-950/50" />
-              {venueName}
-              {venueFloor ? <span>({venueFloor})</span> : null}
-            </p>
-          ) : null}
-        </div>
+        ) : null}
 
-        <BookmarkButton sessionId={session.id} initial={bookmarked} />
+        {/* Time on its own line, the room on the next. They were sharing one
+            line and wrapping unpredictably; two lines always read the same
+            way, and the pin marks where the room starts.
+
+            Labelled "Time:" to match the "Sector:" line above it — on a card
+            where every line is a short fact, a bare pair of clock times has
+            to be decoded before it is read. */}
+        <p className="mt-1 text-[12.5px] leading-snug text-brand-950">
+          <span className="font-medium">Time: </span>
+          <span className="tabular-nums">
+            {rangeIST(session.start_at, session.end_at)}
+          </span>
+        </p>
+        {venueName ? (
+          <p className="mt-0.5 inline-flex items-center gap-1 text-[12.5px] leading-snug text-brand-950">
+            <MapPin className="h-3 w-3 shrink-0 text-brand-950/50" />
+            {venueName}
+            {venueFloor ? <span>({venueFloor})</span> : null}
+          </p>
+        ) : null}
       </div>
 
       {/*
