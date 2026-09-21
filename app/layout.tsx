@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins, Noto_Sans_Tamil } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { EVENT_APP_NAME, EVENT_NAME, EVENT_TAGLINE } from "@/lib/event-config";
 import "./globals.css";
@@ -11,33 +11,19 @@ import "./globals.css";
  * listed — 400/500/600/700 is everything the app actually sets. Asking for
  * more would ship more files for nothing.
  *
- * Latin and Devanagari. The sign-in screen leads with the IIT Madras motto
- * in English, Sanskrit and Tamil, and at headline size a system fallback for
- * two of the three reads as three unrelated typefaces. Poppins covers the
- * first two itself; Tamil it does not have at all, so Noto Sans Tamil is
- * loaded beside it.
- *
- * This replaces Noto Sans Telugu, which came across with the Vijayawada fork
- * and was preloaded on every page while no component ever set `font-telugu`
- * — a whole face downloaded for nothing, in a language this event does not
- * use.
+ * Latin only, and nothing else — the app renders no other script. It briefly
+ * carried Devanagari and a Tamil face for the sign-in motto; that motto is
+ * gone, and an unused face preloaded on every page is exactly what Noto Sans
+ * Telugu was doing when it came across with the Vijayawada fork.
  *
  * Bound to both --font-sans and --font-display so the `font-display` utility
  * and every existing heading keep working untouched.
  */
 const poppins = Poppins({
-  subsets: ["latin", "devanagari"],
+  subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
-  preload: true,
-});
-
-const notoTamil = Noto_Sans_Tamil({
-  subsets: ["tamil"],
-  variable: "--font-tamil",
-  display: "swap",
-  weight: ["500", "600", "700"],
   preload: true,
 });
 
@@ -96,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${notoTamil.variable}`}
+      className={poppins.variable}
     >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         {children}

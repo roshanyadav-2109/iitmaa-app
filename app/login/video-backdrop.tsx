@@ -1,4 +1,7 @@
-import { LOGIN_BACKDROP_VIDEO_ID } from "@/lib/event-config";
+import {
+  LOGIN_BACKDROP_START_SECONDS,
+  LOGIN_BACKDROP_VIDEO_ID,
+} from "@/lib/event-config";
 
 /**
  * The film behind the sign-in panel.
@@ -36,6 +39,7 @@ export function VideoBackdrop() {
     iv_load_policy: "3",
     cc_load_policy: "0",
     playsinline: "1",
+    start: String(LOGIN_BACKDROP_START_SECONDS),
   });
 
   return (

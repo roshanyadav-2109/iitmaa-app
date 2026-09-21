@@ -19,6 +19,13 @@ export const EVENT_NAME = "IITMAA Sangam 2026";
  */
 export const LOGIN_BACKDROP_VIDEO_ID = "0m3IlAmSiFs";
 
+/**
+ * Where the film starts, in seconds. It opens on a title card, and a sign-in
+ * screen that begins on static type is a sign-in screen that looks broken --
+ * so it drops in partway, already flying.
+ */
+export const LOGIN_BACKDROP_START_SECONDS = 45;
+
 export const EVENT_SHORT_NAME = "Sangam 2026";
 export const EVENT_APP_NAME = "Sangam 2026";
 

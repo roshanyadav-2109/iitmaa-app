@@ -321,10 +321,14 @@
   /* The sign-in backdrop.
 
      YouTube draws its own furniture -- a title bar with the channel and a
-     "Watch on YouTube" link at the top, a control strip at the bottom -- and
-     no parameter removes all of it. So the player is deliberately oversized
-     past its container, which is what actually crops that chrome out of the
-     frame, and the container clips the overflow.
+     "Watch on YouTube" link at the top, a control strip with the pause button
+     at the bottom -- and no parameter removes all of it. So the player is
+     deliberately oversized past its container, which is what actually crops
+     that chrome out of the frame, and the container clips the overflow.
+
+     1.7 takes 20.6% off each edge. The title bar runs to about 12% of the
+     player's height and the control strip to about 10%, so the crop clears
+     both with room rather than landing on the boundary.
 
      The cover maths is measured against the panel, not the viewport, using
      container query units: the panel is 62svh tall on a phone and a column
@@ -346,8 +350,8 @@
     transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
-    width: calc(max(100cqw, 100cqh * 16 / 9) * 1.4);
-    height: calc(max(100cqh, 100cqw * 9 / 16) * 1.4);
+    width: calc(max(100cqw, 100cqh * 16 / 9) * 1.7);
+    height: calc(max(100cqh, 100cqw * 9 / 16) * 1.7);
     border: 0;
     pointer-events: none;
     user-select: none;

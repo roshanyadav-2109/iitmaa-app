@@ -195,12 +195,6 @@ const config: Config = {
   				'var(--font-sans)',
   				'system-ui',
   				'sans-serif'
-  			],
-  			tamil: [
-  				'var(--font-tamil)',
-  				'var(--font-sans)',
-  				'system-ui',
-  				'sans-serif'
   			]
   		},
   		borderRadius: {
