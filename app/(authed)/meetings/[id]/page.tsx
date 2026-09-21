@@ -79,6 +79,9 @@ export default async function MeetingChatPage({
   }
 
   const other = meeting.requester_id === user.id ? meeting.invitee : meeting.requester;
+  // The thread labels every message with a name and a face, so it needs both
+  // sides. Both are already loaded for the header above it.
+  const self = meeting.requester_id === user.id ? meeting.requester : meeting.invitee;
   const viewerIsRequester = meeting.requester_id === user.id;
 
   return (
@@ -103,7 +106,12 @@ export default async function MeetingChatPage({
       </header>
 
       {conversationId ? (
-        <ChatWindow conversationId={conversationId} userId={user.id} />
+        <ChatWindow
+          conversationId={conversationId}
+          userId={user.id}
+          me={{ full_name: self?.full_name ?? null, photo_url: self?.photo_url ?? null }}
+          peer={{ full_name: other?.full_name ?? null, photo_url: other?.photo_url ?? null }}
+        />
       ) : (
         <div className="flex flex-1 items-center justify-center px-6 text-center text-sm text-brand-900/60">
           Chat opens once the meeting is accepted.

@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createClient } from "@/lib/supabase/client";
 import { sendMessage } from "@/app/actions/send-message";
 import { cn, initials } from "@/lib/utils";
+import { groupByDay, messageMeta } from "@/lib/chat-format";
 
 export interface ChatMessage {
   id: string;
@@ -33,52 +34,6 @@ export interface PeerSummary {
   photo_url: string | null;
 }
 
-function timeShort(iso: string): string {
-  return new Date(iso).toLocaleTimeString(undefined, {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}
-
-/**
- * How long ago, in the fewest words that still say it: "just now" for the
- * last minute, then minutes, then hours, then the date. Used for when a
- * message was read, which is a different question from when it was sent.
- */
-function agoShort(iso: string): string {
-  const secs = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
-  if (secs < 60) return "just now";
-  const mins = Math.floor(secs / 60);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  // Past a day it is just "Seen". A date there would be read as when the
-  // message was sent, and the send time is already the other half of the
-  // line — "Seen 16 May | 10:24" says two different days about one message.
-  return "";
-}
-
-function dayLabel(iso: string): string {
-  const d = new Date(iso);
-  const today = new Date();
-  const isToday =
-    d.getFullYear() === today.getFullYear() &&
-    d.getMonth() === today.getMonth() &&
-    d.getDate() === today.getDate();
-  if (isToday) return "Today";
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
-  const isYesterday =
-    d.getFullYear() === yesterday.getFullYear() &&
-    d.getMonth() === yesterday.getMonth() &&
-    d.getDate() === yesterday.getDate();
-  if (isYesterday) return "Yesterday";
-  return d.toLocaleDateString(undefined, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 export function ConversationView({
   me,
@@ -265,14 +220,7 @@ export function ConversationView({
     });
   }
 
-  // Group messages by day separator
-  const grouped: { day: string; items: ChatMessage[] }[] = [];
-  for (const m of messages) {
-    const day = dayLabel(m.created_at);
-    const last = grouped[grouped.length - 1];
-    if (last && last.day === day) last.items.push(m);
-    else grouped.push({ day, items: [m] });
-  }
+  const grouped = groupByDay(messages);
 
   return (
     // The thread owns the screen. It used to sit inside the app's page
@@ -387,16 +335,7 @@ export function ConversationView({
                                 way the rest of the app separates a pair of
                                 facts. */}
                             <span className="text-[11px] tabular-nums text-brand-900/55">
-                              {!mine
-                                ? timeShort(m.created_at)
-                                : [
-                                    m.read_at
-                                      ? ["Seen", mounted ? agoShort(m.read_at) : ""]
-                                          .filter(Boolean)
-                                          .join(" ")
-                                      : "Sent",
-                                    timeShort(m.created_at),
-                                  ].join(" | ")}
+                              {messageMeta(mine, m.created_at, m.read_at, mounted)}
                             </span>
                           </div>
                           <p className="mt-1 whitespace-pre-line break-words text-[14px] leading-6 text-brand-950">
