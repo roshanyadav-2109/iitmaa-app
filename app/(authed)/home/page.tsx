@@ -614,11 +614,11 @@ export default async function HomePage() {
           rises out of the page instead of ending on a band of pale grey that
           does not match the ground behind it.
 
-          Desaturated and cast very slightly toward the brand navy. At full
-          colour it pulled the eye to the bottom of the page and competed with
-          everything above it; drained, it reads as a plate under the content
-          rather than a photograph in it. Neutral grey looked dead against the
-          cool paper ground, hence the tint rather than a plain greyscale.
+          Desaturated, but bright rather than faded. The first attempt cut
+          contrast and lifted the blacks, which produced haze -- grey and
+          muddy. Silver is the opposite: contrast kept, highlights lifted, and
+          a faint cool cast so the whites read as metal against the cool paper
+          ground instead of as a washed-out photograph.
 
           Order matters in how this file is made. The tone is flattened while
           the image is still opaque and the alpha fade is applied last and
@@ -631,7 +631,7 @@ export default async function HomePage() {
           at an unchanged path leaves every returning visitor looking at the
           old one. A new name is a new URL and cannot go stale. */}
       <Image
-        src="/ui/campus-plate.webp"
+        src="/ui/campus-silver.webp"
         alt=""
         width={1200}
         height={572}
