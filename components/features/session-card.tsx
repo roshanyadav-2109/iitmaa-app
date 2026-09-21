@@ -187,8 +187,13 @@ export function SessionCard({
 
           {/* Time on its own line, the room on the next. They were sharing
               one line and wrapping unpredictably; two lines always read the
-              same way, and the pin marks where the room starts. */}
+              same way, and the pin marks where the room starts.
+
+              Labelled "Time:" to match the "Sector:" line above it — on a
+              card where every line is a short fact, a bare pair of clock
+              times has to be decoded before it is read. */}
           <p className="mt-1.5 text-[12.5px] leading-snug text-brand-950">
+            <span className="font-medium">Time: </span>
             <span className="tabular-nums">
               {rangeIST(session.start_at, session.end_at)}
             </span>
